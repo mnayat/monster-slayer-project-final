@@ -1,6 +1,5 @@
 <template>
   <div>
-     
       <button @click.prevent="loginPlayer">Login</button>
   </div>
 </template>
@@ -15,7 +14,7 @@ export default {
          username:'pedring',
          password:'pedring',
          }
-      
+
      }
  },
 
@@ -23,14 +22,14 @@ export default {
      ...mapActions('accountModule', ['login']),
 
      loginPlayer(){
-        
+
           this.login(this.account).then(resp => {
               console.log(resp);
               console.log( 'store '+ this.$store.state.accountModule.player.accountId)
               this.$session.start();
               this.$session.set('account-id',this.$store.state.accountModule.player.accountId)
           });
-            
+
      }
  }
 }

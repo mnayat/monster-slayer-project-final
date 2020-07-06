@@ -25,7 +25,7 @@ const actions = {
                 return resp;
             })
             .catch(err => {
-                err.response
+              return  err.response
             });
     },
     registerAsync({ commit }, payload) {

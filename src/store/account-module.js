@@ -17,7 +17,7 @@ const mutations = {
     },
 };
 const actions = {
-    login({ commit }, payload) {
+    loginAsync({ commit }, payload) {
         return HTTP.post(accountService.account.url.login, payload)
             .then(resp => {
 

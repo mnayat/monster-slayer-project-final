@@ -245,7 +245,7 @@
               ></loader-component> -->
             </div>
             <div class="col-md-6">
-              <router-link class="btn btn-primary btn-block" to="/login">
+              <router-link class="btn btn-primary btn-block" to="/">
                 <fa-icon icon="sign-in-alt"></fa-icon>
                 Back to Log In
               </router-link>

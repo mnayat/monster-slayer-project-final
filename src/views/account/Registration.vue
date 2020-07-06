@@ -264,6 +264,7 @@ import {
   maxLength
 } from "vuelidate/lib/validators";
 import { mapActions } from 'vuex';
+import accountActions from "./../../configuration/actionNames/account-action";
 export default {
   data() {
     return {
@@ -306,7 +307,7 @@ export default {
     register() {
       this.$v.$touch();
       if (!this.$v.$invalid) {
-        this.$store.dispatch("accountModule/registerAsync", this.accountDetails).then(res => {
+        this.$store.dispatch(accountActions.register, this.accountDetails).then(res => {
             console.log(res);
         });
       }

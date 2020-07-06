@@ -1,11 +1,16 @@
-export default account = {
-    account: {
+ const account = {
+    characterAccountUrl,
+    url: {
         login: '/accounts/login',
         registration: '/accounts',
         
     }
 }
 
-export default function characterAccount(id){
+function characterAccountUrl(id){
     return { character: `/accounts/${id}/character`}
+}
+
+export const accountService = {
+    account
 }

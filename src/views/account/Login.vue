@@ -56,6 +56,7 @@
 
 <script>
 import { mapActions } from "vuex";
+import accountActions from "./../../configuration/actionNames/account-action";
 export default {
   name: "Login",
   data() {
@@ -70,7 +71,7 @@ export default {
   methods: {
     login() {
       this.$store
-        .dispatch("accountModule/loginAsync", this.account)
+        .dispatch(accountActions.login, this.account)
         .then((resp) => {
           console.log(resp);
           console.log(

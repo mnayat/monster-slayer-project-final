@@ -1,16 +1,10 @@
- const account = {
-    characterAccountUrl,
-    url: {
+ export const account = {
+    
         login: '/accounts/login',
         registration: '/accounts',
-        
-    }
-}
+       
+};
 
-function characterAccountUrl(id){
+export  function characterAccountUrl(id){
     return { character: `/accounts/${id}/character`}
-}
-
-export const accountService = {
-    account
-}
+};

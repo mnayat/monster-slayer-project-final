@@ -1,4 +1,4 @@
-import { accountService } from '../configuration/services/account-service.js';
+import { account, characterAccountUrl } from '../configuration/services/account-service.js';
 import { HTTP } from '../configuration/http-common.js';
 import router from '@/router'
 
@@ -16,9 +16,14 @@ const mutations = {
         state.player.accountId = player;
     },
 };
+const getters = {
+       getAccountIdStores(state) {
+           return state.player.accountId;
+       }
+};
 const actions = {
     loginAsync({ commit }, payload) {
-        return HTTP.post(accountService.account.url.login, payload)
+        return HTTP.post(account.login, payload)
             .then(resp => {
 
                 commit('loginSuccess', resp.data.accountId);
@@ -29,7 +34,7 @@ const actions = {
             });
     },
     registerAsync({ commit }, payload) {
-        return HTTP.post(accountService.account.url.registration, payload)
+        return HTTP.post(account.registration, payload)
             .then(resp => {
                 //commit('loginSuccess', resp.data.accountId);
                 return resp;

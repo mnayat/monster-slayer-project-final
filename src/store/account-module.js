@@ -1,6 +1,6 @@
 import { account, characterAccountUrl } from '../configuration/services/account-service.js';
 import { HTTP } from '../configuration/http-common.js';
-import router from '@/router'
+
 
 const state = {
     player: {
@@ -52,5 +52,5 @@ export const accountModule = {
     state,
     mutations,
     actions,
-
+    getters
 }

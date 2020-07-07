@@ -17,7 +17,7 @@ const mutations = {
     },
 };
 const getters = {
-       getAccountIdStores(state) {
+       getAccountIdStores: (state) => {
            return state.player.accountId;
        }
 };

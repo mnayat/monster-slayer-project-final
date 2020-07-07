@@ -1,5 +1,6 @@
 html {
-    background: url("../../src/assets/background/splash-screen.gif");
-   background-repeat: no-repeat;
- 
+  background: url("../../src/assets/background/splash-screen.gif") important!;
+  background-repeat: no-repeat;
+  overflow: hidden;
 }
+

@@ -1,5 +1,13 @@
 <template>
-  <div class="container-fluid imgbackground">
+<div class="imgbackground">
+      <appLoader v-if="showLoader" />
+
+  <div v-if="showStart" class="container-fluid"> 
+     <div class=" row login-box">
+      
+    </div>
+  </div>
+  <div v-else class="container-fluid">
     <div class=" row login-box">
       <form novalidate>
         <div class="form-group">
@@ -57,6 +65,9 @@
       </form>
     </div>
   </div>
+
+</div>
+
 </template>
 
 <script>
@@ -67,29 +78,39 @@ import RouterMixin from "../../mixins/router-mixin";
 import sessionKeys from "../../configuration/session/sessionKeys";
 import PathNames from "../../configuration/routerPath/pathNames";
 import pathNames from '../../configuration/routerPath/pathNames';
-
+import loader from "../loader/Game-Loader"
 export default {
   name: "Login",
+    components: {
+    appLoader: loader
+  },
   mixins: [SessionMixin, RouterMixin],
   data() {
     return {
       account: {
         username: "",
-        password: ""
-      }
+        password: "",
+      },
+      showStart: false,
+      showLoader: false,
+      showError :false,
+      errorMessage:""
     };
   },
+
   validations: {
     account: {
       username: { required },
-      password: { required }
-    }
+      password: { required },
+    },
+   
   },
-  created() {
-    console.log(this.$store.getters['accountModule/getAccountIdStores']);
+  created(){
+    console.log(this.$store.getters['accountModule/getAccountIdStores'])
   },
   methods: {
     login() {
+      this.showLoader = true;
       this.$v.$touch();
       if (!this.$v.$invalid) {
         this.$store
@@ -97,12 +118,28 @@ export default {
           .then((resp) => {
             this.startSession();
             this.setSession(sessionKeys.character, this.$store.getters['accountModule/getAccountIdStores']);
-            this.redirectTo(pathNames.character);
+             this.showLoader =false;
+            // this.getCharacter(this.$store.getters['accountModule/getAccountIdStores']);
+            //this.redirectTo(pathNames.character);
           })
           .catch(() => {
             // dapat maglagay ng invalid username or password.
+
           });
       }
+    },
+     getCharacter(accountId) {
+       console.log('getCharater'+ accountId)
+      this.$store
+          .dispatch(accountActions.character, this.accountId)
+          .then((resp) => {
+            this.startSession();
+            this.setSession(sessionKeys.characterClass, this.$store.getters['accountModule/getSetCharacteStore']);
+          })
+          .catch(() => {
+            // dapat maglagay ng invalid username or password.
+
+          });
     }
   }
 };
@@ -110,8 +147,8 @@ export default {
 
 <style>
 .imgbackground {
-  margin-top: 5vh;
-  background: url("../../assets/background/splash-screen.gif");
+ 
+  background: url("../../assets/backgrounds/splash-screen.gif");
   background-repeat: no-repeat;
   background-size: 100% 100%;
   width: 1280px;
@@ -136,4 +173,17 @@ export default {
   box-sizing: border-box;
   padding: 10px 50px;
 }
+.startgame-box {
+  width: 300px;
+  height: 400px;
+  background: rgba(216, 214, 214, 0.5);
+  color: #fff;
+  top: 50%;
+  left: 50%;
+  position: absolute;
+  transform: translate(-50%, -50%);
+  box-sizing: border-box;
+  padding: 10px 50px;
+}
+
 </style>

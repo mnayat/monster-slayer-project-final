@@ -3,7 +3,7 @@
         <div class="app-base-layout">
             <div class="app-links">
                 <button class="btn-principal">Character</button>
-                <button class="btn-principal">Dungeons</button>
+                <button class="btn-principal" @click="$router.push('/dungeons')">Dungeons</button>
                 <button class="btn-principal logout-button">Logout</button>
             </div>
             <div class="app-header">
@@ -203,8 +203,8 @@ export default {
             console.log(this.characterDetails);
             this.characterClass = characters.getCharacterClass(this.characterDetails.classType);
             this.characterImg = characters.getCharacterImage(this.characterDetails.classType);
-            this.characterWeaponImg = characters.getEquipment(this.characterDetails.equipment.weapon.name);
-            this.characterArmorImg = characters.getEquipment(this.characterDetails.equipment.armor.name);
+            this.characterWeaponImg = characters.getEquipmentImg(this.characterDetails.equipment.weapon.name);
+            this.characterArmorImg = characters.getEquipmentImg(this.characterDetails.equipment.armor.name);
             this.skillImg.skill1 = characters.getSkill(this.characterDetails.skills[0]._id);
             console.log(this.skillImg.skill1);
             this.computeBonusStats();
@@ -296,19 +296,5 @@ button{
     font-family: AtariClassic;
     padding-right: 20px;
     padding-top: 100px;
-}
-
-.svg-fill {
-    fill: currentColor;
-    stroke: none;
-}
-.svg-icon {
-    display: inline-block;
-    width: 16px;
-    height: 16px;
-    color: inherit;
-    vertical-align: middle;
-    fill: none;
-    stroke: currentColor;
 }
 </style>

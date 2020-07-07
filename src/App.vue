@@ -41,11 +41,11 @@ div {
     background-image: url('../src/assets/backgrounds/character-bg.jpg');
     background-position: 80%;
     overflow: auto;
+    color: gold;
 }
 .app-base-layout{
     width: 800px;
     min-height: 610px;
-    color: gold;
     margin: auto;
 }
 
@@ -58,5 +58,19 @@ div {
 
 .app-base-layout .app-body{
       height: 448px;
+}
+
+.svg-fill {
+    fill: currentColor;
+    stroke: none;
+}
+.svg-icon {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    color: inherit;
+    vertical-align: middle;
+    fill: none;
+    stroke: currentColor;
 }
 </style>

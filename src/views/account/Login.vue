@@ -14,7 +14,7 @@
             placeholder="username "
             v-model="account.username"
             :class="{
-              'is-invalid': $v.account.username.$error,
+              'is-invalid': $v.account.username.$error
             }"
             @blur="$v.account.username.$touch()"
           />
@@ -36,7 +36,7 @@
             placeholder="Password"
             v-model="account.password"
             :class="{
-              'is-invalid': $v.account.password.$error,
+              'is-invalid': $v.account.password.$error
             }"
             @blur="$v.account.password.$touch()"
           />
@@ -61,25 +61,33 @@
 
 <script>
 import { required } from "vuelidate/lib/validators";
-import { mapActions } from "vuex";
 import accountActions from "./../../configuration/actionNames/account-action";
+import SessionMixin from "../../mixins/session-mixin";
+import RouterMixin from "../../mixins/router-mixin";
+import sessionKeys from "../../configuration/session/sessionKeys";
+import PathNames from "../../configuration/routerPath/pathNames";
+import pathNames from '../../configuration/routerPath/pathNames';
+
 export default {
   name: "Login",
+  mixins: [SessionMixin, RouterMixin],
   data() {
     return {
       account: {
         username: "",
-        password: "",
-      },
+        password: ""
+      }
     };
   },
   validations: {
     account: {
       username: { required },
-      password: { required },
-    },
+      password: { required }
+    }
   },
-
+  created() {
+    console.log(this.$store.getters['accountModule/getAccountIdStores']);
+  },
   methods: {
     login() {
       this.$v.$touch();
@@ -87,21 +95,16 @@ export default {
         this.$store
           .dispatch(accountActions.login, this.account)
           .then((resp) => {
-            console.log(resp);
-            console.log(
-              "store ",
-              +  this.$store.getters["accountModules/getAccountIdStores"]
-            );
-            this.$session.start();
-            this.$session.set(
-              "account-id",
-              this.$store.state.accountModule.player.accountId
-              //this.accountId()
-            );
+            this.startSession();
+            this.setSession(sessionKeys.character, this.$store.getters['accountModule/getAccountIdStores']);
+            this.redirectTo(pathNames.character);
+          })
+          .catch(() => {
+            // dapat maglagay ng invalid username or password.
           });
       }
-    },
-  },
+    }
+  }
 };
 </script>
 

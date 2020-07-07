@@ -9,6 +9,9 @@ export default {
     checkAuthentication() {
       this.isAuthenticated = this.$session.exists();
     },
+    startSession() {
+      this.$session.start();
+    },
     getSession(sessionKey) {
       return this.$session.get(sessionKey);
     },

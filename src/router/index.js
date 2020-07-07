@@ -5,6 +5,7 @@ import Register from '../views/account/Registration.vue';
 import Character from '../views/character/Character.vue';
 import Inventory from '../views/character/Inventory.vue';
 import Skills from '../views/character/Skills.vue';
+import Dungeons from '../views/character/Dungeons.vue';
 
 Vue.use(VueRouter);
 const routes = [
@@ -34,6 +35,11 @@ const routes = [
         component: Skills
       }
     ]
+  },
+  {
+    path: "/dungeons",
+    name: "Dungeons",
+    component: Dungeons
   }
 ];
 

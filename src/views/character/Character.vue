@@ -1,23 +1,19 @@
 <template>
-  <div class="app-container">
-    <div class="app-base-layout">
-      <app-menu></app-menu>
-      <div class="app-header">
-        <div>Character Status</div>
-      </div>
-      <div class="app-body">
-        <div class="character-home-screen row nomargin">
-          <div class="col-sm-4 nopadding">
-            <div class="character-details-container">
-              <div class="character-name center bold">
-                {{ characterDetails.name }}
-              </div>
-              <div class="row nomargin character-details">
-                <div class="col-sm-3 offset-sm-1 nopadding bold">Level</div>
-                <div class="col-sm-6 offset-sm-2 nopadding">
-                  {{ characterDetails.level }}
-                </div>
-                <div class="col-sm-12 row-break"></div>
+    <div class="app-container">
+        <div class="app-base-layout">
+            <app-menu></app-menu>
+            <div class="app-header">
+                <div>Character Status</div>
+            </div>
+            <div class="app-body">
+                <div class="character-home-screen row nomargin">
+                    <div class="col-sm-4 nopadding">
+                        <div class="character-details-container">
+                            <div class="character-name center bold">{{ characterDetails.name }}</div>
+                            <div class="row nomargin character-details">
+                                <div class="col-sm-3 offset-sm-1 nopadding bold">Level</div>
+                                <div class="col-sm-6 offset-sm-2 nopadding">{{ characterDetails.level }}</div>
+                                <div class="col-sm-12 row-break"></div>
 
                 <div class="col-sm-3 offset-sm-1 nopadding bold">Class</div>
                 <div class="col-sm-6 offset-sm-2 nopadding">
@@ -231,52 +227,50 @@ export default {
         agi: 0,
         luk: 0
       }
-    };
-  },
-  created() {
-    this.$store
-      .dispatch(
-        characterActions.getCharacter,
-        this.$store.state.accountModule.player.accountId
-      )
-      .then((res) => {
-        this.characterDetails = res.data;
-        this.characterClass = characters.getCharacterClass(
-          this.characterDetails.classType
-        );
-        this.characterImg = characters.getCharacterImage(
-          this.characterDetails.classType
-        );
-        this.characterWeaponImg = characters.getEquipment(
-          this.characterDetails.equipment.weapon.name
-        );
-        this.characterArmorImg = characters.getEquipment(
-          this.characterDetails.equipment.armor.name
-        );
-        this.skillImg.skill1 = characters.getSkill(
-          this.characterDetails.skills[0]._id
-        );
-        this.computeBonusStats();
-      });
-  },
-  methods: {
-    computeBonusStats() {
-      if (this.characterDetails.equipment.armor.bonus != null) {
-        this.bonusStats.health = this.characterDetails.equipment.armor.bonus.health;
-        this.bonusStats.mana = this.characterDetails.equipment.armor.bonus.mana;
-        this.bonusStats.agi = this.characterDetails.equipment.armor.bonus.agi;
-        this.bonusStats.int = this.characterDetails.equipment.armor.bonus.int;
-        this.bonusStats.off = this.characterDetails.equipment.armor.bonus.off;
-        this.bonusStats.def = this.characterDetails.equipment.armor.bonus.def;
-        this.bonusStats.luk = this.characterDetails.equipment.armor.bonus.luk;
-        if (this.characterDetails.equipment.weapon.bonus != null) {
-          this.bonusStats.health += this.characterDetails.equipment.weapon.bonus.health;
-          this.bonusStats.mana += this.characterDetails.equipment.weapon.bonus.mana;
-          this.bonusStats.agi += this.characterDetails.equipment.weapon.bonus.agi;
-          this.bonusStats.int += this.characterDetails.equipment.weapon.bonus.int;
-          this.bonusStats.off += this.characterDetails.equipment.weapon.bonus.off;
-          this.bonusStats.def += this.characterDetails.equipment.weapon.bonus.def;
-          this.bonusStats.luk += this.characterDetails.equipment.weapon.bonus.luk;
+    },
+    created() {
+        this.$store.dispatch(characterActions.getCharacter, this.$store.state.accountModule.player.accountId).then(res => {
+            this.characterDetails = res.data;
+            console.log(this.characterDetails);
+            this.characterClass = characters.getCharacterClass(this.characterDetails.classType);
+            this.characterImg = characters.getCharacterImage(this.characterDetails.classType);
+            this.characterWeaponImg = characters.getEquipmentImg(this.characterDetails.equipment.weapon.name);
+            this.characterArmorImg = characters.getEquipmentImg(this.characterDetails.equipment.armor.name);
+            this.skillImg.skill1 = characters.getSkill(this.characterDetails.skills[0]._id);
+            console.log(this.skillImg.skill1);
+            this.computeBonusStats();
+        });
+    },
+    methods:{
+        computeBonusStats(){
+            if(this.characterDetails.equipment.armor.bonus != null){
+                this.bonusStats.health = this.characterDetails.equipment.armor.bonus.health;
+                this.bonusStats.mana = this.characterDetails.equipment.armor.bonus.mana;
+                this.bonusStats.agi = this.characterDetails.equipment.armor.bonus.agi;
+                this.bonusStats.int = this.characterDetails.equipment.armor.bonus.int;
+                this.bonusStats.off = this.characterDetails.equipment.armor.bonus.off;
+                this.bonusStats.def = this.characterDetails.equipment.armor.bonus.def;
+                this.bonusStats.luk = this.characterDetails.equipment.armor.bonus.luk;
+                if(this.characterDetails.equipment.weapon.bonus != null){
+                    this.bonusStats.health += this.characterDetails.equipment.weapon.bonus.health;
+                    this.bonusStats.mana += this.characterDetails.equipment.weapon.bonus.mana;
+                    this.bonusStats.agi += this.characterDetails.equipment.weapon.bonus.agi;
+                    this.bonusStats.int += this.characterDetails.equipment.weapon.bonus.int;
+                    this.bonusStats.off += this.characterDetails.equipment.weapon.bonus.off;
+                    this.bonusStats.def += this.characterDetails.equipment.weapon.bonus.def;
+                    this.bonusStats.luk += this.characterDetails.equipment.weapon.bonus.luk;
+                }
+            }
+            this.computeTotalStats();
+        },
+        computeTotalStats(){
+             this.totalStats.health = this.bonusStats.health + this.characterDetails.stats.health;
+             this.totalStats.mana = this.bonusStats.mana + this.characterDetails.stats.mana;
+             this.totalStats.agi = this.bonusStats.agi + this.characterDetails.stats.agi;
+             this.totalStats.int = this.bonusStats.int + this.characterDetails.stats.int;
+             this.totalStats.off = this.bonusStats.off + this.characterDetails.stats.off;
+             this.totalStats.def = this.bonusStats.def + this.characterDetails.stats.def;
+             this.totalStats.luk = this.bonusStats.luk + this.characterDetails.stats.luk;
         }
       }
       this.computeTotalStats();
@@ -353,6 +347,7 @@ button {
   padding-right: 20px;
   padding-top: 100px;
 }
+<<<<<<< HEAD
 
 .svg-fill {
   fill: currentColor;
@@ -368,3 +363,6 @@ button {
   stroke: currentColor;
 }
 </style>
+=======
+</style>
+>>>>>>> 6531a26bc83ed00843c4d8cb539fc6185cc6705a

@@ -65,4 +65,18 @@ div {
 .app-base-layout .app-body {
   height: 448px;
 }
+
+.svg-fill {
+    fill: currentColor;
+    stroke: none;
+}
+.svg-icon {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    color: inherit;
+    vertical-align: middle;
+    fill: none;
+    stroke: currentColor;
+}
 </style>

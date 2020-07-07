@@ -184,48 +184,49 @@ export default {
   },
   data() {
     return {
-      characterDetails: {
-        stats: {
-          health: 0,
-          mana: 0,
-          off: 0,
-          def: 0,
-          int: 0,
-          agi: 0,
-          luk: 0
+        characterDetails: {
+            stats:{
+                health: 0,
+                mana: 0,
+                off: 0,
+                def: 0,
+                int: 0,
+                agi: 0,
+                luk: 0
+            },
+            equipment:{
+                weapon: {},
+                armor: {}
+            }
         },
-        equipment: {
-          weapon: {},
-          armor: {}
+        characterClass: '',
+        characterImg: '',
+        characterWeaponImg: '',
+        characterArmorImg: '',
+        skillImg: {
+            skill1: '',
+            skill2: '',
+            skill3: '',
+            skill4: ''
+        },
+        bonusStats: {
+            health: 0,
+            mana: 0,
+            off: 0,
+            def: 0,
+            int: 0,
+            agi: 0,
+            luk: 0
+        },
+        totalStats: {
+            health: 0,
+            mana: 0,
+            off: 0,
+            def: 0,
+            int: 0,
+            agi: 0,
+            luk: 0
         }
-      },
-      characterClass: "",
-      characterImg: "",
-      characterWeaponImg: "",
-      characterArmorImg: "",
-      skillImg: {
-        skill1: "",
-        skill2: "",
-        skill3: "",
-        skill4: ""
-      },
-      bonusStats: {
-        health: 0,
-        mana: 0,
-        off: 0,
-        def: 0,
-        int: 0,
-        agi: 0,
-        luk: 0
-      },
-      totalStats: {
-        health: 0,
-        mana: 0,
-        off: 0,
-        def: 0,
-        int: 0,
-        agi: 0,
-        luk: 0
       }
     },
     created() {
@@ -272,27 +273,8 @@ export default {
              this.totalStats.def = this.bonusStats.def + this.characterDetails.stats.def;
              this.totalStats.luk = this.bonusStats.luk + this.characterDetails.stats.luk;
         }
-      }
-      this.computeTotalStats();
-    },
-    computeTotalStats() {
-      this.totalStats.health =
-        this.bonusStats.health + this.characterDetails.stats.health;
-      this.totalStats.mana =
-        this.bonusStats.mana + this.characterDetails.stats.mana;
-      this.totalStats.agi =
-        this.bonusStats.agi + this.characterDetails.stats.agi;
-      this.totalStats.int =
-        this.bonusStats.int + this.characterDetails.stats.int;
-      this.totalStats.off =
-        this.bonusStats.off + this.characterDetails.stats.off;
-      this.totalStats.def =
-        this.bonusStats.def + this.characterDetails.stats.def;
-      this.totalStats.luk =
-        this.bonusStats.luk + this.characterDetails.stats.luk;
     }
-  }
-};
+}
 </script>
 
 <style scoped>
@@ -347,22 +329,4 @@ button {
   padding-right: 20px;
   padding-top: 100px;
 }
-<<<<<<< HEAD
-
-.svg-fill {
-  fill: currentColor;
-  stroke: none;
-}
-.svg-icon {
-  display: inline-block;
-  width: 16px;
-  height: 16px;
-  color: inherit;
-  vertical-align: middle;
-  fill: none;
-  stroke: currentColor;
-}
 </style>
-=======
-</style>
->>>>>>> 6531a26bc83ed00843c4d8cb539fc6185cc6705a

@@ -1,5 +1,7 @@
 <template>
 <div class="imgbackground">
+      <appLoader v-if="showLoader" />
+
   <div v-if="showStart" class="container-fluid"> 
      <div class=" row login-box">
       
@@ -76,67 +78,68 @@ import RouterMixin from "../../mixins/router-mixin";
 import sessionKeys from "../../configuration/session/sessionKeys";
 import PathNames from "../../configuration/routerPath/pathNames";
 import pathNames from '../../configuration/routerPath/pathNames';
-
+import loader from "../loader/Game-Loader"
 export default {
   name: "Login",
+    components: {
+    appLoader: loader
+  },
   mixins: [SessionMixin, RouterMixin],
   data() {
     return {
       account: {
         username: "",
-<<<<<<< HEAD
         password: "",
       },
-      showStart: false
-=======
-        password: ""
-      }
->>>>>>> e5fd9523a35058ae610d87b08664fe413b3f56f0
+      showStart: false,
+      showLoader: false,
+      showError :false,
+      errorMessage:""
     };
   },
+
   validations: {
     account: {
       username: { required },
-<<<<<<< HEAD
       password: { required },
     },
    
-=======
-      password: { required }
-    }
   },
-  created() {
-    console.log(this.$store.getters['accountModule/getAccountIdStores']);
->>>>>>> e5fd9523a35058ae610d87b08664fe413b3f56f0
+  created(){
+    console.log(this.$store.getters['accountModule/getAccountIdStores'])
   },
   methods: {
     login() {
+      this.showLoader = true;
       this.$v.$touch();
       if (!this.$v.$invalid) {
         this.$store
           .dispatch(accountActions.login, this.account)
           .then((resp) => {
-<<<<<<< HEAD
-            console.log(resp);
-            console.log(
-              "store ",
-              +  this.$store.getters["accountModule/getAccountIdStores"]
-            );
-            this.$session.start();
-            this.$session.set(
-              "account-id",
-              this.$store.state.accountModule.player.accountId
-            );
-=======
             this.startSession();
             this.setSession(sessionKeys.character, this.$store.getters['accountModule/getAccountIdStores']);
-            this.redirectTo(pathNames.character);
+             this.showLoader =false;
+            // this.getCharacter(this.$store.getters['accountModule/getAccountIdStores']);
+            //this.redirectTo(pathNames.character);
           })
           .catch(() => {
             // dapat maglagay ng invalid username or password.
->>>>>>> e5fd9523a35058ae610d87b08664fe413b3f56f0
+
           });
       }
+    },
+     getCharacter(accountId) {
+       console.log('getCharater'+ accountId)
+      this.$store
+          .dispatch(accountActions.character, this.accountId)
+          .then((resp) => {
+            this.startSession();
+            this.setSession(sessionKeys.characterClass, this.$store.getters['accountModule/getSetCharacteStore']);
+          })
+          .catch(() => {
+            // dapat maglagay ng invalid username or password.
+
+          });
     }
   }
 };
@@ -145,7 +148,7 @@ export default {
 <style>
 .imgbackground {
  
-  background: url("../../assets/background/splash-screen.gif");
+  background: url("../../assets/backgrounds/splash-screen.gif");
   background-repeat: no-repeat;
   background-size: 100% 100%;
   width: 1280px;

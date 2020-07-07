@@ -4,7 +4,7 @@ import { HTTP } from '../configuration/http-common.js';
 const state = {
     player: {
         accountId: '',
-
+        characterId: ''
     },
     status: {
         loggedIn: true
@@ -13,14 +13,21 @@ const state = {
 
 const mutations = {
     loginSuccess(state, player) {
-        state.player.accountId = player;
+        state.player.characterId = player;
+    },
+    setCharacter(state, character) {
+        state.player.accountId = character;
     },
 };
 
 const getters = {
     getAccountIdStores: state => {
         return state.player.accountId;
+    },
+    getSetCharacteStore: state => {
+        return state.player.characterId;
     }
+    
 };
 
 const actions = {
@@ -38,6 +45,17 @@ const actions = {
         return HTTP.post(account.registration, payload)
             .then(resp => {
                 //commit('loginSuccess', resp.data.accountId);
+                return resp;
+            })
+            .catch(err => {
+                return err.response;
+            })
+    },
+    characterAsync({ commit }, payload) {
+        return HTTP.get(characterAccountUrl(payload))
+            .then(resp => {
+                console.log( "charcater asynx"+  resp)
+               commit('setCharacter', resp.data.accountId);
                 return resp;
             })
             .catch(err => {

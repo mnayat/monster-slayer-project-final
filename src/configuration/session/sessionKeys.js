@@ -1,5 +1,6 @@
 const sessionKeys = {
     character: 'character',
-    account: 'account'
+    account: 'account',
+    characterClass: 'characterClass',
 }
 export default sessionKeys;

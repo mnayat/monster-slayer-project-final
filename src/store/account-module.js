@@ -1,7 +1,6 @@
 import { account, characterAccountUrl } from '../configuration/services/account-service.js';
 import { HTTP } from '../configuration/http-common.js';
 
-
 const state = {
     player: {
         accountId: '',
@@ -11,16 +10,19 @@ const state = {
         loggedIn: true
     }
 };
+
 const mutations = {
     loginSuccess(state, player) {
         state.player.accountId = player;
     },
 };
+
 const getters = {
-       getAccountIdStores(state) {
-           return state.player.accountId;
-       }
+    getAccountIdStores: state => {
+        return state.player.accountId;
+    }
 };
+
 const actions = {
     loginAsync({ commit }, payload) {
         return HTTP.post(account.login, payload)
@@ -29,7 +31,7 @@ const actions = {
                 return resp;
             })
             .catch(err => {
-              return  err.response
+                return err.response
             });
     },
     registerAsync({ commit }, payload) {
@@ -42,14 +44,12 @@ const actions = {
                 return err.response;
             })
     }
-
 }
-
 
 export const accountModule = {
     namespaced: true,
     state,
+    getters,
     mutations,
     actions,
-    getters
 }

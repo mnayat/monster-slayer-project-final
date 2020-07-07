@@ -17,7 +17,7 @@ const mutations = {
     },
 };
 const getters = {
-       getAccountIdStores(state) {
+       getAccountIdStores: state => {
            return state.player.accountId;
        }
 };
@@ -49,7 +49,8 @@ const actions = {
 export const accountModule = {
     namespaced: true,
     state,
+    getters,
     mutations,
     actions,
-    getters
+    
 }

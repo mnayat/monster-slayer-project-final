@@ -56,6 +56,7 @@
 
 <script>
 import { mapActions } from "vuex";
+import { router } from './../../router/index.js';
 import accountActions from "./../../configuration/actionNames/account-action";
 export default {
   name: "Login",
@@ -80,8 +81,9 @@ export default {
           this.$session.start();
           this.$session.set(
             "account-id",
-            this.$store.state.accountModule.player.accountId
+            this.$store.state.accountModule.player.accountId  
           );
+          this.$router.push('/character');
         });
     }
   }

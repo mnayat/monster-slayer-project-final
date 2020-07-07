@@ -25,7 +25,6 @@ const actions = {
     loginAsync({ commit }, payload) {
         return HTTP.post(account.login, payload)
             .then(resp => {
-
                 commit('loginSuccess', resp.data.accountId);
                 return resp;
             })

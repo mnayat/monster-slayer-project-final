@@ -10,7 +10,16 @@ const actions = {
             .catch(err => {
               return  err.response
             });
-    }
+    },
+    getDungeonsAsync( {commit}, payload) {
+        return HTTP.get(character("5ead2646e166ed0017e960be").getCharacterDungeons)
+            .then(resp => {
+                return resp;
+            })
+            .catch(err => {
+              return  err.response
+            });
+    },
 }
 
 

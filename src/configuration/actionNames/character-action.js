@@ -1,5 +1,6 @@
 const characterActions = {
-    getCharacter: 'characterModule/getCharacterAsync'
+    getCharacter: 'characterModule/getCharacterAsync',
+    getDungeons: 'characterModule/getDungeonsAsync'
 }
 
 export default characterActions;

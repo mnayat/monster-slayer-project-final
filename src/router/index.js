@@ -3,6 +3,7 @@ import VueRouter from "vue-router";
 import Login from '../views/account/Login.vue';
 import Register from '../views/account/Registration.vue';
 import Character from '../views/character/Character.vue';
+import Dungeons from '../views/character/Dungeons.vue';
 
 Vue.use(VueRouter);
 
@@ -26,6 +27,11 @@ const routes = [
     path: "/character",
     name: "Character",
     component: Character
+  },
+  {
+    path: "/dungeons",
+    name: "Dungeons",
+    component: Dungeons
   }
 ];
 

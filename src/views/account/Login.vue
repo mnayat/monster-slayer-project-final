@@ -1,5 +1,11 @@
 <template>
-  <div class="container-fluid imgbackground">
+<div class="imgbackground">
+  <div v-if="showStart" class="container-fluid"> 
+     <div class=" row login-box">
+      
+    </div>
+  </div>
+  <div v-else class="container-fluid">
     <div class=" row login-box">
       <form novalidate>
         <div class="form-group">
@@ -57,6 +63,9 @@
       </form>
     </div>
   </div>
+
+</div>
+
 </template>
 
 <script>
@@ -71,6 +80,7 @@ export default {
         username: "",
         password: "",
       },
+      showStart: false
     };
   },
   validations: {
@@ -78,6 +88,7 @@ export default {
       username: { required },
       password: { required },
     },
+   
   },
 
   methods: {
@@ -90,13 +101,12 @@ export default {
             console.log(resp);
             console.log(
               "store ",
-              +  this.$store.getters["accountModules/getAccountIdStores"]
+              +  this.$store.getters["accountModule/getAccountIdStores"]
             );
             this.$session.start();
             this.$session.set(
               "account-id",
               this.$store.state.accountModule.player.accountId
-              //this.accountId()
             );
           });
       }
@@ -107,7 +117,7 @@ export default {
 
 <style>
 .imgbackground {
-  margin-top: 5vh;
+ 
   background: url("../../assets/background/splash-screen.gif");
   background-repeat: no-repeat;
   background-size: 100% 100%;
@@ -133,4 +143,17 @@ export default {
   box-sizing: border-box;
   padding: 10px 50px;
 }
+.startgame-box {
+  width: 300px;
+  height: 400px;
+  background: rgba(216, 214, 214, 0.5);
+  color: #fff;
+  top: 50%;
+  left: 50%;
+  position: absolute;
+  transform: translate(-50%, -50%);
+  box-sizing: border-box;
+  padding: 10px 50px;
+}
+
 </style>

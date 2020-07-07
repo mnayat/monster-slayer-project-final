@@ -2,6 +2,7 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import Login from '../views/account/Login.vue';
 import Register from '../views/account/Registration.vue';
+import Character from '../views/character/Character.vue';
 
 Vue.use(VueRouter);
 
@@ -20,6 +21,11 @@ const routes = [
     // which is lazy-loaded when the route is visited.
     // component: () =>
     //   import(/* webpackChunkName: "about" */ "../views/account/Login.vue")
+  },
+  {
+    path: "/character",
+    name: "Character",
+    component: Character
   }
 ];
 

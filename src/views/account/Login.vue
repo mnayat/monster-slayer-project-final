@@ -61,7 +61,7 @@
 
 <script>
 import { required } from "vuelidate/lib/validators";
-import { mapActions, getters } from "vuex";
+import { mapActions } from "vuex";
 import accountActions from "./../../configuration/actionNames/account-action";
 export default {
   name: "Login",
@@ -79,14 +79,9 @@ export default {
       password: { required },
     },
   },
-  computed: {
-      accountId(){
-        return this.$store.getters.accountModule.getAccountIdStores;
-      }
-  },
+
   methods: {
     login() {
-<<<<<<< HEAD
       this.$v.$touch();
       if (!this.$v.$invalid) {
         this.$store
@@ -95,35 +90,18 @@ export default {
             console.log(resp);
             console.log(
               "store ",
-              +  this.accountId()
+              +  this.$store.getters["accountModules/getAccountIdStores"]
             );
             this.$session.start();
             this.$session.set(
               "account-id",
               this.$store.state.accountModule.player.accountId
+              //this.accountId()
             );
           });
       }
     },
   },
-=======
-      this.$store
-        .dispatch(accountActions.login, this.account)
-        .then((resp) => {
-          console.log(resp);
-          console.log(
-            "store " + this.$store.state.accountModule.player.accountId
-          );
-          this.$session.start();
-          this.$session.set(
-            "account-id",
-            this.$store.state.accountModule.player.accountId  
-          );
-          this.$router.push('/character');
-        });
-    }
-  }
->>>>>>> e8929a06568e7c6f11b16c7928b1b704e6477641
 };
 </script>
 

@@ -17,11 +17,7 @@ const mutations = {
     },
 };
 const getters = {
-<<<<<<< HEAD
-       getAccountIdStores: (state) => {
-=======
-       getAccountIdStores(state) {
->>>>>>> e8929a06568e7c6f11b16c7928b1b704e6477641
+       getAccountIdStores: state => {
            return state.player.accountId;
        }
 };
@@ -53,7 +49,8 @@ const actions = {
 export const accountModule = {
     namespaced: true,
     state,
+    getters,
     mutations,
     actions,
-    getters
+    
 }

@@ -15,162 +15,129 @@
                                 <div class="col-sm-6 offset-sm-2 nopadding">{{ characterDetails.level }}</div>
                                 <div class="col-sm-12 row-break"></div>
 
-                <div class="col-sm-3 offset-sm-1 nopadding bold">Class</div>
-                <div class="col-sm-6 offset-sm-2 nopadding">
-                  {{ characterClass }}
-                </div>
-                <div class="col-sm-12 row-break"></div>
+                                <div class="col-sm-3 offset-sm-1 nopadding bold">Class</div>
+                                <div class="col-sm-6 offset-sm-2 nopadding">{{ characterClass }}</div>
+                                <div class="col-sm-12 row-break"></div>
 
-                <div class="col-sm-3 offset-sm-1 nopadding bold">Total Exp</div>
-                <div class="col-sm-6 offset-sm-2 nopadding">
-                  {{ characterDetails.totalExp }}
-                </div>
-                <div class="col-sm-12 row-break"></div>
+                                <div class="col-sm-3 offset-sm-1 nopadding bold">Total Exp</div>
+                                <div class="col-sm-6 offset-sm-2 nopadding">{{ characterDetails.totalExp }}</div>
+                                <div class="col-sm-12 row-break"></div>
 
-                <div class="col-sm-3 offset-sm-1 nopadding bold">Next Lvl</div>
-                <div class="col-sm-6 offset-sm-2 nopadding">
-                  {{ characterDetails.nextLevelExp }}
-                </div>
-                <div class="col-sm-12 row-break"></div>
+                                <div class="col-sm-3 offset-sm-1 nopadding bold">Next Lvl</div>
+                                <div class="col-sm-6 offset-sm-2 nopadding">{{ characterDetails.nextLevelExp }}</div>
+                                <div class="col-sm-12 row-break"></div>
 
-                <div class="col-sm-3 offset-sm-1 nopadding bold">Char Id</div>
-                <div class="col-sm-8"></div>
-                <div class="col-sm-6 offset-sm-2 nopadding">
-                  {{ characterDetails._id }}
-                </div>
-                <div class="col-sm-12 row-break"></div>
+                                <div class="col-sm-3 offset-sm-1 nopadding bold">Char Id</div>
+                                <div class="col-sm-8"></div>
+                                <div class="col-sm-6 offset-sm-2 nopadding">{{ characterDetails._id }}</div>
+                                <div class="col-sm-12 row-break"></div>
 
-                <div class="col-sm-6 offset-sm-1 nopadding bold">
-                  Dungeon Access
+                                <div class="col-sm-6 offset-sm-1 nopadding bold">Dungeon Access</div>
+                                <div class="col-sm-5 nopadding"></div>
+                                <div class="col-sm-10 offset-sm-2 nopadding"
+                                        v-for="dungeon in characterDetails.dungeonAccess"
+                                        :key="dungeon.id"
+                                        v-bind:value="{ id: dungeon.id, text: dungeon.name }">{{ dungeon.name }}</div>
+                                <div class="col-sm-12 row-break"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-8 nopadding">
+                            <div class="character-stats-container">
+                                <div class="character-stats row nomargin">
+                                    <div class="col-sm-3 no padding center">
+                                        <img :src="characterImg" class="character-img">
+                                    </div>
+                                    <div class="col-sm-9">
+                                        <div class="center">Character Stats</div>
+                                        <div class="detailed-stats row nomargin">
+                                            <div class="col-sm-3 bold">Attribute</div>
+                                            <div class="col-sm-3 bold">Base</div>
+                                            <div class="col-sm-3 bold">Bonus</div>
+                                            <div class="col-sm-3 bold">Total</div>
+                                        </div>
+                                        <div class="detailed-stats row nomargin">
+                                            <div class="col-sm-3 bold">Health</div>
+                                            <div class="col-sm-3 center">{{ characterDetails.stats.health }}</div>
+                                            <div class="col-sm-3 center">{{ bonusStats.health }}</div>
+                                            <div class="col-sm-3 center">{{ totalStats.health }}</div>
+                                        </div>
+                                        <div class="detailed-stats row nomargin">
+                                            <div class="col-sm-3 bold">Mana</div>
+                                            <div class="col-sm-3 center">{{ characterDetails.stats.mana }}</div>
+                                            <div class="col-sm-3 center">{{ bonusStats.mana }}</div>
+                                            <div class="col-sm-3 center">{{ totalStats.mana }}</div>
+                                        </div>
+                                        <div class="detailed-stats row nomargin">
+                                            <div class="col-sm-3 bold">Off</div>
+                                            <div class="col-sm-3 center">{{ characterDetails.stats.off }}</div>
+                                            <div class="col-sm-3 center">{{ bonusStats.off }}</div>
+                                            <div class="col-sm-3 center">{{ totalStats.off }}</div>
+                                        </div>
+                                        <div class="detailed-stats row nomargin">
+                                            <div class="col-sm-3 bold">Def</div>
+                                            <div class="col-sm-3 center">{{ characterDetails.stats.def }}</div>
+                                            <div class="col-sm-3 center">{{ bonusStats.def }}</div>
+                                            <div class="col-sm-3 center">{{ totalStats.def }}</div>
+                                        </div>
+                                        <div class="detailed-stats row nomargin">
+                                            <div class="col-sm-3 bold">Agi</div>
+                                            <div class="col-sm-3 center">{{ characterDetails.stats.agi }}</div>
+                                            <div class="col-sm-3 center">{{ bonusStats.agi }}</div>
+                                            <div class="col-sm-3 center">{{ totalStats.agi }}</div>
+                                        </div>
+                                        <div class="detailed-stats row nomargin">
+                                            <div class="col-sm-3 bold">Int</div>
+                                            <div class="col-sm-3 center">{{ characterDetails.stats.int }}</div>
+                                            <div class="col-sm-3 center">{{ bonusStats.int }}</div>
+                                            <div class="col-sm-3 center">{{ totalStats.int }}</div>
+                                        </div>
+                                        <div class="detailed-stats row nomargin">
+                                            <div class="col-sm-3 bold">Luk</div>
+                                            <div class="col-sm-3 center">{{ characterDetails.stats.luk }}</div>
+                                            <div class="col-sm-3 center">{{ bonusStats.luk }}</div>
+                                            <div class="col-sm-3 center">{{ totalStats.luk }}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="character-aresenal row nomargin">
+                                    <div class="col-sm-6 nopadding">
+                                        <div class="center bold">Equipment</div>
+                                        <div class="row nomargin">
+                                            <div class="col-sm-10 offset-sm-2 bold">Weapon</div>
+                                            <div class="col-sm-8 offset-sm-4">
+                                                <img class="svg-icon svg-fill" :src="characterWeaponImg"/>
+                                                {{ characterDetails.equipment.weapon.name }}
+                                            </div>
+                                            <div class="col-sm-10 offset-sm-2 bold">Armor</div>
+                                            <div class="col-sm-8 offset-sm-4">
+                                                <img class="svg-icon svg-fill" :src="characterArmorImg"/>
+                                                {{ characterDetails.equipment.armor.name }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6 nopadding">
+                                        <div class="center bold">Skills</div>
+                                        <div class="row nomargin"
+                                             v-for="(skill, i) in characterDetails.skills"
+                                                :key="i">
+                                            <div class="col-sm-2 offset-sm-2 nopadding right">
+                                                <img class="svg-icon svg-fill" :src="skillImg.skill1"/>
+                                            </div>
+                                            <div class="col-sm-8">{{ skill.name }}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="character-stats-action">
+                                    <button class="btn-principal">Inventory</button>
+                                    <button class="btn-principal">Skills</button>
+                                </div>
+                            </div>
+                        </div>
                 </div>
-                <div class="col-sm-5 nopadding"></div>
-                <div
-                  class="col-sm-10 offset-sm-2 nopadding"
-                  v-for="dungeon in characterDetails.dungeonAccess"
-                  :key="dungeon.id"
-                  v-bind:value="{ id: dungeon.id, text: dungeon.name }"
-                >
-                  {{ dungeon.name }}
-                </div>
-                <div class="col-sm-12 row-break"></div>
-              </div>
             </div>
-          </div>
-          <div class="col-sm-8 nopadding">
-            <div class="character-stats-container">
-              <div class="character-stats row nomargin">
-                <div class="col-sm-3 no padding center">
-                  <img :src="characterImg" class="character-img" />
-                </div>
-                <div class="col-sm-9">
-                  <div class="center">Character Stats</div>
-                  <div class="detailed-stats row nomargin">
-                    <div class="col-sm-3 bold">Attribute</div>
-                    <div class="col-sm-3 bold">Base</div>
-                    <div class="col-sm-3 bold">Bonus</div>
-                    <div class="col-sm-3 bold">Total</div>
-                  </div>
-                  <div class="detailed-stats row nomargin">
-                    <div class="col-sm-3 bold">Health</div>
-                    <div class="col-sm-3 center">
-                      {{ characterDetails.stats.health }}
-                    </div>
-                    <div class="col-sm-3 center">{{ bonusStats.health }}</div>
-                    <div class="col-sm-3 center">{{ totalStats.health }}</div>
-                  </div>
-                  <div class="detailed-stats row nomargin">
-                    <div class="col-sm-3 bold">Mana</div>
-                    <div class="col-sm-3 center">
-                      {{ characterDetails.stats.mana }}
-                    </div>
-                    <div class="col-sm-3 center">{{ bonusStats.mana }}</div>
-                    <div class="col-sm-3 center">{{ totalStats.mana }}</div>
-                  </div>
-                  <div class="detailed-stats row nomargin">
-                    <div class="col-sm-3 bold">Off</div>
-                    <div class="col-sm-3 center">
-                      {{ characterDetails.stats.off }}
-                    </div>
-                    <div class="col-sm-3 center">{{ bonusStats.off }}</div>
-                    <div class="col-sm-3 center">{{ totalStats.off }}</div>
-                  </div>
-                  <div class="detailed-stats row nomargin">
-                    <div class="col-sm-3 bold">Def</div>
-                    <div class="col-sm-3 center">
-                      {{ characterDetails.stats.def }}
-                    </div>
-                    <div class="col-sm-3 center">{{ bonusStats.def }}</div>
-                    <div class="col-sm-3 center">{{ totalStats.def }}</div>
-                  </div>
-                  <div class="detailed-stats row nomargin">
-                    <div class="col-sm-3 bold">Agi</div>
-                    <div class="col-sm-3 center">
-                      {{ characterDetails.stats.agi }}
-                    </div>
-                    <div class="col-sm-3 center">{{ bonusStats.agi }}</div>
-                    <div class="col-sm-3 center">{{ totalStats.agi }}</div>
-                  </div>
-                  <div class="detailed-stats row nomargin">
-                    <div class="col-sm-3 bold">Int</div>
-                    <div class="col-sm-3 center">
-                      {{ characterDetails.stats.int }}
-                    </div>
-                    <div class="col-sm-3 center">{{ bonusStats.int }}</div>
-                    <div class="col-sm-3 center">{{ totalStats.int }}</div>
-                  </div>
-                  <div class="detailed-stats row nomargin">
-                    <div class="col-sm-3 bold">Luk</div>
-                    <div class="col-sm-3 center">
-                      {{ characterDetails.stats.luk }}
-                    </div>
-                    <div class="col-sm-3 center">{{ bonusStats.luk }}</div>
-                    <div class="col-sm-3 center">{{ totalStats.luk }}</div>
-                  </div>
-                </div>
-              </div>
-              <div class="character-aresenal row nomargin">
-                <div class="col-sm-6 nopadding">
-                  <div class="center bold">Equipment</div>
-                  <div class="row nomargin">
-                    <div class="col-sm-10 offset-sm-2 bold">Weapon</div>
-                    <div class="col-sm-8 offset-sm-4">
-                      <img
-                        class="svg-icon svg-fill"
-                        :src="characterWeaponImg"
-                      />
-                      {{ characterDetails.equipment.weapon.name }}
-                    </div>
-                    <div class="col-sm-10 offset-sm-2 bold">Armor</div>
-                    <div class="col-sm-8 offset-sm-4">
-                      <img class="svg-icon svg-fill" :src="characterArmorImg" />
-                      {{ characterDetails.equipment.armor.name }}
-                    </div>
-                  </div>
-                </div>
-                <div class="col-sm-6 nopadding">
-                  <div class="center bold">Skills</div>
-                  <div
-                    class="row nomargin"
-                    v-for="(skill, i) in characterDetails.skills"
-                    :key="i"
-                  >
-                    <div class="col-sm-2 offset-sm-2 nopadding right">
-                      <img class="svg-icon svg-fill" :src="skillImg.skill1" />
-                    </div>
-                    <div class="col-sm-8">{{ skill.name }}</div>
-                  </div>
-                </div>
-              </div>
-              <div class="character-stats-action">
-                <button class="btn-principal">Inventory</button>
-                <button class="btn-principal">Skills</button>
-              </div>
-            </div>
-          </div>
         </div>
-      </div>
     </div>
-  </div>
 </template>
 
 <script>

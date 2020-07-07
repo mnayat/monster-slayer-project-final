@@ -1,4 +1,4 @@
- export  default function character(id) {
+ export function character(id) {
    return {
             getCharacter: `/character/${id}`, //charcter id
             getCharacterInventory: `/character/${id}/inventory`,//charcter id

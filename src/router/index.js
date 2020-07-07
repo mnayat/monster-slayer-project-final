@@ -2,9 +2,12 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import Login from '../views/account/Login.vue';
 import Register from '../views/account/Registration.vue';
+import Character from '../views/character/Character.vue';
+import Inventory from '../views/character/Inventory.vue';
+import Skills from '../views/character/Skills.vue';
+import Dungeons from '../views/character/Dungeons.vue';
 
 Vue.use(VueRouter);
-
 const routes = [
   {
     path: "/",
@@ -15,11 +18,28 @@ const routes = [
     path: "/register",
     name: "Register",
     component: Register
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    // component: () =>
-    //   import(/* webpackChunkName: "about" */ "../views/account/Login.vue")
+  },
+  {
+    path: "/character",
+    name: "Character",
+    component: Character,
+    children: [
+      {
+        path: '/inventory',
+        name: 'Inventory',
+        component: Inventory
+      },
+      {
+        path: '/skills',
+        name: 'Skills',
+        component: Skills
+      }
+    ]
+  },
+  {
+    path: "/dungeons",
+    name: "Dungeons",
+    component: Dungeons
   }
 ];
 

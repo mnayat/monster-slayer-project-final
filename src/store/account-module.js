@@ -17,7 +17,11 @@ const mutations = {
     },
 };
 const getters = {
+<<<<<<< HEAD
        getAccountIdStores: (state) => {
+=======
+       getAccountIdStores(state) {
+>>>>>>> e8929a06568e7c6f11b16c7928b1b704e6477641
            return state.player.accountId;
        }
 };
@@ -25,7 +29,6 @@ const actions = {
     loginAsync({ commit }, payload) {
         return HTTP.post(account.login, payload)
             .then(resp => {
-
                 commit('loginSuccess', resp.data.accountId);
                 return resp;
             })

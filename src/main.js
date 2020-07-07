@@ -10,6 +10,7 @@ import App from "./App.vue";
 import router from "./router";
 import store from "./store";
 import VueSession from 'vue-session';
+import ScrollBar from 'vue2-scrollbar'
 
 
 library.add(fas);
@@ -17,6 +18,7 @@ Vue.component('fa-icon', FontAwesomeIcon)
 
 Vue.use(VueSession);
 Vue.use(Vuelidate);
+Vue.use(ScrollBar);
 
 Vue.config.productionTip = false;
 

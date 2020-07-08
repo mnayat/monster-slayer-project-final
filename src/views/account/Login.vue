@@ -120,7 +120,7 @@ export default {
              this.showLoader =false;
             
             this.getCharacter(getAccountid);
-            //this.redirectTo(pathNames.character);
+           this.redirectTo(pathNames.character);
           })
           .catch(() => {
             // dapat maglagay ng invalid username or password.

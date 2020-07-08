@@ -162,7 +162,7 @@
                 </div>
               </div>
               <div class="character-stats-action">
-                <button class="btn-principal">Inventory</button>
+                <router-link class="btn-principal" to="/character/inventory">Inventory</router-link>
                 <button class="btn-principal">Skills</button>
               </div>
             </div>

@@ -98,7 +98,6 @@ export default {
       errorMessage:""
     };
   },
-
   validations: {
     account: {
       username: { required },
@@ -115,10 +114,12 @@ export default {
           .dispatch(accountActions.login, this.account)
           .then((resp) => {
             console.log(this.$store.getters);
+             var getAccountid = this.$store.getters['accountModule/getAccountId'];
             this.startSession();
-            this.setSession(sessionKeys.character, this.$store.getters['accountModule/getAccountIdStores']);
+            this.setSession(sessionKeys.account, getAccountid);
              this.showLoader =false;
-            // this.getCharacter(this.$store.getters['accountModule/getAccountIdStores']);
+            
+            this.getCharacter(getAccountid);
             //this.redirectTo(pathNames.character);
           })
           .catch(() => {
@@ -128,12 +129,12 @@ export default {
       }
     },
      getCharacter(accountId) {
-       console.log('getCharater'+ accountId)
+     
       this.$store
-          .dispatch(accountActions.character, this.accountId)
+          .dispatch(accountActions.character , accountId)
           .then((resp) => {
-            this.startSession();
-            this.setSession(sessionKeys.characterClass, this.$store.getters['accountModule/getSetCharacteStore']);
+              console.log(this.$store.getters);
+            this.setSession(sessionKeys.character, this.$store.getters['accountModule/getCharacterId']);
           })
           .catch(() => {
             // dapat maglagay ng invalid username or password.

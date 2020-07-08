@@ -5,18 +5,15 @@ const state = {
     player: {
         accountId: '',
         characterId: ''
-    },
-    status: {
-        loggedIn: true
     }
 };
 
 const mutations = {
-    loginSuccess(state, player) {
-        state.player.characterId = player;
+    setCharacterId(state, characterId) {
+        state.player.characterId = characterId;
     },
-    setCharacter(state, character) {
-        state.player.accountId = character;
+    setAccountId(state, accountId) {
+        state.player.accountId = accountId;
     },
 };
 
@@ -24,17 +21,18 @@ const getters = {
     getAccountIdStores: state => {
         return state.player.accountId;
     },
-    getSetCharacteStore: state => {
+    getCharacteStore: state => {
         return state.player.characterId;
     }
-    
+
 };
 
 const actions = {
     loginAsync({ commit }, payload) {
         return HTTP.post(account.login, payload)
             .then(resp => {
-                commit('loginSuccess', resp.data.accountId);
+                console.log(resp.data.accountId);
+                commit('setCharacterId', resp.data.accountId);
                 return resp;
             })
             .catch(err => {
@@ -44,7 +42,6 @@ const actions = {
     registerAsync({ commit }, payload) {
         return HTTP.post(account.registration, payload)
             .then(resp => {
-                //commit('loginSuccess', resp.data.accountId);
                 return resp;
             })
             .catch(err => {
@@ -54,8 +51,8 @@ const actions = {
     characterAsync({ commit }, payload) {
         return HTTP.get(characterAccountUrl(payload))
             .then(resp => {
-                console.log( "charcater asynx"+  resp)
-               commit('setCharacter', resp.data.accountId);
+                console.log("charcater asynx" + resp)
+                commit('setAccountId', resp.data.accountId);
                 return resp;
             })
             .catch(err => {

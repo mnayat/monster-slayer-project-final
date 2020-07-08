@@ -2,9 +2,9 @@
 <div class="imgbackground">
       <appLoader v-if="showLoader" />
 
-  <div v-if="showStart" class="container-fluid"> 
+  <div v-if="showStart" class="container-fluid">
      <div class=" row login-box">
-      
+
     </div>
   </div>
   <div v-else class="container-fluid">
@@ -78,7 +78,8 @@ import RouterMixin from "../../mixins/router-mixin";
 import sessionKeys from "../../configuration/session/sessionKeys";
 import PathNames from "../../configuration/routerPath/pathNames";
 import pathNames from '../../configuration/routerPath/pathNames';
-import loader from "../loader/Game-Loader"
+import loader from "../../components/common/Loader";
+
 export default {
   name: "Login",
     components: {
@@ -103,10 +104,7 @@ export default {
       username: { required },
       password: { required },
     },
-   
-  },
-  created(){
-    console.log(this.$store.getters['accountModule/getAccountIdStores'])
+
   },
   methods: {
     login() {
@@ -116,6 +114,7 @@ export default {
         this.$store
           .dispatch(accountActions.login, this.account)
           .then((resp) => {
+            console.log(this.$store.getters);
             this.startSession();
             this.setSession(sessionKeys.character, this.$store.getters['accountModule/getAccountIdStores']);
              this.showLoader =false;
@@ -147,7 +146,7 @@ export default {
 
 <style>
 .imgbackground {
- 
+
   background: url("../../assets/backgrounds/splash-screen.gif");
   background-repeat: no-repeat;
   background-size: 100% 100%;

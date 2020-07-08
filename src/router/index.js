@@ -24,17 +24,22 @@ const routes = [
     name: "Character",
     component: Character,
     children: [
-      {
-        path: '/inventory',
-        name: 'Inventory',
-        component: Inventory
-      },
+      // {
+      //   path: '/character/inventory',
+      //   name: 'Inventory',
+      //   component: Inventory
+      // },
       {
         path: '/skills',
         name: 'Skills',
         component: Skills
       }
     ]
+  },
+  {
+    path: '/character/inventory',
+    name: 'Inventory',
+    component: Inventory
   },
   {
     path: "/dungeons",

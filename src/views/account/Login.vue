@@ -152,7 +152,8 @@ export default {
   background-repeat: no-repeat;
   background-size: 100% 100%;
   width: 1280px;
-  height: 620px;
+  min-height: 620px;
+  height: 100%;
 }
 .custom-margin {
   margin-top: 10vh;

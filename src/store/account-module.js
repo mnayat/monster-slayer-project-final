@@ -18,10 +18,10 @@ const mutations = {
 };
 
 const getters = {
-    getAccountIdStores: state => {
+    getAccountId: state => {
         return state.player.accountId;
     },
-    getCharacteStore: state => {
+    getCharacterId: state => {
         return state.player.characterId;
     }
 
@@ -32,7 +32,7 @@ const actions = {
         return HTTP.post(account.login, payload)
             .then(resp => {
                 console.log(resp.data.accountId);
-                commit('setCharacterId', resp.data.accountId);
+                commit('setAccountId', resp.data.accountId);
                 return resp;
             })
             .catch(err => {
@@ -49,10 +49,11 @@ const actions = {
             })
     },
     characterAsync({ commit }, payload) {
-        return HTTP.get(characterAccountUrl(payload))
+    
+        return HTTP.get(characterAccountUrl(payload).character)
             .then(resp => {
-                console.log("charcater asynx" + resp)
-                commit('setAccountId', resp.data.accountId);
+                console.log( resp)
+                commit('setCharacterId', resp.data._id);
                 return resp;
             })
             .catch(err => {

@@ -117,9 +117,9 @@ export default {
             console.log(this.$store.getters);
             this.startSession();
             this.setSession(sessionKeys.character, this.$store.getters['accountModule/getAccountIdStores']);
-             this.showLoader =false;
-            // this.getCharacter(this.$store.getters['accountModule/getAccountIdStores']);
-            //this.redirectTo(pathNames.character);
+            this.showLoader =false;
+            this.getCharacter(this.$store.getters['accountModule/getAccountIdStores']);
+            this.redirectTo(pathNames.character);
           })
           .catch(() => {
             // dapat maglagay ng invalid username or password.

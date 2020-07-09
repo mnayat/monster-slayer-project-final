@@ -2,6 +2,7 @@
   <div class="app-container">
     <div class="app-base-layout">
       <app-menu></app-menu>
+      <appLoader v-if="showLoader" />
       <div class="app-header row nomargin">
         <div class="col-sm-2"></div>
         <div class="col-sm-8">Dungeons</div>
@@ -22,7 +23,7 @@
                         v-bind:value="{ id: dungeon._id, text: dungeon.name }"
                         :style="{
                           'background-image':
-                            'url(' + getDungeonImg(dungeon.image) + ')'
+                            'url(' + getDungeonImg(dungeon.image) + ')',
                         }"
                         @click="getDungeonDetails(dungeon._id)"
                       >
@@ -55,76 +56,85 @@
                     {{ selectedDungeon.recommendedLevel }}
                   </div>
                 </div>
-                <div class="row nomargin">
-                  <div class="col-sm-12 bold">Encounters/Drops:</div>
-                  <div
-                    class="encounter-list col-sm-12 row nomargin nopadding"
-                    v-for="enemy in enemies"
-                    :key="enemy._id"
-                    v-bind:value="{ id: enemy._id, text: enemy.name }"
-                  >
+                <div class="row nomargin" v-show="selectedDungeon.locked">
+                  <div class="col-sm-12 bold nopadding">Requirements:</div>
+                  <div class="encouter-list col-sm-12 row nomargin nopadding">
+                    Defeat <span class="bold"> {{ selectedDungeon.bossReq != null ? selectedDungeon.bossReq.name : '' }} </span> from the previous
+                    dungeon.
+                  </div>
+                </div>
+                <div v-show="!selectedDungeon.locked">
+                  <div class="row nomargin">
+                    <div class="col-sm-12 bold">Encounters/Drops:</div>
                     <div
-                      v-if="!enemy.boss"
-                      class="col-sm-3 offset-sm-1 nopadding bold"
+                      class="encounter-list col-sm-12 row nomargin nopadding"
+                      v-for="enemy in enemies"
+                      :key="enemy._id"
+                      v-bind:value="{ id: enemy._id, text: enemy.name }"
                     >
-                      {{ enemy.name }}
-                    </div>
-                    <div v-if="!enemy.boss" class="col-sm-8 nopadding">
                       <div
-                        class="dungeon-item"
-                        v-for="drop in enemy.drops"
-                        :key="drop._id"
-                        v-bind:value="{ id: drop._id, text: drop.name }"
-                        v-show="enemy.drops.length != 0"
+                        v-if="!enemy.boss"
+                        class="col-sm-3 offset-sm-1 nopadding bold"
                       >
-                        <img
-                          class="svg-icon svg-fill"
-                          :src="getEquipmentImage(drop.name)"
-                        />
-                        {{ drop.name }}
+                        {{ enemy.name }}
                       </div>
-                      <div
-                        v-show="enemy.drops.length == 0"
-                        class="dungeon-item col-sm-7 nopadding offset-sm-1"
-                      >
-                        None
+                      <div v-if="!enemy.boss" class="col-sm-8 nopadding">
+                        <div
+                          class="dungeon-item"
+                          v-for="drop in enemy.drops"
+                          :key="drop._id"
+                          v-bind:value="{ id: drop._id, text: drop.name }"
+                          v-show="enemy.drops.length != 0"
+                        >
+                          <img
+                            class="svg-icon svg-fill"
+                            :src="getEquipmentImage(drop.name)"
+                          />
+                          {{ drop.name }}
+                        </div>
+                        <div
+                          v-show="enemy.drops.length == 0"
+                          class="dungeon-item col-sm-7 nopadding offset-sm-1"
+                        >
+                          None
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-                <div class="row nomargin">
-                  <div class="col-sm-12 bold">Boss/Drops:</div>
-                  <div
-                    class="encounter-list col-sm-12 row nomargin nopadding"
-                    v-for="enemy in enemies"
-                    :key="enemy._id"
-                    v-bind:value="{ id: enemy._id, text: enemy.name }"
-                  >
+                  <div class="row nomargin">
+                    <div class="col-sm-12 bold">Boss/Drops:</div>
                     <div
-                      v-if="enemy.boss"
-                      class="col-sm-3 offset-sm-1 nopadding bold"
+                      class="encounter-list col-sm-12 row nomargin nopadding"
+                      v-for="enemy in enemies"
+                      :key="enemy._id"
+                      v-bind:value="{ id: enemy._id, text: enemy.name }"
                     >
-                      {{ enemy.name }}
-                    </div>
-                    <div v-if="enemy.boss" class="col-sm-8 nopadding">
                       <div
-                        class="dungeon-item"
-                        v-for="drop in enemy.drops"
-                        :key="drop._id"
-                        v-bind:value="{ id: drop._id, text: drop.name }"
-                        v-show="enemy.drops.length != 0"
+                        v-if="enemy.boss"
+                        class="col-sm-3 offset-sm-1 nopadding bold"
                       >
-                        <img
-                          class="svg-icon svg-fill"
-                          :src="getEquipmentImage(drop.name)"
-                        />
-                        {{ drop.name }}
+                        {{ enemy.name }}
                       </div>
-                      <div
-                        v-show="enemy.drops.length == 0"
-                        class="dungeon-item col-sm-7 nopadding offset-sm-1"
-                      >
-                        None
+                      <div v-if="enemy.boss" class="col-sm-8 nopadding">
+                        <div
+                          class="dungeon-item"
+                          v-for="drop in enemy.drops"
+                          :key="drop._id"
+                          v-bind:value="{ id: drop._id, text: drop.name }"
+                          v-show="enemy.drops.length != 0"
+                        >
+                          <img
+                            class="svg-icon svg-fill"
+                            :src="getEquipmentImage(drop.name)"
+                          />
+                          {{ drop.name }}
+                        </div>
+                        <div
+                          v-show="enemy.drops.length == 0"
+                          class="dungeon-item col-sm-7 nopadding offset-sm-1"
+                        >
+                          None
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -144,17 +154,21 @@ import characterActions from "./../../configuration/actionNames/character-action
 import VueScrollbar from "vue2-scrollbar";
 import characters from "./../../scripts/characters.js";
 import Menu from "../Menu";
+import loader from "../../components/common/Loader";
+
 export default {
-  components: { VueScrollbar, appMenu: Menu },
+  components: { VueScrollbar, appMenu: Menu, appLoader: loader },
   data() {
     return {
+      showLoader: false,
       dungeons: [
         {
           _id: "",
-          image: ""
-        }
+          image: "",
+        },
       ],
-      selectedDungeon: {},
+      selectedDungeon: {
+      },
       enemies: [
         {
           _id: "",
@@ -162,10 +176,10 @@ export default {
           drops: [
             {
               _id: "",
-              name: ""
-            }
-          ]
-        }
+              name: "",
+            },
+          ],
+        },
       ],
       boss: [
         {
@@ -174,14 +188,15 @@ export default {
           drops: [
             {
               _id: "",
-              name: ""
-            }
-          ]
-        }
-      ]
+              name: "",
+            },
+          ],
+        },
+      ],
     };
   },
   created() {
+    this.showLoader = true;
     this.$store
       .dispatch(
         characterActions.getDungeons,
@@ -191,6 +206,7 @@ export default {
         this.dungeons = res.data;
         this.selectedDungeon = this.dungeons[0];
         this.enemies = this.selectedDungeon.enemies;
+        this.showLoader = false;
       });
   },
   methods: {
@@ -205,8 +221,8 @@ export default {
     },
     getEquipmentImage(name) {
       return characters.getEquipmentImg(name);
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -217,6 +233,11 @@ export default {
 
 .dungeon-details-container {
   height: 450px;
+}
+
+.dungeon-details-container .header {
+    margin: 15px 0;
+    font-size: 25px;
 }
 
 .dungeon-details-container .dungeon-details .encounter-list {

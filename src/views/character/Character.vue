@@ -2,6 +2,7 @@
     <div class="app-container">
         <div class="app-base-layout">
             <app-menu></app-menu>
+            <appLoader v-if="showLoader" />
             <div class="app-header">
                 <div>Character Status</div>
             </div>
@@ -178,12 +179,15 @@ import { mapActions } from "vuex";
 import characterActions from "./../../configuration/actionNames/character-action";
 import characters from "./../../scripts/characters.js";
 import Menu from "../Menu"
+import loader from "../../components/common/Loader";
 export default {
   components: {
-    appMenu: Menu
+    appMenu: Menu,
+    appLoader: loader
   },
   data() {
     return {
+        showLoader: false,
         characterDetails: {
             stats:{
                 health: 0,
@@ -230,6 +234,7 @@ export default {
       }
     },
     created() {
+        this.showLoader = true;
         this.$store.dispatch(characterActions.getCharacter, this.$store.state.accountModule.player.accountId).then(res => {
             this.characterDetails = res.data;
             console.log(this.characterDetails);
@@ -240,6 +245,7 @@ export default {
             this.skillImg.skill1 = characters.getSkill(this.characterDetails.skills[0]._id);
             console.log(this.skillImg.skill1);
             this.computeBonusStats();
+            this.showLoader = false;
         });
     },
     methods:{

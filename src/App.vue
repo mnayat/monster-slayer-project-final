@@ -1,7 +1,9 @@
 <template>
   <div id="app">
-
-    <router-view style="padding-top:20px;" />
+ <component :is="this.$route.meta.layout || 'div'">
+      <router-view />
+    </component>
+    
   </div>
 </template>
 <script>

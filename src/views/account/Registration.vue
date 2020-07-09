@@ -1,5 +1,5 @@
 <template>
-  <div align="center">
+  <div align="center" class=" imgbackground registration-box">
     <div class="card" style="width: 60rem;">
       <div class="card-body">
         <h5 class="card-title">Registration</h5>
@@ -153,7 +153,7 @@
                     placeholder="Alias"
                     v-model.lazy="accountDetails.characterName"
                     :class="{
-                      'is-invalid': $v.accountDetails.characterName.$error
+                      'is-invalid': $v.accountDetails.characterName.$error,
                     }"
                     @blur="$v.accountDetails.characterName.$touch()"
                   />
@@ -204,7 +204,7 @@
                     id="characters"
                     v-model="accountDetails.classType"
                     :class="{
-                      'is-invalid': $v.accountDetails.classType.$error
+                      'is-invalid': $v.accountDetails.classType.$error,
                     }"
                     @blur="$v.accountDetails.classType.$touch()"
                   >
@@ -261,9 +261,9 @@ import {
   required,
   email,
   minLength,
-  maxLength
+  maxLength,
 } from "vuelidate/lib/validators";
-import { mapActions } from 'vuex';
+import { mapActions } from "vuex";
 import accountActions from "./../../configuration/actionNames/account-action";
 export default {
   data() {
@@ -274,7 +274,7 @@ export default {
         username: "",
         password: "",
         characterName: "",
-        classType: ""
+        classType: "",
       },
 
       selectedCharacterName: "",
@@ -285,8 +285,8 @@ export default {
         { characterId: 2, name: "2" },
         { characterId: 3, name: "3" },
         { characterId: 4, name: "4" },
-        { characterId: 5, name: "5" }
-      ]
+        { characterId: 5, name: "5" },
+      ],
     };
   },
   validations: {
@@ -298,20 +298,46 @@ export default {
       characterName: {
         required,
         minLength: minLength(6),
-        maxLength: maxLength(20)
+        maxLength: maxLength(20),
       },
-      classType: { required }
-    }
+      classType: { required },
+    },
   },
   methods: {
     register() {
       this.$v.$touch();
       if (!this.$v.$invalid) {
-        this.$store.dispatch(accountActions.register, this.accountDetails).then(res => {
+        this.$store
+          .dispatch(accountActions.register, this.accountDetails)
+          .then((res) => {
             console.log(res);
-        });
+          });
       }
-    }
-  }
+    },
+  },
 };
 </script>
+<style scoped>
+.imgbackground {
+  background: url("../../assets/backgrounds/splash-screen.gif");
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  width: 1280px;
+  min-height: 620px;
+  height: 100%;
+}
+
+.regsitration-box {
+  width: 300px;
+  min-height: 400px;
+  height: 30%;
+  background: rgba(216, 214, 214, 0.5);
+  color: #fff;
+  top: 50%;
+  left: 50%;
+  position: absolute;
+  transform: translate(-50%, -50%);
+  box-sizing: border-box;
+  padding: 10px 50px;
+}
+</style>

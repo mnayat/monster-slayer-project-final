@@ -6,6 +6,7 @@ import Character from '../views/character/Character.vue';
 import Inventory from '../views/character/Inventory.vue';
 import Skills from '../views/character/Skills.vue';
 import Dungeons from '../views/character/Dungeons.vue';
+import LayoutDefault from '../layouts/LayoutDefault.vue';
 import Battle from '../views/dungeons/battle.vue';
 
 Vue.use(VueRouter);
@@ -13,12 +14,14 @@ const routes = [
   {
     path: "/",
     name: "Login",
-    component: Login
+    component: Login,
+    meta: { layout: LayoutDefault }
   },
   {
     path: "/register",
     name: "Register",
-    component: Register
+    component: Register,
+    meta: { layout: LayoutDefault }
   },
   {
     path: "/character",

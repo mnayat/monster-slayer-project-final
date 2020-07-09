@@ -4,7 +4,8 @@ const pathNames = {
     character: '/character',
     inventory: '/inventory',
     skills: '/skills',
-    dungeons: '/dungeons'
+    dungeons: '/dungeons',
+    battle: '/battle'
 }
 
 export default pathNames;

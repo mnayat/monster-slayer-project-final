@@ -7,6 +7,8 @@ import Inventory from '../views/character/Inventory.vue';
 import Skills from '../views/character/Skills.vue';
 import Dungeons from '../views/character/Dungeons.vue';
 import LayoutDefault from '../layouts/LayoutDefault.vue';
+import Battle from '../views/dungeons/battle.vue';
+
 Vue.use(VueRouter);
 const routes = [
   {
@@ -47,7 +49,12 @@ const routes = [
     path: "/dungeons",
     name: "Dungeons",
     component: Dungeons
-  }
+  },
+  {
+    path: "/battle",
+    name: "Battle",
+    component: Battle
+  },
 ];
 
 export const router = new VueRouter({

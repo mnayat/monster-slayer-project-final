@@ -245,7 +245,6 @@ export default {
   },
   created() {
     this.showLoader = true;
-    console.log(this.$store.state.accountModule.player.accountId);
     this.$store
       .dispatch(
         characterActions.getCharacter,

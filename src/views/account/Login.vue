@@ -1,6 +1,6 @@
 <template>
 <div>
-  <!-- <loader v-if="showLoader" /> -->
+  <apploader  :showLoader="showLoader"/>
   <div class=" row login-box">
     <form novalidate>
           <div class="form-group">
@@ -77,9 +77,7 @@ import pathNames from "../../configuration/routerPath/pathNames";
 
 export default {
   name: "Login",
-  components: {
-    appLoader: loader,
-  },
+  
   mixins: [SessionMixin, RouterMixin],
   data() {
     return {

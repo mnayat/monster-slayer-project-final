@@ -1,13 +1,17 @@
 
 <template>
-  <div id="overlay">
+  <div id="overlay" v-if="showLoader">
     <div class="image-container">
       <img src="../../assets/loader/loading-black-bg.gif" alt="" />
     </div>
   </div>
 </template>
 <script>
-export default {};
+export default {
+  props:{
+    showLoader : Boolean
+  }
+};
 </script>
 <style scoped>
 #overlay {

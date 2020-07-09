@@ -11,11 +11,11 @@ import router from "./router";
 import store from "./store";
 import VueSession from 'vue-session';
 import ScrollBar from 'vue2-scrollbar'
-// import loader from "./components/common/Loader";
+ import apploader from "./components/common/Loader";
 
 library.add(fas);
 Vue.component('fa-icon', FontAwesomeIcon)
-// Vue.component('loader', loader)
+ Vue.component('apploader', apploader)
 
 Vue.use(VueSession);
 Vue.use(Vuelidate);

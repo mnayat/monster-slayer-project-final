@@ -1,13 +1,8 @@
 <template>
-  <div class="imgbackground">
-    <appLoader v-if="showLoader" />
-
-    <div v-if="showStart" class="container-fluid">
-      <div class=" row login-box"></div>
-    </div>
-    <div v-else class="container-fluid">
-      <div class=" row login-box">
-        <form novalidate>
+<div>
+  <!-- <loader v-if="showLoader" /> -->
+  <div class=" row login-box">
+    <form novalidate>
           <div class="form-group">
             <h5 class="card-title text-center">Login</h5>
             <hr />
@@ -63,11 +58,12 @@
             <fa-icon icon="user-plus"></fa-icon>
             Register
           </router-link>
-        </form>
-      </div>
-    </div>
+        </form>	
+
   </div>
-</template>
+
+</div>
+  </template>
 
 <script>
 import { required } from "vuelidate/lib/validators";
@@ -77,7 +73,7 @@ import RouterMixin from "../../mixins/router-mixin";
 import sessionKeys from "../../configuration/session/sessionKeys";
 import PathNames from "../../configuration/routerPath/pathNames";
 import pathNames from "../../configuration/routerPath/pathNames";
-import loader from "../../components/common/Loader";
+
 
 export default {
   name: "Login",
@@ -106,23 +102,22 @@ export default {
   },
   methods: {
     login() {
-    
+      
       this.$v.$touch();
       if (!this.$v.$invalid) {
+      
           this.showLoader = true;
         this.$store
           .dispatch(accountActions.login, this.account)
           .then((resp) => {
             var response = JSON.parse(resp);
             if (response.success) {
-              console.log(this.$store.getters);
               var getAccountid = this.$store.getters[
                 "accountModule/getAccountId"
               ];
               this.startSession();
               this.setSession(sessionKeys.account, getAccountid);
               this.showLoader = false;
-
               this.getCharacter(getAccountid);
               this.redirectTo(pathNames.character);
             } else {
@@ -151,48 +146,3 @@ export default {
 };
 </script>
 
-<style>
-p{
-  font-size:12px;
-}
-.imgbackground {
-  background: url("../../assets/backgrounds/splash-screen.gif");
-  background-repeat: no-repeat;
-  background-size: 100% 100%;
-  width: 1280px;
-  min-height: 620px;
-  height: 100%;
-}
-.custom-margin {
-  margin-top: 10vh;
-}
-.custom-border {
-  border: 5px solid rgba(255, 255, 255, 0.3);
-}
-
-.login-box {
-  width: 300px;
-  min-height: 400px;
-  height: 30%;
-  background: rgba(216, 214, 214, 0.5);
-  color: #fff;
-  top: 50%;
-  left: 50%;
-  position: absolute;
-  transform: translate(-50%, -50%);
-  box-sizing: border-box;
-  padding: 10px 50px;
-}
-.startgame-box {
-  width: 300px;
-  height: 400px;
-  background: rgba(216, 214, 214, 0.5);
-  color: #fff;
-  top: 50%;
-  left: 50%;
-  position: absolute;
-  transform: translate(-50%, -50%);
-  box-sizing: border-box;
-  padding: 10px 50px;
-}
-</style>

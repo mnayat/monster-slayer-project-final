@@ -155,8 +155,11 @@ import VueScrollbar from "vue2-scrollbar";
 import characters from "./../../scripts/characters.js";
 import Menu from "../Menu";
 import loader from "../../components/common/Loader";
+import SessionMixin from "../../mixins/session-mixin";
+import sessionKeys from "../../configuration/session/sessionKeys";
 
 export default {
+  mixins: [SessionMixin],
   components: { VueScrollbar, appMenu: Menu, appLoader: loader },
   data() {
     return {
@@ -200,7 +203,7 @@ export default {
     this.$store
       .dispatch(
         characterActions.getDungeons,
-        this.$store.state.accountModule.player.accountId
+        this.getSession(sessionKeys.character)
       )
       .then((res) => {
         this.dungeons = res.data;

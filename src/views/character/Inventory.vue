@@ -74,7 +74,6 @@
 </template>
 <script>
 import Menu from "../Menu";
-import Session from "../../configuration/session/sessionKeys";
 import SessionMixin from "../../mixins/session-mixin";
 import sessionKeys from "../../configuration/session/sessionKeys";
 import characterActions from "./../../configuration/actionNames/character-action";
@@ -102,10 +101,6 @@ export default {
         .dispatch(characterActions.getInventory, this.characterId)
         .then((res) => {
           this.inventory = this.$store.getters["characterModule/getInventory"];
-
-        })
-        .catch((res) => {
-          console.log(res);
         });
     },
     getDescription(itemId) {
@@ -118,9 +113,6 @@ export default {
         .then((res) => {
             this.character = this.$store.getters["characterModule/getCharacter"];
             console.log(this.character);
-        })
-        .catch((res) => {
-            console.log(res);
         });
     }
   }

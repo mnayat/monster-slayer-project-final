@@ -5,7 +5,7 @@ var characters =
   {
     id: 1,
     class: 'Saber',
-    img: require('../../src/assets/classes/saber.gif')
+    img: require('../../src/assets/classes/saber.gif'),
   },
   {
     id: 2,

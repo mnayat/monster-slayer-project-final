@@ -38,7 +38,9 @@ const routes = [
         name: 'Skills',
         component: Skills
       }
-    ]
+    ],
+    meta: { layout: LayoutDefault }
+
   },
   {
     path: '/character/inventory',

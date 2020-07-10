@@ -50,7 +50,7 @@
               Password is required!
             </p>
           </div>
-          <p v-if="error" class="error text-center">{{ errormessage }}</p>
+          <p v-if="errormessage != ''" class="error text-center">{{ errormessage }}</p>
           <button @click.prevent="login" class="btn btn-success mt-3 btn-block">
             <fa-icon icon="sign-in-alt"></fa-icon>Login
           </button>
@@ -89,7 +89,6 @@ export default {
       showLoader: false,
       showError: false,
       errormessage: "",
-      error: false,
     };
   },
   validations: {
@@ -100,29 +99,25 @@ export default {
   },
   methods: {
     login() {
-      
       this.$v.$touch();
       if (!this.$v.$invalid) {
-      
-          this.showLoader = true;
+        this.showLoader = true;
         this.$store
           .dispatch(accountActions.login, this.account)
           .then((resp) => {
-            var response = JSON.parse(resp);
-            if (response.success) {
+         
+            if (resp===true) {
               var getAccountid = this.$store.getters[
                 "accountModule/getAccountId"
               ];
               this.startSession();
               this.setSession(sessionKeys.account, getAccountid);
-              this.showLoader = false;
               this.getCharacter(getAccountid);
               this.redirectTo(pathNames.character);
             } else {
-              this.showLoader = false;
-              this.error = true;
-              this.errormessage = response.data.data.error;
+              this.errormessage = resp.data.error;
             }
+              this.showLoader = false;
           });
       }
     },

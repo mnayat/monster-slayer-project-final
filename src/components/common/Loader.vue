@@ -11,7 +11,7 @@ export default {
   props:{
     showLoader : Boolean
   }
-};
+};  
 </script>
 <style scoped>
 #overlay {

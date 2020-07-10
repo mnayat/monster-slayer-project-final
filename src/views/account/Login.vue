@@ -101,8 +101,7 @@ export default {
     login() {
       this.$v.$touch();
       if (!this.$v.$invalid) {
-      
-          this.showLoader = true;
+        this.showLoader = true;
         this.$store
           .dispatch(accountActions.login, this.account)
           .then((resp) => {

@@ -1,74 +1,69 @@
 <template>
-<div class="imgbackground">
-      <appLoader v-if="showLoader" />
+<div>
+  <apploader  :showLoader="showLoader"/>
+  <div class=" row login-box">
+    <form novalidate>
+          <div class="form-group">
+            <h5 class="card-title text-center">Login</h5>
+            <hr />
+            <fa-icon icon="user"></fa-icon
+            ><label for="username" class="pl-2 font-weight-bold"
+              >Username</label
+            >
+            <input
+              type="text"
+              class="form-control"
+              id="username"
+              placeholder="username "
+              v-model="account.username"
+              :class="{
+                'is-invalid': $v.account.username.$error,
+              }"
+              @blur="$v.account.username.$touch()"
+            />
+            <p
+              class="text-white text-left"
+              v-if="!$v.account.username.required && $v.account.username.$dirty"
+            >
+              Username is required!
+            </p>
+          </div>
+          <div class="form-group">
+            <fa-icon icon="key"></fa-icon
+            ><label for="pass" class="pl-2 font-weight-bold">Password</label>
+            <input
+              type="password"
+              class="form-control form-control-sm"
+              id="password"
+              autocomplete="on"
+              placeholder="Password"
+              v-model="account.password"
+              :class="{
+                'is-invalid': $v.account.password.$error,
+              }"
+              @blur="$v.account.password.$touch()"
+            />
+            <p
+              class="text-white text-left"
+              v-if="!$v.account.password.required && $v.account.password.$dirty"
+            >
+              Password is required!
+            </p>
+          </div>
+          <p v-if="errormessage != ''" class="error text-center">{{ errormessage }}</p>
+          <button @click.prevent="login" class="btn btn-success mt-3 btn-block">
+            <fa-icon icon="sign-in-alt"></fa-icon>Login
+          </button>
+          <router-link class="btn btn-success mt-3 btn-block  " to="/register">
+            <fa-icon icon="user-plus"></fa-icon>
+             Create Account
+          </router-link>
+        </form>
 
-  <div v-if="showStart" class="container-fluid">
-     <div class=" row login-box">
-
-    </div>
-  </div>
-  <div v-else class="container-fluid">
-    <div class=" row login-box">
-      <form novalidate>
-        <div class="form-group">
-          <h5 class="card-title text-center">Login</h5>
-          <hr />
-          <fa-icon icon="user"></fa-icon
-          ><label for="username" class="pl-2 font-weight-bold">Username</label>
-          <input
-            type="text"
-            class="form-control"
-            id="username"
-            placeholder="username "
-            v-model="account.username"
-            :class="{
-              'is-invalid': $v.account.username.$error
-            }"
-            @blur="$v.account.username.$touch()"
-          />
-          <p
-            class="text-white text-left"
-            v-if="!$v.account.username.required && $v.account.username.$dirty"
-          >
-            Username is required!
-          </p>
-        </div>
-        <div class="form-group">
-          <fa-icon icon="key"></fa-icon
-          ><label for="pass" class="pl-2 font-weight-bold">Password</label>
-          <input
-            type="password"
-            class="form-control form-control-sm"
-            id="password"
-            autocomplete="on"
-            placeholder="Password"
-            v-model="account.password"
-            :class="{
-              'is-invalid': $v.account.password.$error
-            }"
-            @blur="$v.account.password.$touch()"
-          />
-          <p
-            class="text-white text-left"
-            v-if="!$v.account.password.required && $v.account.password.$dirty"
-          >
-            Password is required!
-          </p>
-        </div>
-        <button @click.prevent="login" class="btn btn-success mt-3 btn-block">
-          <fa-icon icon="sign-in-alt"></fa-icon>Login
-        </button>
-        <router-link class="btn btn-success mt-3 btn-block  " to="/register">
-          <fa-icon icon="user-plus"></fa-icon>
-          Register
-        </router-link>
-      </form>
-    </div>
   </div>
 
 </div>
-
-</template>
+  </template>
 
 <script>
 import { required } from "vuelidate/lib/validators";
@@ -77,13 +72,10 @@ import SessionMixin from "../../mixins/session-mixin";
 import RouterMixin from "../../mixins/router-mixin";
 import sessionKeys from "../../configuration/session/sessionKeys";
 import PathNames from "../../configuration/routerPath/pathNames";
-import pathNames from '../../configuration/routerPath/pathNames';
-import loader from "../../components/common/Loader";
+import pathNames from "../../configuration/routerPath/pathNames";
 export default {
   name: "Login",
-    components: {
-    appLoader: loader
-  },
+
   mixins: [SessionMixin, RouterMixin],
   data() {
     return {
@@ -93,8 +85,8 @@ export default {
       },
       showStart: false,
       showLoader: false,
-      showError :false,
-      errorMessage:""
+      showError: false,
+      errormessage: "",
     };
   },
   validations: {
@@ -105,79 +97,42 @@ export default {
   },
   methods: {
     login() {
-      this.showLoader = true;
       this.$v.$touch();
       if (!this.$v.$invalid) {
+        this.showLoader = true;
         this.$store
           .dispatch(accountActions.login, this.account)
           .then((resp) => {
-            console.log(this.$store.getters);
-             var getAccountid = this.$store.getters['accountModule/getAccountId'];
-            this.startSession();
-            this.setSession(sessionKeys.account, getAccountid);
-             this.showLoader =false;
 
-            this.getCharacter(getAccountid);
-           this.redirectTo(pathNames.character);
-          })
-          .catch(() => {
-            // dapat maglagay ng invalid username or password.
+            if (resp===true) {
+              var getAccountid = this.$store.getters[
+                "accountModule/getAccountId"
+              ];
+              this.startSession();
+              this.setSession(sessionKeys.account, getAccountid);
+              this.getCharacter(getAccountid);
+              this.redirectTo(pathNames.character);
+            } else {
+              this.errormessage = resp.data.error;
+            }
+              this.showLoader = false;
           });
       }
     },
-     getCharacter(accountId) {
-
+    getCharacter(accountId) {
       this.$store
-          .dispatch(accountActions.character , accountId)
-          .then((resp) => {
-              console.log(this.$store.getters);
-            this.setSession(sessionKeys.character, this.$store.getters['accountModule/getCharacterId']);
-          })
-          .catch(() => {
-            // dapat maglagay ng invalid username or password.
-          });
-    }
-  }
+        .dispatch(accountActions.character, accountId)
+        .then((resp) => {
+          console.log(this.$store.getters);
+          this.setSession(
+            sessionKeys.character,
+            this.$store.getters["accountModule/getCharacterId"]
+          );
+        })
+        .catch(() => {
+          // dapat maglagay ng invalid username or password.
+        });
+    },
+  },
 };
 </script>
-
-<style>
-.imgbackground {
-  background: url("../../assets/backgrounds/splash-screen.gif");
-  background-repeat: no-repeat;
-  background-size: 100% 100%;
-  width: 1280px;
-  min-height: 620px;
-  height: 100%;
-}
-.custom-margin {
-  margin-top: 10vh;
-}
-.custom-border {
-  border: 5px solid rgba(255, 255, 255, 0.3);
-}
-.login-box {
-  width: 300px;
-  height: 400px;
-  background: rgba(216, 214, 214, 0.5);
-  color: #fff;
-  top: 50%;
-  left: 50%;
-  position: absolute;
-  transform: translate(-50%, -50%);
-  box-sizing: border-box;
-  padding: 10px 50px;
-}
-.startgame-box {
-  width: 300px;
-  height: 400px;
-  background: rgba(216, 214, 214, 0.5);
-  color: #fff;
-  top: 50%;
-  left: 50%;
-  position: absolute;
-  transform: translate(-50%, -50%);
-  box-sizing: border-box;
-  padding: 10px 50px;
-}
-</style>

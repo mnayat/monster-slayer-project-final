@@ -56,7 +56,7 @@
           </button>
           <router-link class="btn btn-success mt-3 btn-block  " to="/register">
             <fa-icon icon="user-plus"></fa-icon>
-            Register
+             Create Account
           </router-link>
         </form>	
 

@@ -3,14 +3,11 @@
  <component :is="this.$route.meta.layout || 'div'">
       <router-view />
     </component>
-    
+
   </div>
 </template>
 <script>
-
-export default {
-
-};
+export default {};
 </script>
 <style>
 div {
@@ -69,16 +66,16 @@ div {
 }
 
 .svg-fill {
-    fill: currentColor;
-    stroke: none;
+  fill: currentColor;
+  stroke: none;
 }
 .svg-icon {
-    display: inline-block;
-    width: 16px;
-    height: 16px;
-    color: inherit;
-    vertical-align: middle;
-    fill: none;
-    stroke: currentColor;
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  color: inherit;
+  vertical-align: middle;
+  fill: none;
+  stroke: currentColor;
 }
 </style>

@@ -8,7 +8,7 @@ const state = {
 };
 
 const mutations = {
-    setCharacter(state, character){
+    setCharacter(state, character) {
         state.character = character
     },
     setDungeons(state, dungeons) {
@@ -36,6 +36,7 @@ const actions = {
         return HTTP.get(character(payload).getCharacter)
             .then(resp => {
                 commit('setCharacter', resp.data);
+                console.log(resp.data);
                 return resp;
             })
             .catch(err => {
@@ -60,6 +61,17 @@ const actions = {
             })
             .catch(err => {
                 return err.response
+            })
+    },
+    updateInventoryAsync({ dispatch }, payload) {
+        return HTTP.put(character(payload.characterId).updateCharacterEquipement, payload.request)
+            .then(resp => {
+                dispatch("getInventoryAsync", payload.characterId);
+                console.log(resp);
+                return true;
+            })
+            .catch(err => {
+                return err.response;
             })
     }
 }

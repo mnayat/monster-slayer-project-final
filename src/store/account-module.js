@@ -37,7 +37,7 @@ const actions = {
             })
             .catch(err => {
                 console.log(err.response)
-               return  err.response 
+               return  err.response
             });
     },
     registerAsync({ commit }, payload) {
@@ -50,10 +50,8 @@ const actions = {
             })
     },
     characterAsync({ commit }, payload) {
-    
         return HTTP.get(characterAccountUrl(payload).character)
             .then(resp => {
-                console.log( resp)
                 commit('setCharacterId', resp.data._id);
                 return resp;
             })

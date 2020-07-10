@@ -58,7 +58,7 @@
             <fa-icon icon="user-plus"></fa-icon>
              Create Account
           </router-link>
-        </form>	
+        </form>
 
   </div>
 
@@ -73,11 +73,9 @@ import RouterMixin from "../../mixins/router-mixin";
 import sessionKeys from "../../configuration/session/sessionKeys";
 import PathNames from "../../configuration/routerPath/pathNames";
 import pathNames from "../../configuration/routerPath/pathNames";
-
-
 export default {
   name: "Login",
-  
+
   mixins: [SessionMixin, RouterMixin],
   data() {
     return {
@@ -105,7 +103,7 @@ export default {
         this.$store
           .dispatch(accountActions.login, this.account)
           .then((resp) => {
-         
+
             if (resp===true) {
               var getAccountid = this.$store.getters[
                 "accountModule/getAccountId"
@@ -138,4 +136,3 @@ export default {
   },
 };
 </script>
-

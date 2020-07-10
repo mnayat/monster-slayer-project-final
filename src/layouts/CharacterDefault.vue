@@ -1,50 +1,55 @@
 <template>
-  <div class="CharacterDefault">
-    <div class="nav">
-      <!-- <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link> -->
-    <p>CharacterDefault</p>
-    </div>
-    <div class="main">
-      <slot/>
-    </div>
-    <div class="footer">
-      &copy; Awesome Company
+  <div class="app-container">
+  
+    <div class="container-fluid app-base-layout">
+        <app-menu></app-menu>
+        <div class="box">
+           <slot />
+        </div>
+        
     </div>
   </div>
 </template>
 
 <script>
+import Menu from "../views/Menu";
 export default {
-  name: `CharacterDefault`,
-}
-
+  name: "LayoutDefault",
+    components: {
+    appMenu: Menu
+  },
+};
 </script>
-
-<style>
-.LayoutDefault {
-  max-width: 42em;
-  margin-right: auto;
-  margin-left: auto;
-  padding-right: 1em;
-  padding-left: 1em;
- 
+<style scoped>
+p{
+  font-size:12px;
 }
-.nav {
-    padding-top: 1em;
-    padding-bottom: 1em;
-    border-bottom: 1px solid #c0c0c0;
-  }
- .user {
-    float: right;
-  }
-.main {
-    padding-top: 1.5em;
-    padding-bottom: 2em;
-  }
- .footer {
-    padding-top: 1em;
-    padding-bottom: 1em;
-    border-top: 1px solid #c0c0c0;
-  }
+.app-container {
+  background: url("../assets/backgrounds/character-bg.jpg");
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  min-width: 800px;
+  min-height: 620px;
+  height: 100%;
+}
+.app-base-layout {
+  width: 800px;
+  min-height: 610px;
+  color: gold;
+  margin: auto;
+}
+.box {
+    width: 800px;
+    min-height: 500px;
+    height: 30%;
+    background: rgba(216, 214, 214, 0.5);
+    color: #fff;
+    top: 50%;
+    left: 50%;
+    position: absolute;
+    transform: translate(-50%, -50%);
+    box-sizing: border-box;
+    padding: 10px 50px;
+
+}
 </style>

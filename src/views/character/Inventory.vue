@@ -1,5 +1,5 @@
 <template>
-  <div class="app-container">
+  <div class="">
     <div class="app-base-layout">
       <app-menu></app-menu>
       <div class="app-header row nomargin">

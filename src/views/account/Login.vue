@@ -1,13 +1,6 @@
 <template>
-<div class="imgbackground">
-      <appLoader v-if="showLoader" />
-
-  <div v-if="showStart" class="container-fluid">
-     <div class=" row login-box">
-
-    </div>
-  </div>
-  <div v-else class="container-fluid">
+  <div>
+    <apploader :showLoader="showLoader" />
     <div class=" row login-box">
       <form novalidate>
         <div class="form-group">
@@ -55,6 +48,7 @@
             Password is required!
           </p>
         </div>
+        <p v-if="error" class="error text-center">{{ errormessage }}</p>
         <button @click.prevent="login" class="btn btn-success mt-3 btn-block">
           <fa-icon icon="sign-in-alt"></fa-icon>Login
         </button>
@@ -65,9 +59,6 @@
       </form>
     </div>
   </div>
-
-</div>
-
 </template>
 
 <script>
@@ -77,6 +68,7 @@ import SessionMixin from "../../mixins/session-mixin";
 import RouterMixin from "../../mixins/router-mixin";
 import sessionKeys from "../../configuration/session/sessionKeys";
 import PathNames from "../../configuration/routerPath/pathNames";
+<<<<<<< Updated upstream
 import pathNames from '../../configuration/routerPath/pathNames';
 import loader from "../../components/common/Loader";
 
@@ -85,22 +77,36 @@ export default {
     components: {
     appLoader: loader
   },
+=======
+import pathNames from "../../configuration/routerPath/pathNames";
+
+export default {
+  name: "Login",
+
+>>>>>>> Stashed changes
   mixins: [SessionMixin, RouterMixin],
   data() {
     return {
       account: {
         username: "",
-        password: "",
+        password: ""
       },
       showStart: false,
       showLoader: false,
+<<<<<<< Updated upstream
       showError :false,
       errorMessage:""
+=======
+      showError: false,
+      errormessage: "",
+      error: false
+>>>>>>> Stashed changes
     };
   },
   validations: {
     account: {
       username: { required },
+<<<<<<< Updated upstream
       password: { required },
     },
 
@@ -110,6 +116,16 @@ export default {
       this.showLoader = true;
       this.$v.$touch();
       if (!this.$v.$invalid) {
+=======
+      password: { required }
+    }
+  },
+  methods: {
+    login() {
+      this.$v.$touch();
+      if (!this.$v.$invalid) {
+        this.showLoader = true;
+>>>>>>> Stashed changes
         this.$store
           .dispatch(accountActions.login, this.account)
           .then((resp) => {
@@ -118,7 +134,7 @@ export default {
             this.startSession();
             this.setSession(sessionKeys.account, getAccountid);
              this.showLoader =false;
-            
+
             this.getCharacter(getAccountid);
            this.redirectTo(pathNames.character);
           })
@@ -129,8 +145,9 @@ export default {
       }
     },
      getCharacter(accountId) {
-     
+
       this.$store
+<<<<<<< Updated upstream
           .dispatch(accountActions.character , accountId)
           .then((resp) => {
               console.log(this.$store.getters);
@@ -140,10 +157,23 @@ export default {
             // dapat maglagay ng invalid username or password.
 
           });
+=======
+        .dispatch(accountActions.character, accountId)
+        .then((resp) => {
+          this.setSession(
+            sessionKeys.character,
+            this.$store.getters["accountModule/getCharacterId"]
+          );
+        })
+        .catch(() => {
+          // dapat maglagay ng invalid username or password.
+        });
+>>>>>>> Stashed changes
     }
   }
 };
 </script>
+<<<<<<< Updated upstream
 
 <style>
 .imgbackground {
@@ -188,3 +218,5 @@ export default {
 }
 
 </style>
+=======
+>>>>>>> Stashed changes

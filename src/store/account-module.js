@@ -31,7 +31,6 @@ const actions = {
     loginAsync({ commit }, payload) {
         return HTTP.post(account.login, payload)
             .then(resp => {
-                console.log(resp.data.accountId);
                 commit('setAccountId', resp.data.accountId);
                 return resp;
             })
@@ -49,10 +48,8 @@ const actions = {
             })
     },
     characterAsync({ commit }, payload) {
-    
         return HTTP.get(characterAccountUrl(payload).character)
             .then(resp => {
-                console.log( resp)
                 commit('setCharacterId', resp.data._id);
                 return resp;
             })

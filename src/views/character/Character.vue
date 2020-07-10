@@ -251,9 +251,7 @@ export default {
         this.getSession(sessionKeys.character)
       )
       .then((res) => {
-        console.log(res);
         this.characterDetails = res.data;
-        console.log(this.characterDetails);
         this.characterClass = characters.getCharacterClass(
           this.characterDetails.classType
         );
@@ -269,7 +267,6 @@ export default {
         this.skillImg.skill1 = characters.getSkill(
           this.characterDetails.skills[0]._id
         );
-        console.log(this.skillImg.skill1);
         this.computeBonusStats();
         this.showLoader = false;
       });

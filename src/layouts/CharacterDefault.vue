@@ -39,16 +39,17 @@ p{
   margin: auto;
 }
 .box {
-  width:800px;
-  min-height: 400px;
-  height: 30%;
-  background: rgba(216, 214, 214, 0.5);
-  color: #fff;
-  top: 50%;
-  left: 50%;
-  position: absolute;
-  transform: translate(-50%, -50%);
-  box-sizing: border-box;
-  padding: 10px 50px;
+    width: 800px;
+    min-height: 500px;
+    height: 30%;
+    background: rgba(216, 214, 214, 0.5);
+    color: #fff;
+    top: 50%;
+    left: 50%;
+    position: absolute;
+    transform: translate(-50%, -50%);
+    box-sizing: border-box;
+    padding: 10px 50px;
+
 }
 </style>

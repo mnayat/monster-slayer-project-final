@@ -30,13 +30,13 @@ const getters = {
 const actions = {
     loginAsync({ commit }, payload) {
         return HTTP.post(account.login, payload)
-            .then(resp => {
-                console.log(resp.data.accountId);
-                commit('setAccountId', resp.data.accountId);
-            
+            .then(resp => resp.data.accountId
+            ).then((resp) => {
+                commit('setAccountId', resp);
                 return true;
             })
             .catch(err => {
+                console.log(err.response)
                return  err.response 
             });
     },

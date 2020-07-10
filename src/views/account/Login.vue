@@ -99,7 +99,6 @@ export default {
   },
   methods: {
     login() {
-      
       this.$v.$touch();
       if (!this.$v.$invalid) {
       
@@ -107,7 +106,8 @@ export default {
         this.$store
           .dispatch(accountActions.login, this.account)
           .then((resp) => {
-            if (resp) {
+         
+            if (resp===true) {
               var getAccountid = this.$store.getters[
                 "accountModule/getAccountId"
               ];
@@ -116,7 +116,7 @@ export default {
               this.getCharacter(getAccountid);
               this.redirectTo(pathNames.character);
             } else {
-              this.errormessage = response.data.data.error;
+              this.errormessage = resp.data.error;
             }
               this.showLoader = false;
           });

@@ -17,17 +17,7 @@
 <script>
 export default {
   name: `CharacterDefault`,
-//   data() {
-//     return {
-//       user: null,
-//     };
-  }
-//   created() {
-//     // Simulate fetching user data.
-//     setTimeout(() => {
-//       this.user = { name: `John Doe` };
-//     }, 2000);
-//   },
+
 
 </script>
 

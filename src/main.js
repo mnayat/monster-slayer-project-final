@@ -11,7 +11,7 @@ import router from "./router";
 import store from "./store";
 import VueSession from 'vue-session';
 import ScrollBar from 'vue2-scrollbar'
- import apploader from "./components/common/Loader";
+import apploader from "./components/common/Loader";
 
 library.add(fas);
 Vue.component('fa-icon', FontAwesomeIcon)
@@ -22,11 +22,11 @@ Vue.use(Vuelidate);
 Vue.use(ScrollBar);
 
 Vue.config.productionTip = false;
-Vue.mixin({
-  created() {
-    console.log('[created] ' + this.$options.name)
-  },
-});
+// Vue.mixin({
+//   created() {
+//     console.log('[created] ' + this.$options.name)
+//   },
+// });
 
 new Vue({
   router,

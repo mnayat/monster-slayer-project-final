@@ -33,12 +33,11 @@ const actions = {
             .then(resp => {
                 console.log(resp.data.accountId);
                 commit('setAccountId', resp.data.accountId);
-                let response = { success: true,  data:resp }
-                return JSON.stringify(response);
+            
+                return true;
             })
             .catch(err => {
-               let response = {success:  false, data: err.response }
-               return JSON.stringify(response);
+               return  err.response 
             });
     },
     registerAsync({ commit }, payload) {

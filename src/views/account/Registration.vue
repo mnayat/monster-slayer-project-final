@@ -260,7 +260,7 @@ import {
 } from "vuelidate/lib/validators";
 import { mapActions } from "vuex";
 import accountActions from "./../../configuration/actionNames/account-action";
-import characters from "./../../scripts/character1.js";
+import baseCharacter from "./../../scripts/character1.js";
 export default {
   data() {
     return {
@@ -276,13 +276,7 @@ export default {
       selectedCharacterName: "",
       selectedCharacterImage: "",
       selectedCharacter: '',
-      characters: [
-        { characterId: 1, name: "1" },
-        { characterId: 2, name: "2" },
-        { characterId: 3, name: "3" },
-        { characterId: 4, name: "4" },
-        { characterId: 5, name: "5" },
-      ],
+      characters: baseCharacter
     };
   },
   validations: {

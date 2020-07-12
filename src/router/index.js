@@ -25,27 +25,23 @@ const routes = [
     meta: { layout: LayoutDefault }
   },
   {
-    path: "/character/",
+    path: "/character",
     name: "Character",
     component: Character1,
-    children: [
-      {
-        path: 'inventory',
-        name: 'Inventory',
-        component: Inventory,
-        meta: { layout: CharacterDefault }
-      },
-      {
-        path: '/skills',
-        name: 'Skills',
-        component: Skills,
-        meta: { layout: CharacterDefault }
-      }
-    ],
     meta: { layout: CharacterDefault }
-
   },
- 
+  {
+    path: '/character/inventory',
+    name: 'Inventory',
+    component: Inventory,
+    meta: { layout: CharacterDefault }
+  },
+  {
+    path: '/character/skills',
+    name: 'Skills',
+    component: Skills,
+    meta: { layout: CharacterDefault }
+  },
   {
     path: "/dungeons",
     name: "Dungeons",

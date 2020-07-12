@@ -1,9 +1,7 @@
 <template>
   <div>
      <router-view/>
-     <div>
-         Data goes here
-     </div>
+    
   </div>
 </template>
 

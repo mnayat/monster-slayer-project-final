@@ -1,12 +1,10 @@
 <template>
   <div class="app-container">
-  
     <div class="container-fluid app-base-layout">
-        <app-menu></app-menu>
-        <div>
-           <slot />
-        </div>
-        
+      <app-menu></app-menu>
+      <div>
+        <slot />
+      </div>
     </div>
   </div>
 </template>
@@ -15,14 +13,14 @@
 import Menu from "../views/Menu";
 export default {
   name: "LayoutDefault",
-    components: {
-    appMenu: Menu
+  components: {
+    appMenu: Menu,
   },
 };
 </script>
-<style scoped>
-p{
-  font-size:12px;
+<style>
+p {
+  font-size: 12px;
 }
 .app-container {
   background: url("../assets/backgrounds/character-bg.jpg");
@@ -39,7 +37,8 @@ p{
   margin: auto;
 }
 .box {
-    width: 800px;
+    margin-top: 30px;
+    width: 1000px;
     min-height: 500px;
     height: 30%;
     background: rgba(216, 214, 214, 0.5);
@@ -49,7 +48,19 @@ p{
     position: absolute;
     transform: translate(-50%, -50%);
     box-sizing: border-box;
-    padding: 10px 50px;
-
+    padding: 24px 50px;
+}
+.panel {
+  padding: 15px;
+  border: 1px solid #ffffff;
+  border-radius: 8px;
+  height: 450px;
+  overflow-x:auto;
+}
+.item-panel {
+  border: 1px solid #ffffff;
+  border-radius: 8px;
+  height: 150px;
+  overflow-x:auto;
 }
 </style>

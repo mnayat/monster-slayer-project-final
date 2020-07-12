@@ -36,8 +36,7 @@ const actions = {
                 return true;
             })
             .catch(err => {
-                console.log(err.response)
-               return  err.response
+                return err.response
             });
     },
     registerAsync({ commit }, payload) {

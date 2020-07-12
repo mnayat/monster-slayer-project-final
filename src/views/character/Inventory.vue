@@ -1,10 +1,10 @@
 <template>
-  <div class="">
-    <div class="app-base-layout">
-      <app-menu></app-menu>
-      <div class="app-header row nomargin">
+  <!-- <div class="">
+     <div class="text-center">inventory</div>
+    <div class="row box">
+      <div class="">
         <div class="col-sm-2"></div>
-        <div class="col-sm-8">Inventory</div>
+       
         <div class="col-sm-2"></div>
       </div>
       <div class="app-body">
@@ -96,6 +96,103 @@
         </div>
       </div>
     </div>
+  </div> -->
+  <div>
+    <div class="text-center">Inventory</div>
+    <div class="row box">
+      <div class="col-sm-8">
+        <div class="panel">
+          <div class="card">
+            <div class="card-body">
+              <div class="row">
+                <div
+                  class="col-md-6"
+                  v-for="(item, i) in inventory"
+                  :key="i"
+                  style="padding-top:5px;"
+                >
+                  <button
+                    class="btn btn-primary btn-sm btn-block"
+                    @click="getDescription(item._id)"
+                  >
+                    {{ item.item.name }}
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-4">
+        <div class="item-panel">
+          <div class="card">
+            <div class="card-body">
+              <p class="card-title text-center">Selected Item</p>
+              <h6 class="card-subtitle mb-2 text-muted">
+                {{ selectedItem.name }}
+              </h6>
+              <div class="row">
+                <div
+                  class="col-md-6 text-uppercase"
+                  v-for="(bonus, i) in selectedItem.bonus"
+                  :key="i"
+                >
+                  <div class="row">
+                    <div class="col-md-7">
+                     <p>{{ i }}</p> 
+                    </div>
+                    <div class="col-md-5 text-right">
+                     <p>{{ bonus }}</p> 
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+          <div class="item-panel">
+            <div class="card">
+              <div class="card-body">
+                   <p class="card-title text-center">  Current Item - Description</p>
+                <h6 class="card-subtitle mb-2 text-muted">
+                  {{ currentItem.name }}
+                </h6>
+                <div class="row">
+                  <div
+                    class="col-md-6 text-uppercase"
+                    v-for="(bonus, i) in currentItem.bonus"
+                    :key="i"
+                  >
+                    <div class="row">
+                      <div class="col-md-7">
+                       <p>{{ i }} </p> 
+                      </div>
+                      <div class="col-md-5 text-right">
+                       <p> {{ bonus }}</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+        </div>
+        <div class="item-panel-button">
+           <button
+              class="btn btn-success btn-block btn-sm"
+              :disabled="!this.isSameClass"
+              @click="equipItem()"
+            >
+              Equip
+            </button>
+            <button
+              class="btn btn-success btn-block btn-sm"
+              @click="updateInventory()"
+            >
+              Save
+            </button>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 <script>
@@ -105,9 +202,6 @@ import sessionKeys from "../../configuration/session/sessionKeys";
 import characterActions from "./../../configuration/actionNames/character-action";
 export default {
   mixins: [SessionMixin],
-  components: {
-    appMenu: Menu
-  },
   data() {
     return {
       characterId: "",
@@ -120,9 +214,9 @@ export default {
         characterId: "",
         request: {
           weaponId: "",
-          armorId: ""
-        }
-      }
+          armorId: "",
+        },
+      },
     };
   },
   created() {
@@ -183,13 +277,13 @@ export default {
         .then((res) => {
           console.log(this.character);
         });
-    }
+    },
   },
   computed: {
     character() {
       return this.$store.getters["characterModule/getCharacter"];
-    }
-  }
+    },
+  },
 };
 </script>
 <style>

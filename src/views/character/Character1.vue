@@ -1,6 +1,6 @@
 <template>
   <div>
-    <router-view />
+   
     <div class="text-center">Character Status</div>
     <div class="row box">
       <div class="col-sm-3">

@@ -1,13 +1,16 @@
 <template>
-  <div align="center" class=" imgbackground registration-box">
+  <div align="center" class="imgbackground registration-box">
+    <apploader :showLoader="showLoader"></apploader>
     <div class="card" style="width: 60rem;">
       <div class="card-body">
-        <h5 class="card-title">Registration</h5>
+        <h4 class="card-title text-white">
+          <b>Registration</b>
+        </h4>
         <form novalidate class="form-horizontal">
           <div class="row">
             <div class="col-md-6">
               <div class="form-group row">
-                <label for="fullName" class="col-sm-3"
+                <label for="fullName" class="col-sm-3 text-white text-left"
                   ><b> Full Name:</b>
                 </label>
                 <div class="col-sm-9">
@@ -21,7 +24,7 @@
                     @blur="$v.accountDetails.fullName.$touch()"
                   />
                   <p
-                    class="text-danger text-left"
+                    class="text-white text-left"
                     v-if="
                       !$v.accountDetails.fullName.required &&
                         $v.accountDetails.fullName.$dirty
@@ -33,7 +36,9 @@
               </div>
 
               <div class="form-group row">
-                <label for="email" class="col-sm-3"><b> Email: </b> </label>
+                <label for="email" class="col-sm-3 text-white text-left"
+                  ><b> Email: </b>
+                </label>
                 <div class="col-sm-9">
                   <input
                     type="text"
@@ -45,7 +50,7 @@
                     @blur="$v.accountDetails.email.$touch()"
                   />
                   <p
-                    class="text-danger text-left"
+                    class="text-white text-left"
                     v-if="
                       !$v.accountDetails.email.required &&
                         $v.accountDetails.email.$dirty
@@ -54,7 +59,7 @@
                     Email is required!
                   </p>
                   <p
-                    class="text-danger text-left"
+                    class="text-white text-left"
                     v-if="
                       !$v.accountDetails.email.email &&
                         $v.accountDetails.email.required &&
@@ -66,7 +71,7 @@
                 </div>
               </div>
               <div class="form-group row">
-                <label for="username" class="col-sm-3"
+                <label for="username" class="col-sm-3 text-white text-left"
                   ><b> Username: </b>
                 </label>
                 <div class="col-sm-9">
@@ -80,7 +85,7 @@
                     @blur="$v.accountDetails.username.$touch()"
                   />
                   <p
-                    class="text-danger text-left"
+                    class="text-white text-left"
                     v-if="
                       !$v.accountDetails.username.required &&
                         $v.accountDetails.username.$dirty
@@ -89,7 +94,7 @@
                     User Name is required!
                   </p>
                   <p
-                    class="text-danger text-left"
+                    class="text-white text-left"
                     v-if="
                       !$v.accountDetails.username.minLength &&
                         $v.accountDetails.username.required &&
@@ -103,7 +108,7 @@
                 </div>
               </div>
               <div class="form-group row">
-                <label for="password" class="col-sm-3"
+                <label for="password" class="col-sm-3 text-white text-left"
                   ><b> Password: </b>
                 </label>
                 <div class="col-sm-9">
@@ -118,7 +123,7 @@
                     @blur="$v.accountDetails.password.$touch()"
                   />
                   <p
-                    class="text-danger text-left"
+                    class="text-white text-left"
                     v-if="
                       !$v.accountDetails.password.required &&
                         $v.accountDetails.password.$dirty
@@ -127,7 +132,7 @@
                     Password is required!
                   </p>
                   <p
-                    class="text-danger text-left"
+                    class="text-white text-left"
                     v-if="
                       !$v.accountDetails.password.minLength &&
                         $v.accountDetails.password.required &&
@@ -142,7 +147,7 @@
               </div>
               <hr />
               <div class="form-group row">
-                <label for="characterName" class="col-sm-3"
+                <label for="characterName" class="col-sm-3 text-white text-left"
                   ><b> Alias: </b>
                 </label>
                 <div class="col-sm-9">
@@ -153,12 +158,12 @@
                     placeholder="Alias"
                     v-model.lazy="accountDetails.characterName"
                     :class="{
-                      'is-invalid': $v.accountDetails.characterName.$error,
+                      'is-invalid': $v.accountDetails.characterName.$error
                     }"
                     @blur="$v.accountDetails.characterName.$touch()"
                   />
                   <p
-                    class="text-danger text-left"
+                    class="text-white text-left"
                     v-if="
                       !$v.accountDetails.characterName.required &&
                         $v.accountDetails.characterName.$dirty
@@ -167,7 +172,7 @@
                     Alias is required!
                   </p>
                   <p
-                    class="text-danger text-left"
+                    class="text-white text-left"
                     v-if="
                       !$v.accountDetails.characterName.minLength &&
                         $v.accountDetails.characterName.required &&
@@ -179,7 +184,7 @@
                     characters!
                   </p>
                   <p
-                    class="text-danger text-left"
+                    class="text-white text-left"
                     v-if="
                       !$v.accountDetails.characterName.maxLength &&
                         $v.accountDetails.characterName.required &&
@@ -195,7 +200,7 @@
               </div>
 
               <div class="form-group row">
-                <label for="characters" class="col-sm-3"
+                <label for="characters" class="col-sm-3 text-white text-left"
                   ><b> Character: </b>
                 </label>
                 <div class="col-sm-9">
@@ -204,7 +209,7 @@
                     id="characters"
                     v-model="accountDetails.classType"
                     :class="{
-                      'is-invalid': $v.accountDetails.classType.$error,
+                      'is-invalid': $v.accountDetails.classType.$error
                     }"
                     @blur="$v.accountDetails.classType.$touch()"
                   >
@@ -217,7 +222,7 @@
                     </option>
                   </select>
                   <p
-                    class="text-danger text-left"
+                    class="text-white text-left"
                     v-if="
                       !$v.accountDetails.classType.required &&
                         $v.accountDetails.classType.$dirty
@@ -228,6 +233,33 @@
                 </div>
               </div>
             </div>
+            <div class="col-md-6" v-if="selectedCharacter !== undefined">
+              <div class="alert alert-success" role="alert">
+                {{ selectedCharacter.description }}
+              </div>
+              <div class="row">
+                <div class="col-md-6">
+                  <img :src="selectedCharacter.img" />
+                </div>
+
+                <div class="col-md-6">
+                  <div
+                    v-for="(attribute, i) in selectedCharacter.attributes"
+                    :key="i"
+                    style="padding-bottom:10px;"
+                  >
+                    <p class="text-white text-left">
+                      <b>
+                        {{ attribute.attribute }}
+                      </b>
+                    </p>
+                    <app-progress-bar
+                      :percentage="attribute.level"
+                    ></app-progress-bar>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
           <div class="row">
             <div class="col-md-6">
@@ -235,9 +267,9 @@
                 class="btn btn-success btn-block"
                 @click.prevent="register()"
               >
-                Register
+                <fa-icon icon="save"></fa-icon>
+                Save
               </button>
-           
             </div>
             <div class="col-md-6">
               <router-link class="btn btn-primary btn-block" to="/">
@@ -256,12 +288,16 @@ import {
   required,
   email,
   minLength,
-  maxLength,
+  maxLength
 } from "vuelidate/lib/validators";
 import { mapActions } from "vuex";
 import accountActions from "./../../configuration/actionNames/account-action";
 import baseCharacter from "./../../scripts/character1.js";
+import ProgressBar from "../../components/common/ProgressBar";
 export default {
+  components: {
+    appProgressBar: ProgressBar
+  },
   data() {
     return {
       accountDetails: {
@@ -270,13 +306,10 @@ export default {
         username: "",
         password: "",
         characterName: "",
-        classType: "",
+        classType: ""
       },
-
-      selectedCharacterName: "",
-      selectedCharacterImage: "",
-      selectedCharacter: '',
-      characters: baseCharacter
+      characters: baseCharacter,
+      showLoader: false
     };
   },
   validations: {
@@ -288,23 +321,33 @@ export default {
       characterName: {
         required,
         minLength: minLength(6),
-        maxLength: maxLength(20),
+        maxLength: maxLength(20)
       },
-      classType: { required },
-    },
+      classType: { required }
+    }
   },
   methods: {
     register() {
       this.$v.$touch();
       if (!this.$v.$invalid) {
+        this.showLoader = !this.showLoader;
         this.$store
           .dispatch(accountActions.register, this.accountDetails)
           .then((res) => {
-            console.log(res);
+            alert("Registered Successfully.");
+            this.showLoader = !this.showLoader;
+            this.$router.push('/');
           });
       }
-    },
+    }
   },
+  computed: {
+    selectedCharacter() {
+      return this.characters.find(
+        (x) => x.characterId === this.accountDetails.classType
+      );
+    }
+  }
 };
 </script>
 <style scoped>
@@ -315,6 +358,7 @@ export default {
   width: 1280px;
   min-height: 620px;
   height: 100%;
+  padding-top: 50px;
 }
 
 .regsitration-box {

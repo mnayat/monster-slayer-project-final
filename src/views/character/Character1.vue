@@ -13,7 +13,7 @@
         </div>
       </div>
       <div class="col-sm-9">
-        <div class="panel">
+        <div class="item-panel">
           test panel  
         </div>
       </div>

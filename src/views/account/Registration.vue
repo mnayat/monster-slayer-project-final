@@ -1,284 +1,296 @@
 <template>
-  <div align="center" class="imgbackground registration-box">
+  <div>
     <apploader :showLoader="showLoader"></apploader>
-    <div class="card" style="width: 60rem;">
-      <div class="card-body">
-        <h4 class="card-title text-white">
-          <b>Registration</b>
-        </h4>
-        <form novalidate class="form-horizontal">
-          <div class="row">
-            <div class="col-md-6">
-              <div class="form-group row">
-                <label for="fullName" class="col-sm-3 text-white text-left"
-                  ><b> Full Name:</b>
-                </label>
-                <div class="col-sm-9">
-                  <input
-                    type="text"
-                    class="form-control form-control-sm"
-                    id="fullName"
-                    placeholder="Full Name"
-                    v-model.lazy="accountDetails.fullName"
-                    :class="{ 'is-invalid': $v.accountDetails.fullName.$error }"
-                    @blur="$v.accountDetails.fullName.$touch()"
-                  />
-                  <p
-                    class="text-white text-left"
-                    v-if="
-                      !$v.accountDetails.fullName.required &&
-                        $v.accountDetails.fullName.$dirty
-                    "
-                  >
-                    Full Name is required!
-                  </p>
-                </div>
-              </div>
-
-              <div class="form-group row">
-                <label for="email" class="col-sm-3 text-white text-left"
-                  ><b> Email: </b>
-                </label>
-                <div class="col-sm-9">
-                  <input
-                    type="text"
-                    class="form-control form-control-sm "
-                    id="email"
-                    placeholder="Email"
-                    v-model.lazy="accountDetails.email"
-                    :class="{ 'is-invalid': $v.accountDetails.email.$error }"
-                    @blur="$v.accountDetails.email.$touch()"
-                  />
-                  <p
-                    class="text-white text-left"
-                    v-if="
-                      !$v.accountDetails.email.required &&
-                        $v.accountDetails.email.$dirty
-                    "
-                  >
-                    Email is required!
-                  </p>
-                  <p
-                    class="text-white text-left"
-                    v-if="
-                      !$v.accountDetails.email.email &&
-                        $v.accountDetails.email.required &&
-                        $v.accountDetails.email.$dirty
-                    "
-                  >
-                    Invalid email!
-                  </p>
-                </div>
-              </div>
-              <div class="form-group row">
-                <label for="username" class="col-sm-3 text-white text-left"
-                  ><b> Username: </b>
-                </label>
-                <div class="col-sm-9">
-                  <input
-                    type="text"
-                    class="form-control form-control-sm"
-                    id="username"
-                    placeholder="User name"
-                    v-model.lazy="accountDetails.username"
-                    :class="{ 'is-invalid': $v.accountDetails.username.$error }"
-                    @blur="$v.accountDetails.username.$touch()"
-                  />
-                  <p
-                    class="text-white text-left"
-                    v-if="
-                      !$v.accountDetails.username.required &&
-                        $v.accountDetails.username.$dirty
-                    "
-                  >
-                    User Name is required!
-                  </p>
-                  <p
-                    class="text-white text-left"
-                    v-if="
-                      !$v.accountDetails.username.minLength &&
-                        $v.accountDetails.username.required &&
-                        $v.accountDetails.username.$dirty
-                    "
-                  >
-                    username must have at least
-                    {{ $v.accountDetails.username.$params.minLength.min }}
-                    characters!
-                  </p>
-                </div>
-              </div>
-              <div class="form-group row">
-                <label for="password" class="col-sm-3 text-white text-left"
-                  ><b> Password: </b>
-                </label>
-                <div class="col-sm-9">
-                  <input
-                    type="password"
-                    class="form-control form-control-sm"
-                    id="password"
-                    autocomplete="on"
-                    placeholder="Password"
-                    v-model.lazy="accountDetails.password"
-                    :class="{ 'is-invalid': $v.accountDetails.password.$error }"
-                    @blur="$v.accountDetails.password.$touch()"
-                  />
-                  <p
-                    class="text-white text-left"
-                    v-if="
-                      !$v.accountDetails.password.required &&
-                        $v.accountDetails.password.$dirty
-                    "
-                  >
-                    Password is required!
-                  </p>
-                  <p
-                    class="text-white text-left"
-                    v-if="
-                      !$v.accountDetails.password.minLength &&
-                        $v.accountDetails.password.required &&
-                        $v.accountDetails.password.$dirty
-                    "
-                  >
-                    Password must have at least
-                    {{ $v.accountDetails.password.$params.minLength.min }}
-                    characters!
-                  </p>
-                </div>
-              </div>
-              <hr />
-              <div class="form-group row">
-                <label for="characterName" class="col-sm-3 text-white text-left"
-                  ><b> Alias: </b>
-                </label>
-                <div class="col-sm-9">
-                  <input
-                    type="text"
-                    class="form-control form-control-sm"
-                    id="characterName"
-                    placeholder="Alias"
-                    v-model.lazy="accountDetails.characterName"
-                    :class="{
-                      'is-invalid': $v.accountDetails.characterName.$error
-                    }"
-                    @blur="$v.accountDetails.characterName.$touch()"
-                  />
-                  <p
-                    class="text-white text-left"
-                    v-if="
-                      !$v.accountDetails.characterName.required &&
-                        $v.accountDetails.characterName.$dirty
-                    "
-                  >
-                    Alias is required!
-                  </p>
-                  <p
-                    class="text-white text-left"
-                    v-if="
-                      !$v.accountDetails.characterName.minLength &&
-                        $v.accountDetails.characterName.required &&
-                        $v.accountDetails.characterName.$dirty
-                    "
-                  >
-                    Alias must have at least
-                    {{ $v.accountDetails.characterName.$params.minLength.min }}
-                    characters!
-                  </p>
-                  <p
-                    class="text-white text-left"
-                    v-if="
-                      !$v.accountDetails.characterName.maxLength &&
-                        $v.accountDetails.characterName.required &&
-                        $v.accountDetails.characterName.$dirty
-                    "
-                  >
-                    >The maximum length of character for Alias is
-                    {{
-                      $v.accountDetails.characterName.$params.maxLength.max
-                    }}!>
-                  </p>
-                </div>
-              </div>
-
-              <div class="form-group row">
-                <label for="characters" class="col-sm-3 text-white text-left"
-                  ><b> Character: </b>
-                </label>
-                <div class="col-sm-9">
-                  <select
-                    class="form-control form-control-sm"
-                    id="characters"
-                    v-model="accountDetails.classType"
-                    :class="{
-                      'is-invalid': $v.accountDetails.classType.$error
-                    }"
-                    @blur="$v.accountDetails.classType.$touch()"
-                  >
-                    <option
-                      v-for="character in characters"
-                      :key="character.characterId"
-                      :value="character.characterId"
+    <div align="center" class="imgbackground registration-box">
+      <div class="card" style="width: 60rem;">
+        <div class="card-body">
+          <h4 class="card-title text-white">
+            <b>Registration</b>
+          </h4>
+          <form novalidate class="form-horizontal">
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group row">
+                  <label for="fullName" class="col-sm-3 text-white text-left"
+                    ><b> Full Name:</b>
+                  </label>
+                  <div class="col-sm-9">
+                    <input
+                      type="text"
+                      class="form-control form-control-sm"
+                      id="fullName"
+                      placeholder="Full Name"
+                      v-model.lazy="accountDetails.fullName"
+                      :class="{
+                        'is-invalid': $v.accountDetails.fullName.$error
+                      }"
+                      @blur="$v.accountDetails.fullName.$touch()"
+                    />
+                    <p
+                      class="text-white text-left"
+                      v-if="
+                        !$v.accountDetails.fullName.required &&
+                          $v.accountDetails.fullName.$dirty
+                      "
                     >
-                      {{ character.name }}
-                    </option>
-                  </select>
-                  <p
-                    class="text-white text-left"
-                    v-if="
-                      !$v.accountDetails.classType.required &&
-                        $v.accountDetails.classType.$dirty
-                    "
-                  >
-                    Character is required!
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-6" v-if="selectedCharacter !== undefined">
-              <div class="alert alert-success" role="alert">
-                {{ selectedCharacter.description }}
-              </div>
-              <div class="row">
-                <div class="col-md-6">
-                  <img :src="selectedCharacter.img" />
+                      Full Name is required!
+                    </p>
+                  </div>
                 </div>
 
-                <div class="col-md-6">
-                  <div
-                    v-for="(attribute, i) in selectedCharacter.attributes"
-                    :key="i"
-                    style="padding-bottom:10px;"
-                  >
-                    <p class="text-white text-left">
-                      <b>
-                        {{ attribute.attribute }}
-                      </b>
+                <div class="form-group row">
+                  <label for="email" class="col-sm-3 text-white text-left"
+                    ><b> Email: </b>
+                  </label>
+                  <div class="col-sm-9">
+                    <input
+                      type="text"
+                      class="form-control form-control-sm "
+                      id="email"
+                      placeholder="Email"
+                      v-model.lazy="accountDetails.email"
+                      :class="{ 'is-invalid': $v.accountDetails.email.$error }"
+                      @blur="$v.accountDetails.email.$touch()"
+                    />
+                    <p
+                      class="text-white text-left"
+                      v-if="
+                        !$v.accountDetails.email.required &&
+                          $v.accountDetails.email.$dirty
+                      "
+                    >
+                      Email is required!
                     </p>
-                    <app-progress-bar
-                      :percentage="attribute.level"
-                    ></app-progress-bar>
+                    <p
+                      class="text-white text-left"
+                      v-if="
+                        !$v.accountDetails.email.email &&
+                          $v.accountDetails.email.required &&
+                          $v.accountDetails.email.$dirty
+                      "
+                    >
+                      Invalid email!
+                    </p>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label for="username" class="col-sm-3 text-white text-left"
+                    ><b> Username: </b>
+                  </label>
+                  <div class="col-sm-9">
+                    <input
+                      type="text"
+                      class="form-control form-control-sm"
+                      id="username"
+                      placeholder="User name"
+                      v-model.lazy="accountDetails.username"
+                      :class="{
+                        'is-invalid': $v.accountDetails.username.$error
+                      }"
+                      @blur="$v.accountDetails.username.$touch()"
+                    />
+                    <p
+                      class="text-white text-left"
+                      v-if="
+                        !$v.accountDetails.username.required &&
+                          $v.accountDetails.username.$dirty
+                      "
+                    >
+                      User Name is required!
+                    </p>
+                    <p
+                      class="text-white text-left"
+                      v-if="
+                        !$v.accountDetails.username.minLength &&
+                          $v.accountDetails.username.required &&
+                          $v.accountDetails.username.$dirty
+                      "
+                    >
+                      username must have at least
+                      {{ $v.accountDetails.username.$params.minLength.min }}
+                      characters!
+                    </p>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label for="password" class="col-sm-3 text-white text-left"
+                    ><b> Password: </b>
+                  </label>
+                  <div class="col-sm-9">
+                    <input
+                      type="password"
+                      class="form-control form-control-sm"
+                      id="password"
+                      autocomplete="on"
+                      placeholder="Password"
+                      v-model.lazy="accountDetails.password"
+                      :class="{
+                        'is-invalid': $v.accountDetails.password.$error
+                      }"
+                      @blur="$v.accountDetails.password.$touch()"
+                    />
+                    <p
+                      class="text-white text-left"
+                      v-if="
+                        !$v.accountDetails.password.required &&
+                          $v.accountDetails.password.$dirty
+                      "
+                    >
+                      Password is required!
+                    </p>
+                    <p
+                      class="text-white text-left"
+                      v-if="
+                        !$v.accountDetails.password.minLength &&
+                          $v.accountDetails.password.required &&
+                          $v.accountDetails.password.$dirty
+                      "
+                    >
+                      Password must have at least
+                      {{ $v.accountDetails.password.$params.minLength.min }}
+                      characters!
+                    </p>
+                  </div>
+                </div>
+                <hr />
+                <div class="form-group row">
+                  <label
+                    for="characterName"
+                    class="col-sm-3 text-white text-left"
+                    ><b> Alias: </b>
+                  </label>
+                  <div class="col-sm-9">
+                    <input
+                      type="text"
+                      class="form-control form-control-sm"
+                      id="characterName"
+                      placeholder="Alias"
+                      v-model.lazy="accountDetails.characterName"
+                      :class="{
+                        'is-invalid': $v.accountDetails.characterName.$error
+                      }"
+                      @blur="$v.accountDetails.characterName.$touch()"
+                    />
+                    <p
+                      class="text-white text-left"
+                      v-if="
+                        !$v.accountDetails.characterName.required &&
+                          $v.accountDetails.characterName.$dirty
+                      "
+                    >
+                      Alias is required!
+                    </p>
+                    <p
+                      class="text-white text-left"
+                      v-if="
+                        !$v.accountDetails.characterName.minLength &&
+                          $v.accountDetails.characterName.required &&
+                          $v.accountDetails.characterName.$dirty
+                      "
+                    >
+                      Alias must have at least
+                      {{
+                        $v.accountDetails.characterName.$params.minLength.min
+                      }}
+                      characters!
+                    </p>
+                    <p
+                      class="text-white text-left"
+                      v-if="
+                        !$v.accountDetails.characterName.maxLength &&
+                          $v.accountDetails.characterName.required &&
+                          $v.accountDetails.characterName.$dirty
+                      "
+                    >
+                      >The maximum length of character for Alias is
+                      {{
+                        $v.accountDetails.characterName.$params.maxLength.max
+                      }}!>
+                    </p>
+                  </div>
+                </div>
+
+                <div class="form-group row">
+                  <label for="characters" class="col-sm-3 text-white text-left"
+                    ><b> Character: </b>
+                  </label>
+                  <div class="col-sm-9">
+                    <select
+                      class="form-control form-control-sm"
+                      id="characters"
+                      v-model="accountDetails.classType"
+                      :class="{
+                        'is-invalid': $v.accountDetails.classType.$error
+                      }"
+                      @blur="$v.accountDetails.classType.$touch()"
+                    >
+                      <option
+                        v-for="character in characters"
+                        :key="character.characterId"
+                        :value="character.characterId"
+                      >
+                        {{ character.name }}
+                      </option>
+                    </select>
+                    <p
+                      class="text-white text-left"
+                      v-if="
+                        !$v.accountDetails.classType.required &&
+                          $v.accountDetails.classType.$dirty
+                      "
+                    >
+                      Character is required!
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6" v-if="selectedCharacter !== undefined">
+                <div class="alert alert-success" role="alert">
+                  {{ selectedCharacter.description }}
+                </div>
+                <div class="row">
+                  <div class="col-md-6">
+                    <img :src="selectedCharacter.img" />
+                  </div>
+
+                  <div class="col-md-6">
+                    <div
+                      v-for="(attribute, i) in selectedCharacter.attributes"
+                      :key="i"
+                      style="padding-bottom:10px;"
+                    >
+                      <p class="text-white text-left">
+                        <b>
+                          {{ attribute.attribute }}
+                        </b>
+                      </p>
+                      <app-progress-bar
+                        :percentage="attribute.level"
+                      ></app-progress-bar>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
-          <div class="row">
-            <div class="col-md-6">
-              <button
-                class="btn btn-success btn-block"
-                @click.prevent="register()"
-              >
-                <fa-icon icon="save"></fa-icon>
-                Save
-              </button>
+            <div class="row">
+              <div class="col-md-6">
+                <button
+                  class="btn btn-success btn-block"
+                  @click.prevent="register()"
+                >
+                  <fa-icon icon="save"></fa-icon>
+                  Save
+                </button>
+              </div>
+              <div class="col-md-6">
+                <router-link class="btn btn-primary btn-block" to="/">
+                  <fa-icon icon="sign-in-alt"></fa-icon>
+                  Back to Log In
+                </router-link>
+              </div>
             </div>
-            <div class="col-md-6">
-              <router-link class="btn btn-primary btn-block" to="/">
-                <fa-icon icon="sign-in-alt"></fa-icon>
-                Back to Log In
-              </router-link>
-            </div>
-          </div>
-        </form>
+          </form>
+        </div>
       </div>
     </div>
   </div>
@@ -336,7 +348,7 @@ export default {
           .then((res) => {
             alert("Registered Successfully.");
             this.showLoader = !this.showLoader;
-            this.$router.push('/');
+            this.$router.push("/");
           });
       }
     }

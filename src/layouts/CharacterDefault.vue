@@ -3,7 +3,7 @@
   
     <div class="container-fluid app-base-layout">
         <app-menu></app-menu>
-        <div class="box">
+        <div>
            <slot />
         </div>
         

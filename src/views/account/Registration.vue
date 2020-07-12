@@ -237,12 +237,7 @@
               >
                 Register
               </button>
-              <!-- <loader-component
-                :isLoading="isLoading"
-                :caption="'Sign Up'"
-                :icon="'user-plus'"
-                @saveData="register()"
-              ></loader-component> -->
+           
             </div>
             <div class="col-md-6">
               <router-link class="btn btn-primary btn-block" to="/">
@@ -265,6 +260,7 @@ import {
 } from "vuelidate/lib/validators";
 import { mapActions } from "vuex";
 import accountActions from "./../../configuration/actionNames/account-action";
+import characters from "./../../scripts/character1.js";
 export default {
   data() {
     return {
@@ -279,7 +275,7 @@ export default {
 
       selectedCharacterName: "",
       selectedCharacterImage: "",
-      selectedCharacter: {},
+      selectedCharacter: '',
       characters: [
         { characterId: 1, name: "1" },
         { characterId: 2, name: "2" },

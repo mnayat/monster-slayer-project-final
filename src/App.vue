@@ -1,15 +1,18 @@
 <template>
   <div id="app">
- <component :is="this.$route.meta.layout || 'div'">
+    <component :is="this.$route.meta.layout || 'div'">
       <router-view />
     </component>
-
   </div>
 </template>
 <script>
 export default {};
 </script>
 <style>
+p {
+  margin-bottom: 0;
+}
+
 div {
   display: block;
 }

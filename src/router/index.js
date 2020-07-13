@@ -13,6 +13,10 @@ import CharacterDefault from '../layouts/CharacterDefault.vue';
 Vue.use(VueRouter);
 const routes = [
   {
+    path: '*',
+    redirect: '/'
+  },
+  {
     path: "/",
     name: "Login",
     component: Login,
@@ -45,12 +49,14 @@ const routes = [
   {
     path: "/dungeons",
     name: "Dungeons",
-    component: Dungeons
+    component: Dungeons,
+    meta: { layout: CharacterDefault }
   },
   {
     path: "/battle",
     name: "Battle",
-    component: Battle
+    component: Battle,
+    meta: { layout: CharacterDefault }
   },
 ];
 
@@ -60,4 +66,18 @@ export const router = new VueRouter({
   routes
 });
 
+router.beforeEach((to, from, next) => {
+  let isAuthenticated = Vue.prototype.$session.exists();
+  let allowAnonymous = ["Login", "Register"];
+
+  if (allowAnonymous.includes(to.name) && isAuthenticated) {
+    next('/character');
+  }
+  else if (!allowAnonymous.includes(to.name) && !isAuthenticated) {
+    next('')
+  }
+  else {
+    next();
+  }
+});
 export default router;

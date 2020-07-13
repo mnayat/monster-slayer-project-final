@@ -108,7 +108,7 @@ export default {
               this.startSession();
               this.setSession(sessionKeys.account, getAccountid);
               this.getCharacter(getAccountid);
-              this.redirectTo(pathNames.character);
+            
             } else {
               this.errormessage = resp.data.error;
             }
@@ -121,10 +121,8 @@ export default {
         .dispatch(accountActions.character, accountId)
         .then((resp) => {
           console.log(this.$store.getters);
-          this.setSession(
-            sessionKeys.character,
-            this.$store.getters["accountModule/getCharacterId"]
-          );
+          this.setSession(sessionKeys.character, this.$store.getters["accountModule/getCharacterId"] );
+            this.redirectTo(pathNames.character);
         })
         .catch(() => {
           // dapat maglagay ng invalid username or password.

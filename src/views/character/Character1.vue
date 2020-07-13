@@ -26,7 +26,7 @@
               <div class="row">
                 <div v-for="(stats, i) in character" :key ="i"></div>
                 <div class="col-sm-3 offset-1 bold">{{i }}</div>
-                 <div class="col-sm-2 bold">{{stats}}</div>
+                 <div class="col-sm-2 bold">{{ }}</div>
                 <div class ="col-sm-2 bold " >
                   
                 </div>  

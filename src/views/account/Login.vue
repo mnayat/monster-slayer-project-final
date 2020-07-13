@@ -124,9 +124,6 @@ export default {
             this.$store.getters["accountModule/getCharacterId"]
           );
           this.redirectTo(pathNames.character);
-        })
-        .catch(() => {
-          // dapat maglagay ng invalid username or password.
         });
     }
   }

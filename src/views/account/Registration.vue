@@ -346,7 +346,7 @@ export default {
         this.$store
           .dispatch(accountActions.register, this.accountDetails)
           .then((res) => {
-            alert("Registered Successfully.");
+            this.showToast("success", "Registered successfully. You can now login your account.");
             this.showLoader = !this.showLoader;
             this.$router.push("/");
           });

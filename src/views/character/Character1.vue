@@ -15,7 +15,7 @@
             <div class="col-sm-4">
               <img :src="defaultInfo.img" />
             </div>
-            <div class="col-sm-8" v-if="character !==undefined">
+            <div class="col-sm-8" v-if="character !== undefined">
               <p class="text-center">Character Status</p>
               <div class="row">
                 <div class="col-sm-3 offset-1 bold ">Attrib</div>
@@ -23,14 +23,15 @@
                 <div class="col-sm-2 bold">Bonus</div>
                 <div class="col-sm-2 bold">Total</div>
               </div>
-              <div class="row">
-                <div v-for="(stats, i) in character" :key ="i"></div>
-                <div class="col-sm-3 offset-1 bold">{{i }}</div>
-                 <div class="col-sm-2 bold">{{ }}</div>
-                <div class ="col-sm-2 bold " >
-                  
-                </div>  
-               
+              <div class="row" v-for="(stats, i) in character.stats" :key="i">
+                <div class="col-sm-3 offset-1 bold text-uppercase">{{ i }}</div>
+                <div class="col-sm-2 bold text-right">{{ stats }}</div>
+                <div class="col-sm-2 bold text-right">
+                  {{ character.equipment.armor.bonus[i] + character.equipment.weapon.bonus[i] }}
+                </div>
+                <div class="col-sm-2 bold text-right">
+                  {{ character.equipment.armor.bonus[i] + character.equipment.weapon.bonus[i] + stats }}
+                </div>
               </div>
             </div>
           </div>
@@ -53,15 +54,15 @@ export default {
     return {
       characterId: "",
       showLoader: false,
+      stats: {},
       defaultInfo: {},
       baseCharacter: baseCharacter,
-       totalHealth:0,
-
+      totalHealth: 0
     };
   },
   components: {
     appCharacterinfo: CharacterInfo,
-    appCharacterStatus: CharacterStatus,
+    appCharacterStatus: CharacterStatus
   },
   mixins: [SessionMixin],
   created() {
@@ -76,6 +77,8 @@ export default {
         .then((res) => {
           if (res == true) {
             this.getBaseCharacter();
+            this.stats = this.character.stats;
+            console.log(this.character);
             this.showLoader = false;
           }
         });
@@ -84,16 +87,13 @@ export default {
       this.defaultInfo = this.baseCharacter.find(
         (x) => x.characterId === this.character.classType
       );
-    },
-
+    }
   },
   computed: {
     character() {
       return this.$store.getters["characterModule/getCharacter"];
-    },
-
-  },
-
+    }
+  }
 };
 </script>
 

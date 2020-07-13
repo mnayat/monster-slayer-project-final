@@ -73,7 +73,6 @@ import PathNames from "../../configuration/routerPath/pathNames";
 import pathNames from "../../configuration/routerPath/pathNames";
 export default {
   name: "Login",
-
   mixins: [SessionMixin, RouterMixin],
   data() {
     return {
@@ -108,7 +107,6 @@ export default {
               this.startSession();
               this.setSession(sessionKeys.account, getAccountid);
               this.getCharacter(getAccountid);
-              this.redirectTo(pathNames.character);
             } else {
               this.errormessage = resp.data.error;
             }
@@ -125,6 +123,7 @@ export default {
             sessionKeys.character,
             this.$store.getters["accountModule/getCharacterId"]
           );
+          this.redirectTo(pathNames.character);
         })
         .catch(() => {
           // dapat maglagay ng invalid username or password.

@@ -2,7 +2,7 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import Login from '../views/account/Login.vue';
 import Register from '../views/account/Registration.vue';
-import Character1 from '../views/character/Character1.vue';
+import Character from '../views/character/Character.vue';
 import Inventory from '../views/character/Inventory.vue';
 import Skills from '../views/character/Skills.vue';
 import Dungeons from '../views/character/Dungeons.vue';
@@ -25,27 +25,23 @@ const routes = [
     meta: { layout: LayoutDefault }
   },
   {
-    path: "/character/",
+    path: "/character",
     name: "Character",
-    component: Character1,
-    children: [
-      {
-        path: 'inventory',
-        name: 'Inventory',
-        component: Inventory,
-        meta: { layout: CharacterDefault }
-      },
-      {
-        path: '/skills',
-        name: 'Skills',
-        component: Skills,
-        meta: { layout: CharacterDefault }
-      }
-    ],
+    component: Character,
     meta: { layout: CharacterDefault }
-
   },
- 
+  {
+    path: '/character/inventory',
+    name: 'Inventory',
+    component: Inventory,
+    meta: { layout: CharacterDefault }
+  },
+  {
+    path: '/character/skills',
+    name: 'Skills',
+    component: Skills,
+    meta: { layout: CharacterDefault }
+  },
   {
     path: "/dungeons",
     name: "Dungeons",

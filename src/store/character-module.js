@@ -36,8 +36,7 @@ const actions = {
         return HTTP.get(character(payload).getCharacter)
             .then(resp => {
                 commit('setCharacter', resp.data);
-                console.log(resp.data);
-                return resp;
+                return true;
             })
             .catch(err => {
                 return err.response
@@ -47,7 +46,7 @@ const actions = {
         return HTTP.get(character(payload).getCharacterDungeons)
             .then(resp => {
                 commit('setDungeons', resp.data);
-                return resp;
+                return true;
             })
             .catch(err => {
                 return err.response
@@ -57,25 +56,33 @@ const actions = {
         return HTTP.get(character(payload).getCharacterInventory)
             .then(resp => {
                 commit('setInventory', resp.data);
-                return resp;
+                return true;
             })
             .catch(err => {
                 return err.response
-            })
+            });
     },
     updateInventoryAsync({ dispatch }, payload) {
         return HTTP.put(character(payload.characterId).updateCharacterEquipement, payload.request)
             .then(resp => {
                 dispatch("getInventoryAsync", payload.characterId);
-                console.log(resp);
                 return true;
             })
             .catch(err => {
                 return err.response;
+            });
+    },
+    deleteInventoryAsync({ dispatch }, payload) {
+        return HTTP.delete(character(payload.characterId, payload.inventoryId).deleteCharacterInventory)
+            .then(resp => {
+                dispatch("getInventoryAsync", payload.characterId);
+                return true;
             })
+            .catch(err => {
+                return err.response;
+            });
     }
 }
-
 
 export const characterModule = {
     namespaced: true,

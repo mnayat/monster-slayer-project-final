@@ -62,5 +62,20 @@ p {
   border-radius: 8px;
   height: 150px;
   overflow-x:auto;
+  color: black;
+ margin-bottom: 20px;
+}
+.item-panel p{
+  font-size: 10px;
+  font-weight: bold;
+}
+
+.item-panel-button {
+    border: 1px solid #ffffff;
+    border-radius: 8px;
+    height: 100px;
+    color: black;
+    margin-bottom: 20px;
+    padding: 10px;
 }
 </style>

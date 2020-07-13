@@ -11,7 +11,6 @@
         />
       </div>
       <div class="col-sm-9">
-
           <appCharacterStatus
           :character="character"
           :defaultInfo="defaultInfo"

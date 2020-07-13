@@ -2,7 +2,7 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import Login from '../views/account/Login.vue';
 import Register from '../views/account/Registration.vue';
-import Character1 from '../views/character/Character1.vue';
+import Character from '../views/character/Character.vue';
 import Inventory from '../views/character/Inventory.vue';
 import Skills from '../views/character/Skills.vue';
 import Dungeons from '../views/character/Dungeons.vue';
@@ -27,7 +27,7 @@ const routes = [
   {
     path: "/character",
     name: "Character",
-    component: Character1,
+    component: Character,
     meta: { layout: CharacterDefault }
   },
   {

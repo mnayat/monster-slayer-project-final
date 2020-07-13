@@ -304,7 +304,7 @@ import {
 } from "vuelidate/lib/validators";
 import { mapActions } from "vuex";
 import accountActions from "./../../configuration/actionNames/account-action";
-import baseCharacter from "./../../scripts/character1.js";
+import baseCharacter from "./../../scripts/character.js";
 import ProgressBar from "../../components/common/ProgressBar";
 export default {
   components: {

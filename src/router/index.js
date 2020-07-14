@@ -13,6 +13,10 @@ import MainLayout from '../layouts/_Layout.vue';
 Vue.use(VueRouter);
 const routes = [
   {
+    path: '*',
+    redirect: '/'
+  },
+  {
     path: "/",
     name: "Login",
     component: Login,
@@ -62,4 +66,18 @@ export const router = new VueRouter({
   routes
 });
 
+router.beforeEach((to, from, next) => {
+  let isAuthenticated = Vue.prototype.$session.exists();
+  let allowAnonymous = ["Login", "Register"];
+
+  if (allowAnonymous.includes(to.name) && isAuthenticated) {
+    next('/character');
+  }
+  else if (!allowAnonymous.includes(to.name) && !isAuthenticated) {
+    next('')
+  }
+  else {
+    next();
+  }
+});
 export default router;

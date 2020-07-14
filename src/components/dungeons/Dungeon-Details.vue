@@ -1,5 +1,4 @@
 <template>
-  <!-- Characterdefault Component -->
   <div class="panel-container" v-if="selectedDungeon != undefined">
     <div class="bold center">
       <div class="col-sm-12 nopadding">
@@ -104,12 +103,10 @@
 </template>
 
 <script>
-import baseDungeon from "./../../scripts/dungeons";
 export default {
   props: { selectedDungeon: Object },
   data() {
     return {
-      baseDungeon: baseDungeon,
       enemies: []
     };
   },

@@ -7,8 +7,9 @@ import Inventory from '../views/character/Inventory.vue';
 import Skills from '../views/character/Skills.vue';
 import Dungeons from '../views/character/Dungeons.vue';
 import LayoutDefault from '../layouts/LayoutDefault.vue';
-import Battle from '../views/dungeons/battle.vue';
+import Battle from '../views/dungeons/Battle.vue';
 import CharacterDefault from '../layouts/CharacterDefault.vue';
+import DungeonDefault from '../layouts/DungeonDefault.vue';
 
 Vue.use(VueRouter);
 const routes = [
@@ -50,14 +51,14 @@ const routes = [
     path: "/dungeons",
     name: "Dungeons",
     component: Dungeons,
-    meta: { layout: CharacterDefault }
+    meta: { layout: DungeonDefault }
   },
   {
     path: "/battle",
     name: "Battle",
     component: Battle,
     meta: { layout: CharacterDefault }
-  },
+  }
 ];
 
 export const router = new VueRouter({

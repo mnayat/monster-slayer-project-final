@@ -20,7 +20,6 @@ import { mapActions } from "vuex";
 import Menu from "../Menu";
 import loader from "../../components/common/Loader";
 import SessionMixin from "../../mixins/session-mixin";
-import sessionKeys from "../../configuration/session/sessionKeys";
 import DungeonList from "../../components/dungeons/Dungeon-List.vue";
 import DungeonDetails from "../../components/dungeons/Dungeon-Details.vue";
 import baseDungeon from "./../../scripts/dungeons";
@@ -42,7 +41,7 @@ export default {
     };
   },
   created() {
-    this.characterId = this.getSession(sessionKeys.character);
+    this.characterId = this.getSession(this.sessionKeys.character);
     this.getDungeonList();
   },
   methods: {

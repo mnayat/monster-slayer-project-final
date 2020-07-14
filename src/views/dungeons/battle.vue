@@ -68,7 +68,6 @@
 <script>
 import ProgressBar from "../../components/common/ProgressBar";
 import SessionMixin from "../../mixins/session-mixin";
-import sessionKeys from "../../configuration/session/sessionKeys";
 import characterActions from "./../../configuration/actionNames/character-action";
 import CharacterMixin from "./../../mixins/character-mixin";
 import BattleAction from "./../../components/battle/Battle-Action";
@@ -86,7 +85,7 @@ export default {
     };
   },
   created() {
-    this.characterId = this.getSession(sessionKeys.character);
+    this.characterId = this.getSession(this.sessionKeys.character);
     this.getCharacter();
   },
   methods: {

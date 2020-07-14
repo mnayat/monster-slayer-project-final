@@ -22,7 +22,6 @@
 
 <script>
 import SessionMixin from "../../mixins/session-mixin";
-import sessionKeys from "../../configuration/session/sessionKeys";
 import characterActions from "./../../configuration/actionNames/character-action";
 import baseCharacter from "./../../scripts/character.js";
 import CharacterInfo from "../../components/character/Character-Info";
@@ -46,7 +45,7 @@ export default {
   },
   mixins: [SessionMixin],
   created() {
-    this.characterId = this.getSession(sessionKeys.character);
+    this.characterId = this.getSession(this.sessionKeys.character);
     this.getCharacter();
   },
   methods: {

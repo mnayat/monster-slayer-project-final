@@ -26,7 +26,6 @@
 <script>
 import Menu from "../Menu";
 import SessionMixin from "../../mixins/session-mixin";
-import sessionKeys from "../../configuration/session/sessionKeys";
 import characterActions from "./../../configuration/actionNames/character-action";
 import InventoryItem from "./../../components/inventory/Inventory-Item";
 import InventoryAction from "./../../components/inventory/Inventory-Action";
@@ -59,7 +58,7 @@ export default {
     };
   },
   created() {
-    this.characterId = this.getSession(sessionKeys.character);
+    this.characterId = this.getSession(this.sessionKeys.character);
     this.updateInventoryPayload.characterId = this.characterId;
     this.deleteInventoryPayload.characterId = this.characterId;
 

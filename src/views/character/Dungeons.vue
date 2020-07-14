@@ -21,11 +21,10 @@ import Menu from "../Menu";
 import loader from "../../components/common/Loader";
 import SessionMixin from "../../mixins/session-mixin";
 import sessionKeys from "../../configuration/session/sessionKeys";
-import DungeonList from "../../components/Dungeons/DungeonList";
-import DungeonDetails from "../../components/Dungeons/DungeonDetails";
+import DungeonList from "../../components/dungeons/Dungeon-List.vue";
+import DungeonDetails from "../../components/dungeons/Dungeon-Details.vue";
 import baseDungeon from "./../../scripts/dungeons";
 import characterActions from "./../../configuration/actionNames/character-action";
-
 export default {
   mixins: [SessionMixin],
   components: {

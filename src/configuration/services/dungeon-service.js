@@ -1,7 +1,4 @@
 export default dungeons = {
-    dungeon: {
-        login: '/dungeons/enter',
-        registration: '/dungeons/battle',
-        
-    }
+    enter: '/dungeons/enter',
+    outcome: '/dungeons/battle',
 }

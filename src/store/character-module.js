@@ -5,7 +5,7 @@ const state = {
     inventory: [],
     character: {},
     dungeons: [],
-    skills:[]
+    skills: []
 };
 
 const mutations = {
@@ -99,6 +99,17 @@ const actions = {
                 return err.response
             });
     },
+    updateSkillsAsync({ dispatch }, payload) {
+        console.log(payload);
+        return HTTP.put(character(payload.characterId).updateCharacterSkills, payload.request)
+            .then(resp => {
+                dispatch('getSkillsAsync', payload.characterId);
+                return true;
+            })
+            .catch(err => {
+                return err.response
+            })
+    }
 }
 
 export const characterModule = {

@@ -1,5 +1,4 @@
 <template>
-  <!-- Characterdefault Component -->
   <div class="panel" v-if="characterApiInfo != undefined">
     <div>
       <p class="text-center">{{ characterApiInfo.name }}</p>

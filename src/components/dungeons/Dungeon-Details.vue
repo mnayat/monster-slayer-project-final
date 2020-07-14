@@ -1,5 +1,4 @@
 <template>
-  <!-- Characterdefault Component -->
   <div class="panel-container" v-if="selectedDungeon != undefined">
     <div class="bold center">
       <div class="col-sm-12 nopadding">

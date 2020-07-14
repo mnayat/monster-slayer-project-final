@@ -1,5 +1,5 @@
 <template>
-  <div class="panel-container" v-if="dungeons != undefined">
+  <div class="panel-container" v-if="dungeons !== undefined">
     <div class="flex-container">
       <div
         class="tile padright"

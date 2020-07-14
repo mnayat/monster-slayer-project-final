@@ -70,9 +70,6 @@
         class="btn btn-success btn-block btn-sm"
         :disabled="!isSameClass"
         @click="equipItem()"
-        data-toggle="tooltip"
-        data-placement="top"
-        title="Tooltip on top"
       >
         <fa-icon icon="save"></fa-icon>
         Equip

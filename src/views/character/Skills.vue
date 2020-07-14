@@ -37,7 +37,6 @@
 <script>
 import Menu from "../Menu";
 import SessionMixin from "../../mixins/session-mixin";
-import sessionKeys from "../../configuration/session/sessionKeys";
 import characterActions from "./../../configuration/actionNames/character-action";
 
 export default {

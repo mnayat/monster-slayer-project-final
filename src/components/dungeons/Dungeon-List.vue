@@ -1,8 +1,8 @@
 <template>
-  <div class="panel-container" v-if="dungeons != undefined">
+  <div class="panel-container" v-if="dungeons !== undefined">
     <div class="flex-container">
       <div
-        class="tile"
+        class="tile padright"
         v-for="dungeon in dungeons"
         :key="dungeon._id"
         v-bind:value="{ id: dungeon._id, text: dungeon.name }"
@@ -22,7 +22,7 @@
 </template>
 
 <script>
-import baseDungeon from "./../../scripts/dungeons";
+import baseDungeon from "./../../data/dungeons-data";
 export default {
   props: {
     dungeons: Array,

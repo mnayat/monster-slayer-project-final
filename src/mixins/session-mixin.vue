@@ -1,8 +1,10 @@
 <script>
+import sessionKeys from '../configuration/session/sessionKeys';
 export default {
   data() {
     return {
-      isAuthenticated: false
+      isAuthenticated: false,
+      sessionKeys
     }
   },
   methods: {

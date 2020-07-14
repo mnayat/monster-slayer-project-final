@@ -1,6 +1,5 @@
 <template>
-  <!-- Characterdefault Component -->
-  <div class="panel" v-if="characterApiInfo !=undefined">
+  <div class="panel" v-if="characterApiInfo != undefined">
     <div>
       <p class="text-center">{{ characterApiInfo.name }}</p>
     </div>
@@ -19,11 +18,7 @@
       </div>
       <div class="col-sm-6">Dungeon</div>
       <div class="col-sm-8  ">
-        <p
-          class=""
-          v-for="dungeon in characterApiInfo.dungeonAccess"
-          :key="dungeon._id"
-        >
+        <p v-for="dungeon in characterApiInfo.dungeonAccess" :key="dungeon._id">
           {{ dungeon.name }}
         </p>
       </div>
@@ -35,7 +30,7 @@
 export default {
   props: {
     characterApiInfo: Object,
-    defaultInfo: Object,
-  },
+    defaultInfo: Object
+  }
 };
 </script>

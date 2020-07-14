@@ -211,13 +211,13 @@
                 </div>
 
                 <div class="form-group row">
-                  <label for="characters" class="col-sm-3 text-white text-left"
+                  <label for="character" class="col-sm-3 text-white text-left"
                     ><b> Character: </b>
                   </label>
                   <div class="col-sm-9">
                     <select
                       class="form-control form-control-sm"
-                      id="characters"
+                      id="character"
                       v-model="accountDetails.classType"
                       :class="{
                         'is-invalid': $v.accountDetails.classType.$error
@@ -225,7 +225,7 @@
                       @blur="$v.accountDetails.classType.$touch()"
                     >
                       <option
-                        v-for="character in characters"
+                        v-for="character in getHardCodedCharactersData"
                         :key="character.characterId"
                         :value="character.characterId"
                       >
@@ -304,9 +304,10 @@ import {
 } from "vuelidate/lib/validators";
 import { mapActions } from "vuex";
 import accountActions from "./../../configuration/actionNames/account-action";
-import baseCharacter from "./../../scripts/character.js";
 import ProgressBar from "../../components/common/ProgressBar";
+import CharacterMixin from "../../mixins/character-mixin";
 export default {
+  mixins: [CharacterMixin],
   components: {
     appProgressBar: ProgressBar
   },
@@ -320,7 +321,6 @@ export default {
         characterName: "",
         classType: ""
       },
-      characters: baseCharacter,
       showLoader: false
     };
   },
@@ -355,9 +355,7 @@ export default {
   },
   computed: {
     selectedCharacter() {
-      return this.characters.find(
-        (x) => x.characterId === this.accountDetails.classType
-      );
+      return this.getHardCodedCharacterData(this.accountDetails.classType)
     }
   }
 };

@@ -104,12 +104,10 @@
 </template>
 
 <script>
-import baseDungeon from "./../../scripts/dungeons";
 export default {
   props: { selectedDungeon: Object },
   data() {
     return {
-      baseDungeon: baseDungeon,
       enemies: []
     };
   },

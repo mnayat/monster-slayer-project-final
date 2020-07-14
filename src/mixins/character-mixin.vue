@@ -10,6 +10,11 @@ export default {
     getHardCodedCharacterData(characterId) {
       return this.charactersData.find((x) => x.characterId === characterId);
     }
+  },
+  computed: {
+    getHardCodedCharactersData() {
+      return charactersData;
+    }
   }
 };
 </script>

@@ -5,11 +5,15 @@
 
     <div class="column box">
       <div class="col-sm-12">
-        <appDungeonList :dungeons="dungeons"
-                        @setSelectedDungeon="setSelectedDungeon"></appDungeonList>
+        <appDungeonList
+          :dungeons="dungeons"
+          @setSelectedDungeon="setSelectedDungeon"
+        ></appDungeonList>
       </div>
       <div class="col-sm-12">
-          <appDungeonDetails :selectedDungeon="selectedDungeon"></appDungeonDetails>
+        <appDungeonDetails
+          :selectedDungeon="selectedDungeon"
+        ></appDungeonDetails>
       </div>
     </div>
   </div>
@@ -22,7 +26,7 @@ import loader from "../../components/common/Loader";
 import SessionMixin from "../../mixins/session-mixin";
 import DungeonList from "../../components/dungeons/Dungeon-List.vue";
 import DungeonDetails from "../../components/dungeons/Dungeon-Details.vue";
-import baseDungeon from "./../../scripts/dungeons";
+import baseDungeon from "./../../data/dungeons-data";
 import characterActions from "./../../configuration/actionNames/character-action";
 export default {
   mixins: [SessionMixin],
@@ -36,7 +40,7 @@ export default {
     return {
       showLoader: false,
       characterId: "",
-      baseDungeon: baseDungeon,
+      baseDungeon,
       selectedDungeon: {}
     };
   },
@@ -55,8 +59,8 @@ export default {
           }
         });
     },
-    setSelectedDungeon(id){
-        this.selectedDungeon = this.dungeons.find((x) => x._id === id);
+    setSelectedDungeon(id) {
+      this.selectedDungeon = this.dungeons.find((x) => x._id === id);
     }
   },
   computed: {

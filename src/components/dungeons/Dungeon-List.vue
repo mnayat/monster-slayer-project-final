@@ -22,7 +22,7 @@
 </template>
 
 <script>
-import baseDungeon from "./../../scripts/dungeons";
+import baseDungeon from "./../../data/dungeons-data";
 export default {
   props: {
     dungeons: Array,

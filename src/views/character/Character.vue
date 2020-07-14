@@ -25,8 +25,8 @@ import SessionMixin from "../../mixins/session-mixin";
 import sessionKeys from "../../configuration/session/sessionKeys";
 import characterActions from "./../../configuration/actionNames/character-action";
 import baseCharacter from "./../../scripts/character.js";
-import CharacterInfo from "../../components/character/CharacterInfo";
-import CharacterStatus from "../../components/character/CharacterStatus";
+import CharacterInfo from "../../components/character/Character-Info";
+import CharacterStatus from "../../components/character/Character-Status";
 import pathNames from "../../configuration/routerPath/pathNames";
 import { setTimeout } from "timers";
 export default {

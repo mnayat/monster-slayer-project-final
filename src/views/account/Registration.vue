@@ -265,7 +265,7 @@
                         </b>
                       </p>
                       <app-progress-bar
-                        :percentage="attribute.level"
+                        :currentValue="attribute.level"
                       ></app-progress-bar>
                     </div>
                   </div>

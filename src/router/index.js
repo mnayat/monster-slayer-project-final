@@ -7,7 +7,7 @@ import Inventory from '../views/character/Inventory.vue';
 import Skills from '../views/character/Skills.vue';
 import Dungeons from '../views/character/Dungeons.vue';
 import LayoutDefault from '../layouts/LayoutDefault.vue';
-import Battle from '../views/dungeons/battle.vue';
+import Battle from '../views/dungeons/Battle.vue';
 import CharacterDefault from '../layouts/CharacterDefault.vue';
 
 Vue.use(VueRouter);

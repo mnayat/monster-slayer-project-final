@@ -5,9 +5,9 @@
         class="progress-bar progress-bar-striped progress-bar-animated"
         :class="[color]"
         role="progressbar"
-        :style="{ width: percentage + '%' }"
+        :style="{ width: getPercentage + '%' }"
       >
-      {{ percentage }}
+      {{ currentValue }}
       </div>
       <!-- aria-valuenow="75"
         aria-valuemin="0"
@@ -23,13 +23,27 @@ export default {
       type: String,
       default: "bg-success"
     },
-    percentage: {
+    currentValue: {
       type: Number,
       required: true
     },
     height: {
       type: Number,
       default: 15
+    },
+    maxValue: {
+      type: Number,
+      default: 100
+    }
+  },
+  data() {
+    return {
+      minValue: 0
+    }
+  },
+  computed: {
+    getPercentage() {
+      return (this.currentValue - this.minValue) * 100 / (this.maxValue - this.minValue);
     }
   }
 };

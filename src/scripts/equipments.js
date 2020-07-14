@@ -1,4 +1,4 @@
-const dungeons = [
+const equipments = [
   {
     name: "grass-field",
     img: require("../../src/assets/dungeons/grass-field.jpg"),
@@ -53,4 +53,4 @@ const dungeons = [
   },
 ];
 
-export default dungeons;
+export default equipments;

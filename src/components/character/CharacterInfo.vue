@@ -20,7 +20,6 @@
       <div class="col-sm-6">Dungeon</div>
       <div class="col-sm-8  ">
         <p
-          class=""
           v-for="dungeon in characterApiInfo.dungeonAccess"
           :key="dungeon._id"
         >

@@ -20,8 +20,6 @@
         </div>
       </div>
       <div class="col-sm-4">
-       
-       
         <div class="item-panel">
             <div class="text-center">Details</div>
             <div class="text-center">{{skillName}}</div>

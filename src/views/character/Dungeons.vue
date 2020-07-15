@@ -20,16 +20,12 @@
 </template>
 
 <script>
-import Menu from "../Menu";
-import loader from "../../components/common/Loader";
 import DungeonList from "../../components/dungeons/Dungeon-List.vue";
 import DungeonDetails from "../../components/dungeons/Dungeon-Details.vue";
 import baseDungeon from "./../../data/dungeons-data";
 import characterActions from "./../../configuration/actionNames/character-action";
 export default {
   components: {
-    appMenu: Menu,
-    appLoader: loader,
     appDungeonList: DungeonList,
     appDungeonDetails: DungeonDetails
   },

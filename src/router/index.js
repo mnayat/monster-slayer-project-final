@@ -2,56 +2,62 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import Login from '../views/account/Login.vue';
 import Register from '../views/account/Registration.vue';
-import Character1 from '../views/character/Character1.vue';
+import Character from '../views/character/Character.vue';
 import Inventory from '../views/character/Inventory.vue';
 import Skills from '../views/character/Skills.vue';
 import Dungeons from '../views/character/Dungeons.vue';
-import LayoutDefault from '../layouts/LayoutDefault.vue';
+import LayoutAuth from '../layouts/_Layout-Auth.vue';
 import Battle from '../views/dungeons/battle.vue';
-import CharacterDefault from '../layouts/CharacterDefault.vue';
+import MainLayout from '../layouts/_Layout.vue';
 
 Vue.use(VueRouter);
 const routes = [
   {
+    path: '*',
+    redirect: '/'
+  },
+  {
     path: "/",
     name: "Login",
     component: Login,
-    meta: { layout: LayoutDefault }
+    meta: { layout: LayoutAuth }
   },
   {
     path: "/register",
     name: "Register",
     component: Register,
-    meta: { layout: LayoutDefault }
+    meta: { layout: LayoutAuth }
   },
   {
     path: "/character",
     name: "Character",
-    component: Character1,
-    meta: { layout: CharacterDefault }
+    component: Character,
+    meta: { layout: MainLayout }
   },
   {
     path: '/character/inventory',
     name: 'Inventory',
     component: Inventory,
-    meta: { layout: CharacterDefault }
+    meta: { layout: MainLayout }
   },
   {
     path: '/character/skills',
     name: 'Skills',
     component: Skills,
-    meta: { layout: CharacterDefault }
+    meta: { layout: MainLayout }
   },
   {
     path: "/dungeons",
     name: "Dungeons",
-    component: Dungeons
+    component: Dungeons,
+    meta: { layout: MainLayout }
   },
   {
     path: "/battle",
     name: "Battle",
-    component: Battle
-  },
+    component: Battle,
+    meta: { layout: MainLayout }
+  }
 ];
 
 export const router = new VueRouter({
@@ -60,4 +66,18 @@ export const router = new VueRouter({
   routes
 });
 
+router.beforeEach((to, from, next) => {
+  let isAuthenticated = Vue.prototype.$session.exists();
+  let allowAnonymous = ["Login", "Register"];
+
+  if (allowAnonymous.includes(to.name) && isAuthenticated) {
+    next('/character');
+  }
+  else if (!allowAnonymous.includes(to.name) && !isAuthenticated) {
+    next('')
+  }
+  else {
+    next();
+  }
+});
 export default router;

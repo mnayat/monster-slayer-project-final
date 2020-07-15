@@ -5,7 +5,9 @@ const characterActions = {
     getDungeons: `${moduleName}/getDungeonsAsync`,
     getInventory: `${moduleName}/getInventoryAsync`,
     updateInventory: `${moduleName}/updateInventoryAsync`,
-    deleteInventory: `${moduleName}/deleteInventoryAsync`
+    deleteInventory: `${moduleName}/deleteInventoryAsync`,
+    getSkills: `${moduleName}/getSkillsAsync`,
+    updateSkills: `${moduleName}/updateSkillsAsync`
 }
 
 export default characterActions;

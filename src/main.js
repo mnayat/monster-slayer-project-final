@@ -12,26 +12,23 @@ import router from "./router";
 import store from "./store";
 import VueSession from 'vue-session';
 import ScrollBar from 'vue2-scrollbar'
-import apploader from "./components/common/Loader";
-import toastMixin from './mixins/toast-mixin.vue';
+import AppLoader from "./components/common/Loader";
+import ToastMixin from './mixins/toast-mixin.vue';
+import SessionMixin from './mixins/session-mixin.vue';
 
 library.add(fas);
 Vue.component('fa-icon', FontAwesomeIcon)
-Vue.component('apploader', apploader)
+Vue.component('apploader', AppLoader)
 
-Vue.use(VueSession);
+Vue.use(VueSession, {persist: true});
 Vue.use(Vuelidate);
 Vue.use(ScrollBar);
 Vue.use(VueToast);
 
-Vue.mixin(toastMixin);
+Vue.mixin(ToastMixin);
+Vue.mixin(SessionMixin)
 
 Vue.config.productionTip = false;
-// Vue.mixin({
-//   created() {
-//     console.log('[created] ' + this.$options.name)
-//   },
-// });
 
 new Vue({
   router,

@@ -3,6 +3,7 @@ const Characters = [
         characterId: 1,
         name: 'Saber',
         img: require('../../src/assets/classes/saber.gif'),
+        imgAttack: require('../../src/assets/classes/saber-attack.gif'),
         description: 'Agile and powerful melee warriors adept at swordsmanship',
         weapons: 'Swords',
         attributes: [
@@ -32,6 +33,7 @@ const Characters = [
         characterId: 2,
         name: 'Archer',
         img: require('../../src/assets/classes/archer.gif'),
+        imgAttack: require('../../src/assets/classes/archer-attack.gif'),
         description: 'A highly effective scout that deals very powerful piercing strikes',
         weapons: 'Bow and Arrow',
         attributes: [
@@ -61,6 +63,7 @@ const Characters = [
         characterId: 3,
         name: 'Lancer',
         img: require('../../src/assets/classes/lancer.gif'),
+        imgAttack: require('../../src/assets/classes/lancer-attack.gif'),
         description: 'Very agile warrior that excels on speed and continuous strikes',
         weapons: 'Spears/Polearms',
         attributes: [
@@ -90,6 +93,7 @@ const Characters = [
         characterId: 4,
         name: 'Berserker',
         img: require('../../src/assets/classes/berserker.gif'),
+        imgAttack: require('../../src/assets/classes/berserker-attack.gif'),
         description: 'Very agile warrior that excels on speed and continuous strikes',
         weapons: 'Hammers/Bludgeons',
         attributes: [
@@ -119,6 +123,7 @@ const Characters = [
         characterId: 5,
         name: 'Caster',
         img: require('../../src/assets/classes/caster.gif'),
+        imgAttack: require('../../src/assets/classes/caster-attack.gif'),
         description: 'Has low combat abilities but capitalizes on destructive magecraft',
         weapons: 'Staffs',
         attributes: [

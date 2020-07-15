@@ -4,7 +4,8 @@ import { HTTP } from '../configuration/http-common.js';
 const state = {
     inventory: [],
     character: {},
-    dungeons: []
+    dungeons: [],
+    skills: []
 };
 
 const mutations = {
@@ -16,6 +17,9 @@ const mutations = {
     },
     setInventory(state, inventory) {
         state.inventory = inventory;
+    },
+    setSkills(state, skills) {
+        state.skills = skills;
     }
 }
 
@@ -28,6 +32,9 @@ const getters = {
     },
     getInventory(state) {
         return state.inventory;
+    },
+    getSkills(state) {
+        return state.skills;
     }
 }
 
@@ -81,6 +88,27 @@ const actions = {
             .catch(err => {
                 return err.response;
             });
+    },
+    getSkillsAsync({ commit }, payload) {
+        return HTTP.get(character(payload).getCharacterSkills)
+            .then(resp => {
+                commit('setSkills', resp.data);
+                return true;
+            })
+            .catch(err => {
+                return err.response
+            });
+    },
+    updateSkillsAsync({ dispatch }, payload) {
+        console.log(payload);
+        return HTTP.put(character(payload.characterId).updateCharacterSkills, payload.request)
+            .then(resp => {
+                dispatch('getSkillsAsync', payload.characterId);
+                return true;
+            })
+            .catch(err => {
+                return err.response
+            })
     }
 }
 

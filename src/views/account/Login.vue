@@ -66,15 +66,13 @@
 <script>
 import { required } from "vuelidate/lib/validators";
 import accountActions from "./../../configuration/actionNames/account-action";
-import SessionMixin from "../../mixins/session-mixin";
 import RouterMixin from "../../mixins/router-mixin";
 import sessionKeys from "../../configuration/session/sessionKeys";
 import PathNames from "../../configuration/routerPath/pathNames";
 import pathNames from "../../configuration/routerPath/pathNames";
 export default {
   name: "Login",
-
-  mixins: [SessionMixin, RouterMixin],
+  mixins: [RouterMixin],
   data() {
     return {
       account: {
@@ -108,7 +106,6 @@ export default {
               this.startSession();
               this.setSession(sessionKeys.account, getAccountid);
               this.getCharacter(getAccountid);
-
             } else {
               this.errormessage = resp.data.error;
             }
@@ -126,9 +123,6 @@ export default {
             this.$store.getters["accountModule/getCharacterId"]
           );
           this.redirectTo(pathNames.character);
-        })
-        .catch(() => {
-          // dapat maglagay ng invalid username or password.
         });
     }
   }

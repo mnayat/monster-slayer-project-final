@@ -15,8 +15,7 @@
       <div class="col-md-3" v-show="!selectedDungeon.locked">
         <router-link
           class="btn btn-success btn-block"
-          to="/battle"
-          @click.native="enterDungeon"
+          :to="`/battle/${selectedDungeon._id}`"
         >
           <fa-icon icon="gamepad"></fa-icon>
           Enter
@@ -125,18 +124,7 @@ export default {
   },
   methods: {
     getEquipmentImage(name) {},
-    enterDungeon() {
-      this.showLoader = true;
-      this.dungeonPayload = {
-        characterId: this.getSession(this.sessionKeys.character),
-        dungeonId: this.selectedDungeon._id
-      };
-      this.$store.dispatch(dungeonActions.enterDungeon, this.dungeonPayload).then((res) => {
-        if (res == true) {
-          this.showLoader = false;
-        }
-      });
-    },
+
   },
   watch: {
     selectedDungeon: function(value) {

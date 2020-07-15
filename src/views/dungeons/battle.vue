@@ -2,7 +2,10 @@
   <div>
     <apploader :showLoader="showLoader"></apploader>
     <div class="text-center">Battle Field</div>
-    <div class="row box" v-if="character !== undefined && dungeonDetails.enemy !== undefined">
+    <div
+      class="row box"
+      v-if="character !== undefined && dungeonDetails.enemy !== undefined"
+    >
       <div class="col-md-2">
         <app-battle-action
           :skills="character.skills"
@@ -17,15 +20,15 @@
                 {{ character.name }}
               </small>
               <app-progress-bar
-                :currentValue="playerHealth"
-                :maxValue="character.stats.health"
+                :currentValue="attributes.character.currentLife"
+                :maxValue="attributes.character.life"
                 :color="'bg-primary'"
               ></app-progress-bar>
               <div class="row">
                 <div class="col-md-10">
                   <app-progress-bar
-                    :currentValue="playerMana"
-                    :maxValue="character.stats.mana"
+                    :currentValue="attributes.character.currentMana"
+                    :maxValue="attributes.character.mana"
                     :color="'bg-warning'"
                     :height="10"
                   ></app-progress-bar>
@@ -36,15 +39,15 @@
             <div class="col-md-6">
               <small>{{ dungeonDetails.enemy.name }}</small>
               <app-progress-bar
-                :currentValue="50"
-                :maxValue="dungeonDetails.enemy.health"
+                :currentValue="attributes.enemy.currentLife"
+                :maxValue="attributes.enemy.life"
                 :color="'bg-primary'"
               ></app-progress-bar>
               <div class="row">
                 <div class="offset-2 col-md-10">
                   <app-progress-bar
-                    :currentValue="50"
-                    :maxValue="dungeonDetails.enemy.mana"
+                    :currentValue="attributes.enemy.currentMana"
+                    :maxValue="attributes.enemy.mana"
                     :color="'bg-warning'"
                     :height="10"
                   ></app-progress-bar>
@@ -52,8 +55,8 @@
               </div>
             </div>
             <img :src="getDungeonImage()" height="350px" width="760px" />
-            <img :src="getPlayerImage()" class="player" />
-            <img :src="getEnemyImage()" class="enemy" />
+            <img :src="attributes.character.img" class="player" />
+            <img :src="attributes.enemy.img" class="enemy" />
             Show Text Here
           </div>
         </div>
@@ -70,47 +73,86 @@ import BattleAction from "./../../components/battle/Battle-Action";
 import baseDungeon from "./../../data/dungeons-data";
 import baseCharacter from "./../../data/characters-data";
 import baseEnemies from "./../../data/enemies-data";
-import loader from "../../components/common/Loader";
-import { watch } from "fs";
 export default {
   mixins: [CharacterMixin],
   components: {
     appProgressBar: ProgressBar,
-    appBattleAction: BattleAction,
-    appLoader : loader
+    appBattleAction: BattleAction
   },
   data() {
     return {
       showLoader: false,
       characterId: "",
-      hardCodedCharacter: Object
+      hardCodedCharacter: Object,
+      attributes: {
+        character: {
+          currentLife: 0,
+          currentMana: 0,
+          life: 0,
+          mana: 0,
+          img: "",
+          imgAttack: ""
+        },
+        enemy: {
+          currentLife: 0,
+          currentMana: 0,
+          life: 0,
+          mana: 0,
+          img: "",
+          imgAttack: ""
+        }
+      }
     };
   },
   created() {
     this.characterId = this.getSession(this.sessionKeys.character);
     this.getCharacter();
+    this.enterDungeon();
   },
   methods: {
     attack(skillId) {
       const skill = this.character.skills.find((x) => x._id === skillId);
-      if (skill) {
+      if (skill.target === "self") {
       }
+      else{
+        this.attributes.enemy.currentLife -= skill.damage;
+        this.attributes.character.currentMana -= skill.cost;
+      }
+    },
+    enemyAttack() {
+
+    },
+    enterDungeon() {
+      let dungeonId = this.$route.params.id;
+      this.showLoader = true;
+      this.dungeonPayload = {
+        characterId: this.characterId,
+        dungeonId: dungeonId
+      };
+      this.$store
+        .dispatch(dungeonActions.enterDungeon, this.dungeonPayload)
+        .then((res) => {
+          if (res === true) {
+            var enemy = this.dungeonDetails.enemy;
+            console.log(enemy);
+            this.attributes.enemy = {
+              currentLife: enemy.stats.health,
+              currentMana: enemy.stats.mana,
+              life: enemy.stats.health,
+              mana: enemy.stats.mana,
+              img: baseEnemies.find(
+                (x) => x.name === this.dungeonDetails.enemy.image
+              ).img
+            };
+          } else {
+            this.showErrorToast();
+          }
+          this.showLoader = false;
+        });
     },
     getDungeonImage() {
       return this.dungeonDetails.dungeon != undefined
         ? baseDungeon.find((x) => x.name === this.dungeonDetails.dungeon.image)
-            .img
-        : "";
-    },
-    getEnemyImage() {
-      return this.dungeonDetails.enemy != undefined
-        ? baseEnemies.find((x) => x.name === this.dungeonDetails.enemy.image)
-            .img
-        : "";
-    },
-    getPlayerImage() {
-      return this.character.classType != undefined
-        ? baseCharacter.find((x) => x.characterId === this.character.classType)
             .img
         : "";
     },
@@ -123,36 +165,49 @@ export default {
             this.hardCodedCharacter = this.getHardCodedCharacterData(
               this.character.classType
             );
+
+            this.character.skills.unshift({
+              classId: 0,
+              cost: 0,
+              damage: 100,
+              name: "Focus",
+              target: "self",
+              type: "M",
+              _id: 2
+            });
+            this.character.skills.unshift({
+              classId: 0,
+              cost: 0,
+              damage: 100,
+              name: "Attack",
+              target: "enemy",
+              type: "P",
+              _id: 1
+            });
+            console.log(this.character);
+            this.attributes.character = {
+              currentLife: this.character.stats.health,
+              currentMana: this.character.stats.mana,
+              life: this.character.stats.health,
+              mana: this.character.stats.mana,
+              img: this.hardCodedCharacter.img,
+              imgAttack: this.hardCodedCharacter.imgAttack
+            };
           } else {
             this.showErrorToast();
           }
           this.showLoader = false;
         });
-    },
+    }
   },
   computed: {
     character() {
       return this.$store.getters["characterModule/getCharacter"];
     },
-    selectedDungeon() {
-      return this.$store.getters["characterModule/getSelectedDungeon"];
-    },
     dungeonDetails() {
       return this.$store.getters["dungeonModule/getDungeonDetails"];
-    },
-    playerHealth(){
-      return this.character.stats.health;
-    },
-    enemyHealth(){
-      return this.dungeonDetails.enemy !== undefined ? this.dungeonDetails.enemy.health : 0;
-    },
-    playerMana(){
-      return this.character.stats.mana;
-    },
-    enemyMana(){
-      return this.dungeonDetails.enemy !== undefined ? this.dungeonDetails.enemy.mana : 0;
-    },
-  },
+    }
+  }
 };
 </script>
 

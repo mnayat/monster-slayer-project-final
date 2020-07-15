@@ -24,14 +24,11 @@
   </div>
 </template>
 <script>
-import Menu from "../Menu";
-import SessionMixin from "../../mixins/session-mixin";
 import characterActions from "./../../configuration/actionNames/character-action";
 import InventoryItem from "./../../components/inventory/Inventory-Item";
 import InventoryAction from "./../../components/inventory/Inventory-Action";
 
 export default {
-  mixins: [SessionMixin],
   components: {
     appInventoryItem: InventoryItem,
     appInventoryAction: InventoryAction

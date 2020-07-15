@@ -67,12 +67,11 @@
 </template>
 <script>
 import ProgressBar from "../../components/common/ProgressBar";
-import SessionMixin from "../../mixins/session-mixin";
 import characterActions from "./../../configuration/actionNames/character-action";
 import CharacterMixin from "./../../mixins/character-mixin";
 import BattleAction from "./../../components/battle/Battle-Action";
 export default {
-  mixins: [SessionMixin, CharacterMixin],
+  mixins: [CharacterMixin],
   components: {
     appProgressBar: ProgressBar,
     appBattleAction: BattleAction

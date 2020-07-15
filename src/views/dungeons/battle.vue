@@ -113,14 +113,45 @@ export default {
     attack(skillId) {
       const skill = this.character.skills.find((x) => x._id === skillId);
       if (skill.target === "self") {
-      }
-      else{
+        // either heal or regain the mana
+      } else {
         this.attributes.enemy.currentLife -= skill.damage;
         this.attributes.character.currentMana -= skill.cost;
       }
+
+      this.enemyAttack();
     },
     enemyAttack() {
+      var enemySkills = this.dungeonDetails.enemy.skills;
 
+      // we need to refactor this adding of Focus and Attack
+      enemySkills.unshift({
+        classId: 0,
+        cost: 0,
+        damage: 100,
+        name: "Focus",
+        target: "self",
+        type: "M",
+        _id: 2
+      });
+      enemySkills.unshift({
+        classId: 0,
+        cost: 0,
+        damage: 100,
+        name: "Attack",
+        target: "enemy",
+        type: "P",
+        _id: 1
+      });
+      var enemyAttack =
+        enemySkills[Math.floor(Math.random() * enemySkills.length)];
+      debugger;
+      if (enemyAttack.target === "self") {
+        // either heal or regain the mana
+      } else {
+        this.attributes.character.currentLife -= enemyAttack.damage;
+        this.attributes.enemy.currentMana -= enemyAttack.cost;
+      }
     },
     enterDungeon() {
       let dungeonId = this.$route.params.id;
@@ -134,7 +165,6 @@ export default {
         .then((res) => {
           if (res === true) {
             var enemy = this.dungeonDetails.enemy;
-            console.log(enemy);
             this.attributes.enemy = {
               currentLife: enemy.stats.health,
               currentMana: enemy.stats.mana,
@@ -165,7 +195,7 @@ export default {
             this.hardCodedCharacter = this.getHardCodedCharacterData(
               this.character.classType
             );
-
+            // we need to refactor this adding of Focus and Attack
             this.character.skills.unshift({
               classId: 0,
               cost: 0,
@@ -184,7 +214,6 @@ export default {
               type: "P",
               _id: 1
             });
-            console.log(this.character);
             this.attributes.character = {
               currentLife: this.character.stats.health,
               currentMana: this.character.stats.mana,

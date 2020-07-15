@@ -22,12 +22,10 @@
   </div>
 </template>
 <script>
-import SessionMixin from "../../mixins/session-mixin";
 import characterActions from "./../../configuration/actionNames/character-action";
 import SkillItem from "../../components/skills/Skill-Item";
 import SkillAction from "../../components/skills/Skill-Action";
 export default {
-  mixins: [SessionMixin],
   components: {
     appSkillItem: SkillItem,
     appSkillAction: SkillAction
@@ -89,16 +87,30 @@ export default {
         });
     },
     equipSkill(skill) {
-      var isSkillExisting = this.currentSkills.some((x) => x._id === skill._id);
-      if (isSkillExisting) {
-        this.showToast("warning", "Skill is already equipped.");
+      if (skill !== undefined) {
+        var isSkillExisting = this.currentSkills.some(
+          (x) => x._id === skill._id
+        );
+        if (this.currentSkills.length < 5) {
+          if (isSkillExisting) {
+            this.showToast("warning", "Skill is already equipped.");
+          } else {
+            this.showToast("success", "Successfully added in current skills");
+            this.currentSkills.push(skill);
+          }
+        } else {
+          this.showToast("warning", "The maximum skill you can equip is 5.");
+        }
       } else {
-        this.showToast("success", "Successfully added in current skills");
-        this.currentSkills.push(skill);
+        this.showToast("warning", "Please select first a skill you want to equip.");
       }
     },
     deleteSkill(skillId) {
-      this.currentSkills = this.currentSkills.filter((x) => x._id != skillId);
+      if (this.currentSkills.length === 1) {
+        this.showToast("warning", "Sorry but you cannot delete all skills.");
+      } else {
+        this.currentSkills = this.currentSkills.filter((x) => x._id != skillId);
+      }
     },
     updateSkills() {
       const skillIds = this.currentSkills.map((x) => {

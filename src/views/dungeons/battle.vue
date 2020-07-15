@@ -63,7 +63,6 @@
 </template>
 <script>
 import ProgressBar from "../../components/common/ProgressBar";
-import SessionMixin from "../../mixins/session-mixin";
 import characterActions from "./../../configuration/actionNames/character-action";
 import dungeonActions from "./../../configuration/actionNames/dungeon-action";
 import CharacterMixin from "./../../mixins/character-mixin";
@@ -74,7 +73,7 @@ import baseEnemies from "./../../data/enemies-data";
 import loader from "../../components/common/Loader";
 import { watch } from "fs";
 export default {
-  mixins: [SessionMixin, CharacterMixin],
+  mixins: [CharacterMixin],
   components: {
     appProgressBar: ProgressBar,
     appBattleAction: BattleAction,

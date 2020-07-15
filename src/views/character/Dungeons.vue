@@ -20,16 +20,13 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
 import Menu from "../Menu";
 import loader from "../../components/common/Loader";
-import SessionMixin from "../../mixins/session-mixin";
 import DungeonList from "../../components/dungeons/Dungeon-List.vue";
 import DungeonDetails from "../../components/dungeons/Dungeon-Details.vue";
 import baseDungeon from "./../../data/dungeons-data";
 import characterActions from "./../../configuration/actionNames/character-action";
 export default {
-  mixins: [SessionMixin],
   components: {
     appMenu: Menu,
     appLoader: loader,

@@ -1,158 +1,131 @@
 <template>
   <div>
     <apploader :showLoader="showLoader"></apploader>
-    <div class="text-center">Inventory</div>
+    <div class="text-center">Skills</div>
     <div class="row box">
       <div class="col-sm-8">
-        <app-inventory-item
-          :inventory="inventory"
-          @getDescription="getDescription"
-        ></app-inventory-item>
+        <app-skill-item
+          :skills="skills"
+          @getSkillsDescription="getSkillsDescription"
+        ></app-skill-item>
       </div>
       <div class="col-sm-4">
-        <app-inventory-action
-          :isSameItem="isSameItem"
-          :isSameClass="isSameClass"
-          :hasSelectedItem="hasSelectedItem"
-          :selectedItem="selectedItem"
-          :currentItem="currentItem"
-          @deleteItem="deleteItem"
-          @equipItem="equipItem"
-        ></app-inventory-action>
+        <app-skill-action
+          :selectedSkill="selectedSkill"
+          :currentSkills="currentSkills"
+          @equipSkill="equipSkill"
+          @deleteSkill="deleteSkill"
+          @updateSkills="updateSkills"
+        ></app-skill-action>
       </div>
     </div>
   </div>
 </template>
 <script>
-import Menu from "../Menu";
-import SessionMixin from "../../mixins/session-mixin";
 import characterActions from "./../../configuration/actionNames/character-action";
-import InventoryItem from "./../../components/inventory/Inventory-Item";
-import InventoryAction from "./../../components/inventory/Inventory-Action";
-
+import SkillItem from "../../components/skills/Skill-Item";
+import SkillAction from "../../components/skills/Skill-Action";
 export default {
-  mixins: [SessionMixin],
   components: {
-    appInventoryItem: InventoryItem,
-    appInventoryAction: InventoryAction
+    appSkillItem: SkillItem,
+    appSkillAction: SkillAction
   },
   data() {
     return {
       characterId: "",
-      hasSelectedItem: false,
-      selectedItem: {},
-      currentItem: {},
-      isSameClass: false,
-      updateInventoryPayload: {
-        characterId: "",
-        request: {
-          weaponId: "",
-          armorId: ""
-        }
-      },
-      deleteInventoryPayload: {
-        characterId: "",
-        inventoryId: ""
-      },
-      showLoader: false
+      showLoader: false,
+      selectedSkill: {},
+      currentSkills: []
     };
   },
   created() {
     this.characterId = this.getSession(this.sessionKeys.character);
-    this.updateInventoryPayload.characterId = this.characterId;
-    this.deleteInventoryPayload.characterId = this.characterId;
-
+    this.getSkills();
     this.getCharacter();
-    this.getInventory();
   },
   methods: {
-    getInventory() {
+    getSkills() {
       this.showLoader = true;
       this.$store
-        .dispatch(characterActions.getInventory, this.characterId)
+        .dispatch(characterActions.getSkills, this.characterId)
         .then((res) => {
           if (res != true) this.showErrorToast();
           this.showLoader = false;
         });
     },
-    getDescription(itemId) {
-      this.hasSelectedItem = true;
-      this.isSameClass = false;
-      let inventory = this.inventory.find((x) => x._id == itemId);
-      this.deleteInventoryPayload.inventoryId = inventory._id;
-      this.selectedItem = inventory.item;
-      if (this.selectedItem.type === "WPN") {
-        this.currentItem = this.character.equipment.weapon;
-        this.isSameClass =
-          this.character.equipment.weapon.classId === this.selectedItem.classId;
-      } else {
-        this.currentItem = this.character.equipment.armor;
-        this.isSameClass =
-          this.character.equipment.armor.classId === this.selectedItem.classId;
-      }
+    getSkillsDescription(skillsId) {
+      let skill = this.skills.find((i) => i._id == skillsId);
+      this.selectedSkill = {
+        skillName: skill.name,
+        skillId: skill._id,
+        skillSet: skill,
+        skills: [
+          { type: "level", value: skill.lvlReq },
+          { type: "target", value: skill.target },
+          {
+            type: "type",
+            value: `${skill.type === "P" ? "Physical" : "Magical"}`
+          },
+          { type: "cost", value: `${skill.cost} Mana` },
+          {
+            type: `${skill.type === "P" ? "Damage" : "Heal"}`,
+            value: `${Math.abs(skill.damage)} %`
+          }
+        ]
+      };
     },
     getCharacter() {
       this.showLoader = true;
       this.$store
         .dispatch(characterActions.getCharacter, this.characterId)
         .then((res) => {
-          if (res === true) {
-            this.updateEquippedItem(
-              this.character.equipment.armor.type,
-              this.character.equipment.armor._id
-            );
-            this.updateEquippedItem(
-              this.character.equipment.weapon.type,
-              this.character.equipment.weapon._id
-            );
-          } else {
+          if (res !== true) {
             this.showErrorToast();
           }
-
+          this.currentSkills = this.character.skills;
           this.showLoader = false;
         });
     },
-    updateEquippedItem(type, value) {
-      if (type === "WPN") {
-        this.updateInventoryPayload.request.weaponId = value;
+    equipSkill(skill) {
+      if (skill !== undefined) {
+        var isSkillExisting = this.currentSkills.some(
+          (x) => x._id === skill._id
+        );
+        if (this.currentSkills.length < 5) {
+          if (isSkillExisting) {
+            this.showToast("warning", "Skill is already equipped.");
+          } else {
+            this.showToast("success", "Successfully added in current skills");
+            this.currentSkills.push(skill);
+          }
+        } else {
+          this.showToast("warning", "The maximum skill you can equip is 5.");
+        }
       } else {
-        this.updateInventoryPayload.request.armorId = value;
+        this.showToast("warning", "Please select first a skill you want to equip.");
       }
     },
-    equipItem() {
-      this.updateEquippedItem(this.selectedItem.type, this.selectedItem._id);
-      this.updateInventory();
+    deleteSkill(skillId) {
+      if (this.currentSkills.length === 1) {
+        this.showToast("warning", "Sorry but you cannot delete all skills.");
+      } else {
+        this.currentSkills = this.currentSkills.filter((x) => x._id != skillId);
+      }
     },
-    updateInventory() {
+    updateSkills() {
+      const skillIds = this.currentSkills.map((x) => {
+        return x._id;
+      });
+      var payload = {
+        characterId: this.characterId,
+        request: skillIds
+      };
       this.showLoader = true;
       this.$store
-        .dispatch(characterActions.updateInventory, this.updateInventoryPayload)
+        .dispatch(characterActions.updateSkills, payload)
         .then((res) => {
           if (res === true) {
-            this.showToast(
-              "success",
-              "Inventory has been updated successfully!"
-            );
-          } else {
-            this.showErrorToast();
-          }
-          this.showLoader = false;
-        });
-    },
-    deleteItem() {
-      this.showLoader = true;
-      this.$store
-        .dispatch(characterActions.deleteInventory, this.deleteInventoryPayload)
-        .then((res) => {
-          if (res === true) {
-            this.showToast(
-              "success",
-              "Selected Item has been deleted successfully!"
-            );
-
-            this.selectedItem = {};
-            this.hasSelectedItem = false;
-            this.isSameClass = false;
+            this.showToast("success", "Skills have been updated successfully");
           } else {
             this.showErrorToast();
           }
@@ -164,20 +137,22 @@ export default {
     character() {
       return this.$store.getters["characterModule/getCharacter"];
     },
-    inventory() {
-      return this.$store.getters["characterModule/getInventory"];
-    },
-    inventoryPerCategory() {
-      return this.inventory.item.name;
-    },
-    isSameItem() {
-      return this.selectedItem.name === this.currentItem.name;
+    skills() {
+      return this.$store.getters["characterModule/getSkills"];
     }
-  }
+  },
+  watch: {}
 };
 </script>
 <style>
 .card {
   background-color: #ffffff8a;
+}
+.alert {
+  padding: 0.1rem 0.25rem;
+  margin-bottom: 0.25rem;
+}
+.close {
+  padding: 0rem 0rem !important;
 }
 </style>

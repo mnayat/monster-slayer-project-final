@@ -18,13 +18,12 @@
 </template>
 
 <script>
-import SessionMixin from "../../mixins/session-mixin";
 import CharacterMixin from "../../mixins/character-mixin";
 import characterActions from "./../../configuration/actionNames/character-action";
 import CharacterInfo from "../../components/character/Character-Info";
 import CharacterStatus from "../../components/character/Character-Status";
 export default {
-  mixins: [SessionMixin, CharacterMixin],
+  mixins: [CharacterMixin],
   components: {
     appCharacterinfo: CharacterInfo,
     appCharacterStatus: CharacterStatus

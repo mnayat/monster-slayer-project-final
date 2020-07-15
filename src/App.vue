@@ -20,4 +20,8 @@ p {
   line-height: 0.5;
   border-radius: 0.2rem;
 }
+
+.btnPadding {
+  padding-top: 5px;
+}
 </style>

@@ -1,8 +1,9 @@
 <template>
   <div class="panel-container" v-if="selectedDungeon != undefined">
+    <apploader :showLoader="showLoader"></apploader>
     <div class="bold center">
-      <div class="col-sm-12 nopadding">
-        {{ selectedDungeon.name }}
+      <div class="col-sm-12 text-center">
+        <b>{{ selectedDungeon.name }}</b>
       </div>
     </div>
 
@@ -11,8 +12,12 @@
       <div class="col-sm-2 text-center">
         {{ selectedDungeon.recommendedLevel }}
       </div>
-      <div class="col-md-3">
-        <router-link class="btn btn-success btn-block" to="/battle">
+      <div class="col-md-3" v-show="!selectedDungeon.locked">
+        <router-link
+          class="btn btn-success btn-block"
+          to="/battle"
+          @click.native="enterDungeon"
+        >
           <fa-icon icon="gamepad"></fa-icon>
           Enter
         </router-link>
@@ -20,12 +25,14 @@
     </div>
 
     <div class="row" v-show="selectedDungeon.locked">
-      <div class="col-sm-12 text-center">Requirements:</div>
-      <div class="col-sm-12 row">
+      <div class="col-sm-12"><b>Requirements:</b></div>
+      <div class="col-sm-12">
         Defeat
         <label class="font-weight-bold">
           {{
-            selectedDungeon.bossReq != null ? `&nbsp;${selectedDungeon.bossReq.name}&nbsp;` : ""
+            selectedDungeon.bossReq != null
+              ? `&nbsp;${selectedDungeon.bossReq.name}&nbsp;`
+              : ""
           }}
         </label>
         from the previous dungeon.
@@ -56,10 +63,7 @@
               />
               {{ drop.name }}
             </div>
-            <div
-              v-show="enemy.drops.length == 0"
-              class="col-sm-7 offset-sm-1"
-            >
+            <div v-show="enemy.drops.length == 0" class="col-sm-7 offset-sm-1">
               None
             </div>
           </div>
@@ -89,10 +93,7 @@
               />
               {{ drop.name }}
             </div>
-            <div
-              v-show="enemy.drops.length == 0"
-              class="col-sm-7 offset-sm-1"
-            >
+            <div v-show="enemy.drops.length == 0" class="col-sm-7 offset-sm-1">
               None
             </div>
           </div>
@@ -103,20 +104,44 @@
 </template>
 
 <script>
+import dungeonActions from "./../../configuration/actionNames/dungeon-action";
+import loader from "../../components/common/Loader";
+import SessionMixin from "../../mixins/session-mixin";
 export default {
   props: { selectedDungeon: Object },
+  mixins: [SessionMixin],
   data() {
     return {
-      enemies: []
+      dungeonPayload: {
+        characterId: "",
+        dungeonId: "",
+      },
+      enemies: [],
+      showLoader: false,
     };
   },
+  components: {
+    appLoader: loader,
+  },
   methods: {
-    getEquipmentImage(name) {}
+    getEquipmentImage(name) {},
+    enterDungeon() {
+      this.showLoader = true;
+      this.dungeonPayload = {
+        characterId: this.getSession(this.sessionKeys.character),
+        dungeonId: this.selectedDungeon._id
+      };
+      this.$store.dispatch(dungeonActions.enterDungeon, this.dungeonPayload).then((res) => {
+        if (res == true) {
+          this.showLoader = false;
+        }
+      });
+    },
   },
   watch: {
     selectedDungeon: function(value) {
       this.enemies = value.enemies;
-    }
-  }
+    },
+  },
 };
 </script>

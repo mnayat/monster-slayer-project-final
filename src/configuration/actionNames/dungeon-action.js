@@ -1,8 +1,8 @@
 const moduleName = 'dungeonModule'
 
 const dungeonActions = {
-    // enterDungeon: `/dungeons/enter`,
-    // outcomeDungeron: `/dungeons/battle`
+    enterDungeon: `${moduleName}/enterDungeonAsync`,
+    battleDungeon: `${moduleName}/battleDungeonAsync`,
 }
 
 export default dungeonActions;

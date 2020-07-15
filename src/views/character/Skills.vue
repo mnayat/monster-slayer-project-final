@@ -87,6 +87,7 @@ export default {
         });
     },
     equipSkill(skill) {
+<<<<<<< HEAD
       if (skill !== undefined) {
         var isSkillExisting = this.currentSkills.some(
           (x) => x._id === skill._id
@@ -111,6 +112,18 @@ export default {
       } else {
         this.currentSkills = this.currentSkills.filter((x) => x._id != skillId);
       }
+=======
+      var isSkillExisting = this.currentSkills.some((x) => x._id === skill._id);
+      if (isSkillExisting) {
+        this.showToast("warning", "Skill is already equipped.");
+      } else {
+        this.showToast("success", "Successfully added in current skills");
+        this.currentSkills.push(skill);
+      }
+    },
+    deleteSkill(skillId) {
+      this.currentSkills = this.currentSkills.filter((x) => x._id != skillId);
+>>>>>>> e1d75d90e0ee8a324c9a327dab601187a4c55bdf
     },
     updateSkills() {
       const skillIds = this.currentSkills.map((x) => {

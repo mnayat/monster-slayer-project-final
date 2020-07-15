@@ -78,11 +78,14 @@ export default {
       let inventory = this.inventory.find((x) => x._id == itemId);
       this.deleteInventoryPayload.inventoryId = inventory._id;
       this.selectedItem = inventory.item;
+      this.updateCurrentItem();
+    },
+    updateCurrentItem() {
       if (this.selectedItem.type === "WPN") {
         this.currentItem = this.character.equipment.weapon;
         this.isSameClass =
           this.character.equipment.weapon.classId === this.selectedItem.classId;
-      } else {
+      } else if (this.selectedItem.type === "AMR") {
         this.currentItem = this.character.equipment.armor;
         this.isSameClass =
           this.character.equipment.armor.classId === this.selectedItem.classId;
@@ -102,6 +105,7 @@ export default {
               this.character.equipment.weapon.type,
               this.character.equipment.weapon._id
             );
+            this.updateCurrentItem();
           } else {
             this.showErrorToast();
           }
@@ -118,6 +122,7 @@ export default {
     },
     equipItem() {
       this.updateEquippedItem(this.selectedItem.type, this.selectedItem._id);
+
       this.updateInventory();
     },
     updateInventory() {
@@ -126,10 +131,12 @@ export default {
         .dispatch(characterActions.updateInventory, this.updateInventoryPayload)
         .then((res) => {
           if (res === true) {
+            this.getCharacter();
             this.showToast(
               "success",
               "Inventory has been updated successfully!"
             );
+
           } else {
             this.showErrorToast();
           }
@@ -146,7 +153,6 @@ export default {
               "success",
               "Selected Item has been deleted successfully!"
             );
-
             this.selectedItem = {};
             this.hasSelectedItem = false;
             this.isSameClass = false;

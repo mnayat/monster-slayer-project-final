@@ -72,7 +72,8 @@ const actions = {
     updateInventoryAsync({ dispatch }, payload) {
         return HTTP.put(character(payload.characterId).updateCharacterEquipement, payload.request)
             .then(resp => {
-                dispatch("getInventoryAsync", payload.characterId);
+                //dispatch("getInventoryAsync", payload.characterId);
+                dispatch("getCharacterAsync", payload.characterId);
                 return true;
             })
             .catch(err => {

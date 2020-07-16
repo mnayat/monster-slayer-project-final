@@ -6,15 +6,17 @@
         v-for="(skill, i) in skills"
         :key="i"
         @click="attack(skill._id)"
+        :disabled="mana < skill.cost ? true : false"
       >
         {{ skill.name }}
-      </button>
+        <div>{{ skill.cost }}</div>
+      </button> 
     </div>
   </div>
 </template>
 <script>
 export default {
-  props: ["skills"],
+  props: ["skills", "mana"],
   methods: {
     attack(skillId) {
       this.$emit("attack", skillId);

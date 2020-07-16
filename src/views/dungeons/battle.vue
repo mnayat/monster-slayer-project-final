@@ -253,9 +253,9 @@ export default {
     },
     computeDamage(skillDamage, offense, defense, luck) {
       if (this.applyLuck(luck)) {
-        return Math.round(((skillDamage * offense) / 100 - defense) * 1.5);
+        return Math.round((((skillDamage * offense) / 100) - defense) * 1.5);
       }
-      return Math.round((skillDamage * offense) / 100 - defense);
+      return Math.round(((skillDamage * offense) / 100) - defense);
     },
     IsEvadeHit(agility, isEnemy = false) {
       var computedAgi = isEnemy

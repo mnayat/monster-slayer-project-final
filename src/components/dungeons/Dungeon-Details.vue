@@ -21,7 +21,7 @@
           Enter
         </router-link>
       </div>
-    </div>
+    </div> 
 
     <div class="row" v-show="selectedDungeon.locked">
       <div class="col-sm-12"><b>Requirements:</b></div>

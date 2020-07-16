@@ -57,9 +57,11 @@
             <img :src="getDungeonImage()" height="350px" width="760px" />
             <img :src="attributes.character.img" class="player" />
             <img :src="attributes.enemy.img" class="enemy" />
-            Show Text Here
+               
           </div>
         </div>
+        <br/>
+        <appbattleLogs :message ="message"/>
       </div>
     </div>
   </div>
@@ -73,11 +75,14 @@ import BattleAction from "./../../components/battle/Battle-Action";
 import baseDungeon from "./../../data/dungeons-data";
 import baseCharacter from "./../../data/characters-data";
 import baseEnemies from "./../../data/enemies-data";
+import BattleLogs from "./../../components/battle/Battle-Logs.vue";
+
 export default {
   mixins: [CharacterMixin],
   components: {
     appProgressBar: ProgressBar,
-    appBattleAction: BattleAction
+    appBattleAction: BattleAction,
+    appbattleLogs: BattleLogs
   },
   data() {
     return {
@@ -101,7 +106,8 @@ export default {
           img: "",
           imgAttack: ""
         }
-      }
+      },
+      message: '',
     };
   },
   created() {
@@ -111,19 +117,27 @@ export default {
   },
   methods: {
     attack(skillId) {
+      debugger; 
       const skill = this.character.skills.find((x) => x._id === skillId);
+     const offense = this.character.stats.off;
       if (skill.target === "self") {
         // either heal or regain the mana
+          this.attributes.character.currentMana += 100;
       } else {
-        this.attributes.enemy.currentLife -= skill.damage;
+        this.attributes.enemy.currentLife -= Math.round((offense * skill.damage) / 100);
         this.attributes.character.currentMana -= skill.cost;
       }
+      this.gameMessage(this.dungeonDetails.enemy.name, skill.damage,skill.target);  
+     
+     setTimeout(()=>{
 
-      this.enemyAttack();
+           this.enemyAttack();
+       }); 
+    
     },
     enemyAttack() {
-      var enemySkills = this.dungeonDetails.enemy.skills;
-
+      var enemySkills = this.dungeonDetails.enemy.skills;  
+      const enemyOffense = this.dungeonDetails.enemy.stats.off;
       // we need to refactor this adding of Focus and Attack
       enemySkills.unshift({
         classId: 0,
@@ -149,9 +163,10 @@ export default {
       if (enemyAttack.target === "self") {
         // either heal or regain the mana
       } else {
-        this.attributes.character.currentLife -= enemyAttack.damage;
+        this.attributes.character.currentLife -= Math.round((enemyOffense * enemyAttack.damage) /100);
         this.attributes.enemy.currentMana -= enemyAttack.cost;
       }
+      this.gameMessage(this.character.name, enemyAttack.damage,enemyAttack.target);   
     },
     enterDungeon() {
       let dungeonId = this.$route.params.id;
@@ -227,8 +242,21 @@ export default {
           }
           this.showLoader = false;
         });
-    }
+    },
+     gameMessage(character,cost,target){
+       debugger;
+         if(target === 'self')
+         {
+             this.message = `${character} increase ${cost} of mana`
+         }
+         else{
+              this.message = `${character} received ${cost} of damage`
+         }
+        
+         
+       }
   },
+  
   computed: {
     character() {
       return this.$store.getters["characterModule/getCharacter"];

@@ -56,8 +56,10 @@
               </div>
             </div>
             <img :src="getDungeonImage()" height="350px" width="760px" />
-            <img :src="attributes.character.img" class="player" />
-            <img :src="attributes.enemy.img" class="enemy" />
+            <img v-show="!showPlayerAttack" :src="attributes.character.img" class="player" />
+            <img v-show="showPlayerAttack" :src="attributes.character.imgAttack" class="player" />
+            <img v-show="!showEnemyBlink" :src="attributes.enemy.img" class="enemy" />
+            <img v-show="showEnemyBlink" :src="attributes.enemy.imgBlink" class="enemy" />
           </div>
         </div>
         <br />
@@ -106,7 +108,7 @@ export default {
     appProgressBar: ProgressBar,
     appBattleAction: BattleAction,
     appbattleLogs: BattleLogs,
-    "b-modal": BModal
+    "b-modal": BModal,
   },
   data() {
     return {
@@ -114,6 +116,9 @@ export default {
       showLoader: false,
       characterId: "",
       hardCodedCharacter: Object,
+      isLuck: false,
+      showPlayerAttack: false,
+      showEnemyBlink: false,
       attributes: {
         character: {
           currentLife: 0,
@@ -121,7 +126,7 @@ export default {
           life: 0,
           mana: 0,
           img: "",
-          imgAttack: ""
+          imgAttack: "",
         },
         enemy: {
           currentLife: 0,
@@ -129,13 +134,13 @@ export default {
           life: 0,
           mana: 0,
           img: "",
-          imgAttack: ""
-        }
+          imgBlink: "",
+        },
       },
       message: "",
       winnerMessage: "",
       modalTitle: "",
-      hasAWinner: false
+      hasAWinner: false,
     };
   },
   created() {
@@ -145,50 +150,170 @@ export default {
   },
   methods: {
     attack(skillId) {
+      this.showPlayerAttack = true;
       this.hideButtons = true;
+      var focusValue = 0;
       const skill = this.character.skills.find((x) => x._id === skillId);
-      const offense = this.character.stats.off;
       if (skill.target === "self") {
-        // either heal or regain the mana
-        //this.attributes.character.currentMana += 100;
+        if (skill.damage < 0) {
+          this.applyHeal(skill.damage);
+          this.attributes.character.currentMana -= skill.cost;
+          this.gameMessage(
+            this.character.name,
+            skill.damage,
+            skill.target);
+        } else {
+          focusValue = this.applyFocus(this.character.stats.int, false);
+          this.gameMessage(
+            this.character.name,
+            focusValue,
+            skill.target);
+        }
       } else {
-        this.attributes.enemy.currentLife -= Math.round(
-          (offense * skill.damage) / 100
-        );
+        if (this.IsEvadeHit(this.dungeonDetails.enemy.stats.agi)) {
+          this.evadeMessage(this.character.name);
+        } else {
+          var damage = 0;
+          if (skill.type === "P") {
+            damage = this.computeDamage(
+              skill.damage,
+              this.character.stats.off,
+              this.dungeonDetails.enemy.stats.def,
+              this.character.stats.luk
+            );
+          } else {
+            damage = this.computeDamage(
+              skill.damage,
+              this.character.stats.int,
+              this.dungeonDetails.enemy.stats.def,
+              this.character.stats.luk
+            );
+          }
+          if (damage < 0) {
+            damage = 0;
+          }
+          this.attributes.enemy.currentLife -= damage;
+          this.gameMessage(this.character.name, damage, skill.target);
+        }
         this.attributes.character.currentMana -= skill.cost;
       }
-      this.gameMessage(this.character.name, skill.damage, skill.target);
+
       this.declareWinner();
       if (!this.hasAWinner) {
         setTimeout(() => {
+          this.showPlayerAttack = false;
           this.enemyAttack();
         }, 3000);
       }
     },
+    applyHeal(heal) {
+      this.attributes.character.currentLife -= heal;
+      if (this.attributes.character.currentLife > this.character.stats.health) {
+        this.attributes.character.currentLife = this.character.stats.health;
+      }
+    },
+    applyFocus(int, isEnemy) {
+      var focusValue = 0;
+      focusValue = Math.round(0.75 * int);
+      if (isEnemy) {
+        this.attributes.enemy.currentMana += focusValue;
+        if (
+          this.attributes.enemy.currentMana >
+          this.dungeonDetails.enemy.stats.mana
+        ) {
+          this.attributes.enemy.currentMana = this.dungeonDetails.enemy.stats.mana;
+        }
+      } else {
+        this.attributes.character.currentMana += focusValue
+        if (this.attributes.character.currentMana > this.character.stats.mana) {
+          this.attributes.character.currentMana = this.character.stats.mana;
+        }
+      }
+      return focusValue;
+    },
+    computeDamage(skillDamage, offense, defense, luck) {
+      if (this.applyLuck(luck)) {
+        return Math.round(((skillDamage * offense) / 100 - defense) * 1.5);
+      }
+      return Math.round((skillDamage * offense) / 100 - defense);
+    },
+    IsEvadeHit(agility) {
+      var computedAgi = agility * 0.05;
+      if (Math.floor(Math.random() * 100) < 15 + computedAgi) {
+        return true;
+      }
+      return false;
+    },
+    applyLuck(luck) {
+      var computedLuck = luck * 10;
+      if (Math.floor(Math.random() * 100) < 25 + computedLuck) {
+        this.isLuck = true;
+        return true;
+      }
+      this.isLuck = false;
+      return false;
+    },
+
     enemyAttack() {
+      this.showEnemyBlink = true;
       var enemySkills = this.dungeonDetails.enemy.skills;
       const enemyOffense = this.dungeonDetails.enemy.stats.off;
+      var focusValue = 0;
       enemySkills.unshift(...this.attackNFocusData);
       var enemyAttack =
         enemySkills[Math.floor(Math.random() * enemySkills.length)];
-      debugger;
       if (enemyAttack.target === "self") {
-        // either heal or regain the mana
+        if (enemyAttack.damage < 0) {
+          this.applyHeal(enemyAttack.damage);
+          this.attributes.enemy.currentMana -= enemyAttack.cost;
+          this.gameMessage(
+          this.dungeonDetails.enemy.name,
+          enemyAttack.damage,
+          enemyAttack.target);
+        } else {
+          focusValue = this.applyFocus(this.dungeonDetails.enemy.stats.int, true);
+          this.gameMessage(
+          this.dungeonDetails.enemy.name,
+          focusValue,
+          enemyAttack.target);
+        }
       } else {
-        this.attributes.character.currentLife -= Math.round(
-          (enemyOffense * enemyAttack.damage) / 100
-        );
+        if (this.IsEvadeHit(this.character.stats.agi)) {
+          this.evadeMessage(this.dungeonDetails.enemy.name);
+        } else {
+          var damage = 0;
+          if (enemyAttack.type === "P") {
+            damage = this.computeDamage(
+              enemyAttack.damage,
+              this.dungeonDetails.enemy.stats.off,
+              this.character.stats.def,
+              this.dungeonDetails.enemy.stats.luk
+            );
+          } else {
+            damage = this.computeDamage(
+              enemyAttack.damage,
+              this.dungeonDetails.enemy.stats.int,
+              this.character.stats.def,
+              this.dungeonDetails.enemy.stats.luk
+            );
+          }
+          if (damage < 0) {
+            damage = 0;
+          }
+          this.attributes.character.currentLife -= damage;
+          this.gameMessage(
+            this.dungeonDetails.enemy.name,
+            damage,
+            enemyAttack.target
+          );
+        }
         this.attributes.enemy.currentMana -= enemyAttack.cost;
       }
-      this.gameMessage(
-        this.dungeonDetails.enemy.name,
-        enemyAttack.damage,
-        enemyAttack.target
-      );
       this.declareWinner();
       setTimeout(() => {
         this.message = "";
         this.hideButtons = false;
+        this.showEnemyBlink = false;
       }, 3000);
     },
     enterDungeon() {
@@ -196,7 +321,7 @@ export default {
       this.showLoader = true;
       this.dungeonPayload = {
         characterId: this.characterId,
-        dungeonId: dungeonId
+        dungeonId: dungeonId,
       };
       this.$store
         .dispatch(dungeonActions.enterDungeon, this.dungeonPayload)
@@ -210,7 +335,10 @@ export default {
               mana: enemy.stats.mana,
               img: baseEnemies.find(
                 (x) => x.name === this.dungeonDetails.enemy.image
-              ).img
+              ).img,
+              imgBlink: baseEnemies.find(
+                (x) => x.name === this.dungeonDetails.enemy.image
+              ).imgBlink
             };
           } else {
             this.showErrorToast();
@@ -242,7 +370,7 @@ export default {
               life: this.character.stats.health,
               mana: this.character.stats.mana,
               img: this.hardCodedCharacter.img,
-              imgAttack: this.hardCodedCharacter.imgAttack
+              imgAttack: this.hardCodedCharacter.imgAttack,
             };
           } else {
             this.showErrorToast();
@@ -252,10 +380,23 @@ export default {
     },
     gameMessage(character, cost, target) {
       if (target === "self") {
-        this.message = `${character} increase ${cost} of mana`;
+        if (cost < 0) {
+          this.message = `${character} increase ${cost * -1} of health.`;
+        } else {
+          this.message = `${character} increase ${cost} of mana.`;
+        }
       } else {
-        this.message = `${character} dealt ${cost} of damage`;
+        if (cost <= 0) {
+          this.message = `${character} dealt NO damage!`;
+        } else if (this.isLuck) {
+          this.message = `${character} dealt ${cost} CRITICAL damage!`;
+        } else {
+          this.message = `${character} dealt ${cost} of damage!`;
+        }
       }
+    },
+    evadeMessage(character) {
+      this.message = `${character} attack missed!`;
     },
     declareWinner() {
       if (this.attributes.character.currentLife <= 0) {
@@ -277,7 +418,7 @@ export default {
         let payload = {
           characterId: this.character._id,
           dungeonId: this.$route.params.id,
-          enemyId: this.dungeonDetails.enemy._id
+          enemyId: this.dungeonDetails.enemy._id,
         };
         this.$store
           .dispatch(dungeonActions.resultDungeon, payload)
@@ -301,7 +442,7 @@ export default {
     },
     retry() {
       location.reload();
-    }
+    },
   },
   computed: {
     character() {
@@ -319,7 +460,7 @@ export default {
           name: "Attack",
           target: "enemy",
           type: "P",
-          _id: 1
+          _id: 1,
         },
         {
           classId: 0,
@@ -328,11 +469,11 @@ export default {
           name: "Focus",
           target: "self",
           type: "M",
-          _id: 2
-        }
+          _id: 2,
+        },
       ];
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -350,6 +491,7 @@ export default {
   top: 180px;
   right: 100px;
   height: auto;
+  max-height: 250px;
   max-width: 100%;
 }
 </style>

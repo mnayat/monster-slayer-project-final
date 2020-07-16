@@ -10,6 +10,7 @@
         <app-battle-action
           v-if="!hideButtons"
           :skills="character.skills"
+          :mana="attributes.character.mana"
           @attack="attack"
         ></app-battle-action>
       </div>
@@ -211,6 +212,9 @@ export default {
           this.showEnemyBlink = true;
         }
         this.attributes.character.currentMana -= skill.cost;
+        if(this.attributes.character.currentMana < 0){
+          this.attributes.character.currentMana = 0;
+        }
       }
       this.declareWinner();
       if (!this.hasAWinner) {
@@ -347,6 +351,9 @@ export default {
           );
         }
         this.attributes.enemy.currentMana -= enemyAttack.cost;
+        if(this.attributes.enemy.currentMana < 0){
+          this.attributes.enemy.currentMana = 0;
+        }
       }
       this.declareWinner();
       setTimeout(() => {

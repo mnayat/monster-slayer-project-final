@@ -125,7 +125,7 @@ export default {
     appProgressBar: ProgressBar,
     appBattleAction: BattleAction,
     appbattleLogs: BattleLogs,
-    "b-modal": BModal,
+    "b-modal": BModal
   },
   data() {
     return {
@@ -143,7 +143,7 @@ export default {
           life: 0,
           mana: 0,
           img: "",
-          imgAttack: "",
+          imgAttack: ""
         },
         enemy: {
           currentLife: 0,
@@ -151,13 +151,13 @@ export default {
           life: 0,
           mana: 0,
           img: "",
-          imgBlink: "",
-        },
+          imgBlink: ""
+        }
       },
       message: "",
       winnerMessage: "",
       modalTitle: "",
-      hasAWinner: false,
+      hasAWinner: false
     };
   },
   created() {
@@ -212,7 +212,7 @@ export default {
           this.showEnemyBlink = true;
         }
         this.attributes.character.currentMana -= skill.cost;
-        if(this.attributes.character.currentMana < 0){
+        if (this.attributes.character.currentMana < 0) {
           this.attributes.character.currentMana = 0;
         }
       }
@@ -257,9 +257,9 @@ export default {
     },
     computeDamage(skillDamage, offense, defense, luck) {
       if (this.applyLuck(luck)) {
-        return Math.round((((skillDamage * offense) / 100) - defense) * 1.5);
+        return Math.round(((skillDamage * offense) / 100 - defense) * 1.5);
       }
-      return Math.round(((skillDamage * offense) / 100) - defense);
+      return Math.round((skillDamage * offense) / 100 - defense);
     },
     IsEvadeHit(agility, isEnemy = false) {
       var computedAgi = isEnemy
@@ -351,7 +351,7 @@ export default {
           );
         }
         this.attributes.enemy.currentMana -= enemyAttack.cost;
-        if(this.attributes.enemy.currentMana < 0){
+        if (this.attributes.enemy.currentMana < 0) {
           this.attributes.enemy.currentMana = 0;
         }
       }
@@ -366,7 +366,7 @@ export default {
       this.showLoader = true;
       this.dungeonPayload = {
         characterId: this.characterId,
-        dungeonId: dungeonId,
+        dungeonId: dungeonId
       };
       this.$store
         .dispatch(dungeonActions.enterDungeon, this.dungeonPayload)
@@ -383,7 +383,7 @@ export default {
               ).img,
               imgBlink: baseEnemies.find(
                 (x) => x.name === this.dungeonDetails.enemy.image
-              ).imgBlink,
+              ).imgBlink
             };
           } else {
             this.showErrorToast();
@@ -415,7 +415,7 @@ export default {
               life: this.character.stats.health,
               mana: this.character.stats.mana,
               img: this.hardCodedCharacter.img,
-              imgAttack: this.hardCodedCharacter.imgAttack,
+              imgAttack: this.hardCodedCharacter.imgAttack
             };
           } else {
             this.showErrorToast();
@@ -446,48 +446,49 @@ export default {
     declareWinner() {
       if (this.attributes.character.currentLife <= 0) {
         this.attributes.character.currentLife = 0;
-        this.$bvModal.show("modal-1");
         this.modalTitle = "Sorry, you lose!";
         this.winnerMessage = "You can try again!";
         this.hasAWinner = true;
       }
       if (this.attributes.enemy.currentLife <= 0) {
         this.attributes.enemy.currentLife = 0;
-        this.$bvModal.show("modal-1");
+
         this.modalTitle = "Congratulations, you win!";
         this.hasAWinner = true;
       }
-
-      if (this.hasAWinner) {
-        this.showLoader = true;
-        let payload = {
-          characterId: this.character._id,
-          dungeonId: this.$route.params.id,
-          enemyId: this.dungeonDetails.enemy._id,
-        };
-        this.$store
-          .dispatch(dungeonActions.resultDungeon, payload)
-          .then((res) => {
-            if (res === true) {
-              var getDungeonResult = this.$store.getters[
-                "dungeonModule/getDungeonResult"
-              ];
-              this.winnerMessage = `<b>Exp Gained</b>:${
-                getDungeonResult.exp
-              } <br /><b>Item Drop</b>: ${
-                getDungeonResult.drop === "" ? "None" : getDungeonResult.drop
-              }`;
-              console.log(getDungeonResult);
-            } else {
-              this.showErrorToast();
-            }
-            this.showLoader = false;
-          });
-      }
+      setTimeout(() => {
+        if (this.hasAWinner) {
+          this.$bvModal.show("modal-1");
+          this.showLoader = true;
+          let payload = {
+            characterId: this.character._id,
+            dungeonId: this.$route.params.id,
+            enemyId: this.dungeonDetails.enemy._id
+          };
+          this.$store
+            .dispatch(dungeonActions.resultDungeon, payload)
+            .then((res) => {
+              if (res === true) {
+                var getDungeonResult = this.$store.getters[
+                  "dungeonModule/getDungeonResult"
+                ];
+                this.winnerMessage = `<b>Exp Gained</b>:${
+                  getDungeonResult.exp
+                } <br /><b>Item Drop</b>: ${
+                  getDungeonResult.drop === "" ? "None" : getDungeonResult.drop
+                }`;
+                console.log(getDungeonResult);
+              } else {
+                this.showErrorToast();
+              }
+              this.showLoader = false;
+            });
+        }
+      }, 1500);
     },
     retry() {
       location.reload();
-    },
+    }
   },
   computed: {
     character() {
@@ -505,7 +506,7 @@ export default {
           name: "Attack",
           target: "enemy",
           type: "P",
-          _id: 1,
+          _id: 1
         },
         {
           classId: 0,
@@ -514,11 +515,11 @@ export default {
           name: "Focus",
           target: "self",
           type: "M",
-          _id: 2,
-        },
+          _id: 2
+        }
       ];
-    },
-  },
+    }
+  }
 };
 </script>
 
@@ -528,15 +529,16 @@ export default {
   top: 180px;
   left: 100px;
   height: 200px;
-  width: 150px;
+  min-width: 150px;
+  max-width: 100%;
 }
 
 .enemy {
   position: absolute;
-  top: 180px;
+  top: 170px;
   right: 100px;
-  height: auto;
-  max-height: 250px;
+  min-height: 150px;
+  max-height: 200px;
   max-width: 100%;
 }
 </style>

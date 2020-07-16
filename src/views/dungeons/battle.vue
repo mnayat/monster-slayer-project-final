@@ -4,10 +4,11 @@
     <div class="text-center">Battle Field</div>
     <div
       class="row box"
-      v-if="character !== undefined && dungeonDetails.enemy !== undefined"
+      v-if="character.name !== undefined && dungeonDetails.enemy !== undefined"
     >
       <div class="col-md-2">
         <app-battle-action
+          v-if="!hideButtons"
           :skills="character.skills"
           @attack="attack"
         ></app-battle-action>
@@ -57,13 +58,34 @@
             <img :src="getDungeonImage()" height="350px" width="760px" />
             <img :src="attributes.character.img" class="player" />
             <img :src="attributes.enemy.img" class="enemy" />
-               
           </div>
         </div>
-        <br/>
-        <appbattleLogs :message ="message"/>
+        <br />
+        <appbattleLogs :message="message" />
       </div>
     </div>
+    <b-modal
+      id="modal-1"
+      size="sm"
+      :no-close-on-backdrop="true"
+      button-size="sm"
+      :hide-header-close="true"
+    >
+      <template v-slot:modal-title>
+        {{ modalTitle }}
+      </template>
+      <p v-html="winnerMessage"></p>
+      <template v-slot:modal-footer>
+        <button class="btn btn-sm btn-primary" @click="retry()">
+          <fa-icon icon="gamepad"></fa-icon>
+          Retry
+        </button>
+        <router-link class="btn btn-sm btn-danger" to="/dungeons">
+          <fa-icon icon="sign-out-alt"></fa-icon>
+          Leave
+        </router-link>
+      </template>
+    </b-modal>
   </div>
 </template>
 <script>
@@ -76,16 +98,19 @@ import baseDungeon from "./../../data/dungeons-data";
 import baseCharacter from "./../../data/characters-data";
 import baseEnemies from "./../../data/enemies-data";
 import BattleLogs from "./../../components/battle/Battle-Logs.vue";
-
+import { setTimeout } from "timers";
+import { BModal, VBModal } from "bootstrap-vue";
 export default {
   mixins: [CharacterMixin],
   components: {
     appProgressBar: ProgressBar,
     appBattleAction: BattleAction,
-    appbattleLogs: BattleLogs
+    appbattleLogs: BattleLogs,
+    "b-modal": BModal
   },
   data() {
     return {
+      hideButtons: false,
       showLoader: false,
       characterId: "",
       hardCodedCharacter: Object,
@@ -107,7 +132,10 @@ export default {
           imgAttack: ""
         }
       },
-      message: '',
+      message: "",
+      winnerMessage: "",
+      modalTitle: "",
+      hasAWinner: false
     };
   },
   created() {
@@ -117,56 +145,51 @@ export default {
   },
   methods: {
     attack(skillId) {
-      debugger; 
+      this.hideButtons = true;
       const skill = this.character.skills.find((x) => x._id === skillId);
-     const offense = this.character.stats.off;
+      const offense = this.character.stats.off;
       if (skill.target === "self") {
         // either heal or regain the mana
-          this.attributes.character.currentMana += 100;
+        //this.attributes.character.currentMana += 100;
       } else {
-        this.attributes.enemy.currentLife -= Math.round((offense * skill.damage) / 100);
+        this.attributes.enemy.currentLife -= Math.round(
+          (offense * skill.damage) / 100
+        );
         this.attributes.character.currentMana -= skill.cost;
       }
-      this.gameMessage(this.dungeonDetails.enemy.name, skill.damage,skill.target);  
-     
-     setTimeout(()=>{
-
-           this.enemyAttack();
-       }); 
-    
+      this.gameMessage(this.character.name, skill.damage, skill.target);
+      this.declareWinner();
+      if (!this.hasAWinner) {
+        setTimeout(() => {
+          this.enemyAttack();
+        }, 3000);
+      }
     },
     enemyAttack() {
-      var enemySkills = this.dungeonDetails.enemy.skills;  
+      var enemySkills = this.dungeonDetails.enemy.skills;
       const enemyOffense = this.dungeonDetails.enemy.stats.off;
-      // we need to refactor this adding of Focus and Attack
-      enemySkills.unshift({
-        classId: 0,
-        cost: 0,
-        damage: 100,
-        name: "Focus",
-        target: "self",
-        type: "M",
-        _id: 2
-      });
-      enemySkills.unshift({
-        classId: 0,
-        cost: 0,
-        damage: 100,
-        name: "Attack",
-        target: "enemy",
-        type: "P",
-        _id: 1
-      });
+      enemySkills.unshift(...this.attackNFocusData);
       var enemyAttack =
         enemySkills[Math.floor(Math.random() * enemySkills.length)];
       debugger;
       if (enemyAttack.target === "self") {
         // either heal or regain the mana
       } else {
-        this.attributes.character.currentLife -= Math.round((enemyOffense * enemyAttack.damage) /100);
+        this.attributes.character.currentLife -= Math.round(
+          (enemyOffense * enemyAttack.damage) / 100
+        );
         this.attributes.enemy.currentMana -= enemyAttack.cost;
       }
-      this.gameMessage(this.character.name, enemyAttack.damage,enemyAttack.target);   
+      this.gameMessage(
+        this.dungeonDetails.enemy.name,
+        enemyAttack.damage,
+        enemyAttack.target
+      );
+      this.declareWinner();
+      setTimeout(() => {
+        this.message = "";
+        this.hideButtons = false;
+      }, 3000);
     },
     enterDungeon() {
       let dungeonId = this.$route.params.id;
@@ -210,25 +233,9 @@ export default {
             this.hardCodedCharacter = this.getHardCodedCharacterData(
               this.character.classType
             );
-            // we need to refactor this adding of Focus and Attack
-            this.character.skills.unshift({
-              classId: 0,
-              cost: 0,
-              damage: 100,
-              name: "Focus",
-              target: "self",
-              type: "M",
-              _id: 2
-            });
-            this.character.skills.unshift({
-              classId: 0,
-              cost: 0,
-              damage: 100,
-              name: "Attack",
-              target: "enemy",
-              type: "P",
-              _id: 1
-            });
+
+            this.character.skills.unshift(...this.attackNFocusData);
+
             this.attributes.character = {
               currentLife: this.character.stats.health,
               currentMana: this.character.stats.mana,
@@ -243,26 +250,87 @@ export default {
           this.showLoader = false;
         });
     },
-     gameMessage(character,cost,target){
-       debugger;
-         if(target === 'self')
-         {
-             this.message = `${character} increase ${cost} of mana`
-         }
-         else{
-              this.message = `${character} received ${cost} of damage`
-         }
-        
-         
-       }
+    gameMessage(character, cost, target) {
+      if (target === "self") {
+        this.message = `${character} increase ${cost} of mana`;
+      } else {
+        this.message = `${character} dealt ${cost} of damage`;
+      }
+    },
+    declareWinner() {
+      if (this.attributes.character.currentLife <= 0) {
+        this.attributes.character.currentLife = 0;
+        this.$bvModal.show("modal-1");
+        this.modalTitle = "Sorry, you lose!";
+        this.winnerMessage = "You can try again!";
+        this.hasAWinner = true;
+      }
+      if (this.attributes.enemy.currentLife <= 0) {
+        this.attributes.enemy.currentLife = 0;
+        this.$bvModal.show("modal-1");
+        this.modalTitle = "Congratulations, you win!";
+        this.hasAWinner = true;
+      }
+
+      if (this.hasAWinner) {
+        this.showLoader = true;
+        let payload = {
+          characterId: this.character._id,
+          dungeonId: this.$route.params.id,
+          enemyId: this.dungeonDetails.enemy._id
+        };
+        this.$store
+          .dispatch(dungeonActions.resultDungeon, payload)
+          .then((res) => {
+            if (res === true) {
+              var getDungeonResult = this.$store.getters[
+                "dungeonModule/getDungeonResult"
+              ];
+              this.winnerMessage = `<b>Exp Gained</b>:${
+                getDungeonResult.exp
+              } <br /><b>Item Drop</b>: ${
+                getDungeonResult.drop === "" ? "None" : getDungeonResult.drop
+              }`;
+              console.log(getDungeonResult);
+            } else {
+              this.showErrorToast();
+            }
+            this.showLoader = false;
+          });
+      }
+    },
+    retry() {
+      location.reload();
+    }
   },
-  
   computed: {
     character() {
       return this.$store.getters["characterModule/getCharacter"];
     },
     dungeonDetails() {
       return this.$store.getters["dungeonModule/getDungeonDetails"];
+    },
+    attackNFocusData() {
+      return [
+        {
+          classId: 0,
+          cost: 0,
+          damage: 100,
+          name: "Attack",
+          target: "enemy",
+          type: "P",
+          _id: 1
+        },
+        {
+          classId: 0,
+          cost: 0,
+          damage: 100,
+          name: "Focus",
+          target: "self",
+          type: "M",
+          _id: 2
+        }
+      ];
     }
   }
 };

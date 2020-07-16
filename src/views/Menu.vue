@@ -16,6 +16,7 @@
           </li>
         </ul>
         <button class="btn btn-outline-success my-2 my-sm-0" @click="logout()">
+          <fa-icon icon="sign-out-alt"></fa-icon>
           Logout
         </button>
       </div>

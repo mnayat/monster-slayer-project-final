@@ -56,10 +56,26 @@
               </div>
             </div>
             <img :src="getDungeonImage()" height="350px" width="760px" />
-            <img v-show="!showPlayerAttack" :src="attributes.character.img" class="player" />
-            <img v-show="showPlayerAttack" :src="attributes.character.imgAttack" class="player" />
-            <img v-show="!showEnemyBlink" :src="attributes.enemy.img" class="enemy" />
-            <img v-show="showEnemyBlink" :src="attributes.enemy.imgBlink" class="enemy" />
+            <img
+              v-show="!showPlayerAttack"
+              :src="attributes.character.img"
+              class="player"
+            />
+            <img
+              v-show="showPlayerAttack"
+              :src="attributes.character.imgAttack"
+              class="player"
+            />
+            <img
+              v-show="!showEnemyBlink"
+              :src="attributes.enemy.img"
+              class="enemy"
+            />
+            <img
+              v-show="showEnemyBlink"
+              :src="attributes.enemy.imgBlink"
+              class="enemy"
+            />
           </div>
         </div>
         <br />
@@ -158,16 +174,10 @@ export default {
         if (skill.damage < 0) {
           this.applyHeal(skill.damage);
           this.attributes.character.currentMana -= skill.cost;
-          this.gameMessage(
-            this.character.name,
-            skill.damage,
-            skill.target);
+          this.gameMessage(this.character.name, skill.damage, skill.target);
         } else {
           focusValue = this.applyFocus(this.character.stats.int, false);
-          this.gameMessage(
-            this.character.name,
-            focusValue,
-            skill.target);
+          this.gameMessage(this.character.name, focusValue, skill.target);
         }
       } else {
         if (this.IsEvadeHit(this.dungeonDetails.enemy.stats.agi)) {
@@ -177,14 +187,18 @@ export default {
           if (skill.type === "P") {
             damage = this.computeDamage(
               skill.damage,
-              this.character.stats.off,
+              this.character.stats.off +
+                this.character.equipment.weapon.bonus.off +
+                this.character.equipment.armor.bonus.off,
               this.dungeonDetails.enemy.stats.def,
               this.character.stats.luk
             );
           } else {
             damage = this.computeDamage(
               skill.damage,
-              this.character.stats.int,
+              this.character.stats.int +
+                this.character.equipment.weapon.bonus.int +
+                this.character.equipment.armor.bonus.int,
               this.dungeonDetails.enemy.stats.def,
               this.character.stats.luk
             );
@@ -194,10 +208,10 @@ export default {
           }
           this.attributes.enemy.currentLife -= damage;
           this.gameMessage(this.character.name, damage, skill.target);
+          this.showEnemyBlink = true;
         }
         this.attributes.character.currentMana -= skill.cost;
       }
-
       this.declareWinner();
       if (!this.hasAWinner) {
         setTimeout(() => {
@@ -214,7 +228,13 @@ export default {
     },
     applyFocus(int, isEnemy) {
       var focusValue = 0;
-      focusValue = Math.round(0.75 * int);
+      focusValue = isEnemy
+        ? Math.round(0.75 * int)
+        : Math.round(
+            0.75 * int +
+              this.character.equipment.weapon.bonus.int +
+              this.character.equipment.armor.bonus.int
+          );
       if (isEnemy) {
         this.attributes.enemy.currentMana += focusValue;
         if (
@@ -224,7 +244,7 @@ export default {
           this.attributes.enemy.currentMana = this.dungeonDetails.enemy.stats.mana;
         }
       } else {
-        this.attributes.character.currentMana += focusValue
+        this.attributes.character.currentMana += focusValue;
         if (this.attributes.character.currentMana > this.character.stats.mana) {
           this.attributes.character.currentMana = this.character.stats.mana;
         }
@@ -237,15 +257,25 @@ export default {
       }
       return Math.round((skillDamage * offense) / 100 - defense);
     },
-    IsEvadeHit(agility) {
-      var computedAgi = agility * 0.05;
+    IsEvadeHit(agility, isEnemy = false) {
+      var computedAgi = isEnemy
+        ? agility * 0.05
+        : (agility +
+            this.character.equipment.weapon.bonus.agi +
+            this.character.equipment.armor.bonus.agi) *
+          0.05;
       if (Math.floor(Math.random() * 100) < 15 + computedAgi) {
         return true;
       }
       return false;
     },
-    applyLuck(luck) {
-      var computedLuck = luck * 10;
+    applyLuck(luck, isEnemy = false) {
+      var computedLuck = isEnemy
+        ? luck * 10
+        : (luck +
+            this.character.equipment.weapon.bonus.luk +
+            this.character.equipment.armor.bonus.luk) *
+          10;
       if (Math.floor(Math.random() * 100) < 25 + computedLuck) {
         this.isLuck = true;
         return true;
@@ -255,7 +285,7 @@ export default {
     },
 
     enemyAttack() {
-      this.showEnemyBlink = true;
+      this.showEnemyBlink = false;
       var enemySkills = this.dungeonDetails.enemy.skills;
       const enemyOffense = this.dungeonDetails.enemy.stats.off;
       var focusValue = 0;
@@ -267,18 +297,23 @@ export default {
           this.applyHeal(enemyAttack.damage);
           this.attributes.enemy.currentMana -= enemyAttack.cost;
           this.gameMessage(
-          this.dungeonDetails.enemy.name,
-          enemyAttack.damage,
-          enemyAttack.target);
+            this.dungeonDetails.enemy.name,
+            enemyAttack.damage,
+            enemyAttack.target
+          );
         } else {
-          focusValue = this.applyFocus(this.dungeonDetails.enemy.stats.int, true);
+          focusValue = this.applyFocus(
+            this.dungeonDetails.enemy.stats.int,
+            true
+          );
           this.gameMessage(
-          this.dungeonDetails.enemy.name,
-          focusValue,
-          enemyAttack.target);
+            this.dungeonDetails.enemy.name,
+            focusValue,
+            enemyAttack.target
+          );
         }
       } else {
-        if (this.IsEvadeHit(this.character.stats.agi)) {
+        if (this.IsEvadeHit(this.character.stats.agi, true)) {
           this.evadeMessage(this.dungeonDetails.enemy.name);
         } else {
           var damage = 0;
@@ -286,14 +321,18 @@ export default {
             damage = this.computeDamage(
               enemyAttack.damage,
               this.dungeonDetails.enemy.stats.off,
-              this.character.stats.def,
+              this.character.stats.def +
+                this.character.equipment.weapon.bonus.def +
+                this.character.equipment.armor.bonus.def,
               this.dungeonDetails.enemy.stats.luk
             );
           } else {
             damage = this.computeDamage(
               enemyAttack.damage,
               this.dungeonDetails.enemy.stats.int,
-              this.character.stats.def,
+              this.character.stats.def +
+                this.character.equipment.weapon.bonus.def +
+                this.character.equipment.armor.bonus.def,
               this.dungeonDetails.enemy.stats.luk
             );
           }
@@ -313,7 +352,6 @@ export default {
       setTimeout(() => {
         this.message = "";
         this.hideButtons = false;
-        this.showEnemyBlink = false;
       }, 3000);
     },
     enterDungeon() {
@@ -338,7 +376,7 @@ export default {
               ).img,
               imgBlink: baseEnemies.find(
                 (x) => x.name === this.dungeonDetails.enemy.image
-              ).imgBlink
+              ).imgBlink,
             };
           } else {
             this.showErrorToast();

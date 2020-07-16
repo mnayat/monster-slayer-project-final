@@ -2,7 +2,7 @@
   <div class="panel-container" v-if="dungeons !== undefined">
     <div class="flex-container">
       <div
-        class="tile padright"
+        class="tile padright img-margin"
         v-for="dungeon in dungeons"
         :key="dungeon._id"
         v-bind:value="{ id: dungeon._id, text: dungeon.name }"
@@ -47,3 +47,8 @@ export default {
   },
 };
 </script>
+<style scoped>
+  .img-margin {
+    margin: 10px;
+  }
+</style>

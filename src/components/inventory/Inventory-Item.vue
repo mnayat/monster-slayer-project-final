@@ -5,10 +5,9 @@
         <div class="card-body">
           <div class="row">
             <div
-              class="col-md-6"
+              class="col-md-6 btnPadding"
               v-for="(item, i) in inventory"
               :key="i"
-              style="padding-top:5px;"
             >
               <button
                 class="btn btn-primary btn-sm btn-block"

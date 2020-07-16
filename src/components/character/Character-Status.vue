@@ -8,21 +8,29 @@
       <div class="col-sm-8" v-if="character !== undefined">
         <p class="text-center">Character Status</p>
         <div class="row">
-          <div class="col-sm-3 offset-1 bold ">Attrib</div>
-          <div class="col-sm-2 bold">Base</div>
-          <div class="col-sm-2 bold">Bonus</div>
-          <div class="col-sm-2 bold">Total</div>
+          <div class="col-sm-3 offset-1">
+            <b>Attrib</b>
+          </div>
+          <div class="col-sm-2"><b>Base</b></div>
+          <div class="col-sm-2"><b>Bonus</b></div>
+          <div class="col-sm-2"><b>Total</b></div>
         </div>
         <div class="row" v-for="(stats, i) in character.stats" :key="i">
-          <div class="col-sm-3 offset-1 bold text-uppercase">{{ i }}</div>
-          <div class="col-sm-2 bold text-right">{{ stats }}</div>
-          <div class="col-sm-2 bold text-right">
-            {{
-              character.equipment.armor.bonus[i] +
-                character.equipment.weapon.bonus[i]
-            }}
+          <div class="col-sm-3 offset-1 text-uppercase">
+            <b>{{ i }}</b>
           </div>
-          <div class="col-sm-2 bold text-right">
+          <div class="col-sm-2 text-right">
+            <b>{{ stats }}</b>
+          </div>
+          <div class="col-sm-2 text-right">
+            <b>
+              {{
+                character.equipment.armor.bonus[i] +
+                  character.equipment.weapon.bonus[i]
+              }}
+            </b>
+          </div>
+          <div class="col-sm-2 text-right">
             {{
               character.equipment.armor.bonus[i] +
                 character.equipment.weapon.bonus[i] +

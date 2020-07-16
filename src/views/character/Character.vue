@@ -11,42 +11,33 @@
         />
       </div>
       <div class="col-sm-9">
-          <appCharacterStatus
-          :character="character"
-          :defaultInfo="defaultInfo"
-        />
+        <appCharacterStatus :character="character" :defaultInfo="defaultInfo" />
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import SessionMixin from "../../mixins/session-mixin";
-import sessionKeys from "../../configuration/session/sessionKeys";
+import CharacterMixin from "../../mixins/character-mixin";
 import characterActions from "./../../configuration/actionNames/character-action";
-import baseCharacter from "./../../scripts/character.js";
 import CharacterInfo from "../../components/character/Character-Info";
 import CharacterStatus from "../../components/character/Character-Status";
-import pathNames from "../../configuration/routerPath/pathNames";
-import { setTimeout } from "timers";
 export default {
+  mixins: [CharacterMixin],
+  components: {
+    appCharacterinfo: CharacterInfo,
+    appCharacterStatus: CharacterStatus
+  },
   data() {
     return {
       characterId: "",
       showLoader: false,
-      stats: {},
       defaultInfo: {},
-      baseCharacter: baseCharacter,
-      totalHealth: 0,
+      totalHealth: 0
     };
   },
-  components: {
-    appCharacterinfo: CharacterInfo,
-     appCharacterStatus: CharacterStatus,
-  },
-  mixins: [SessionMixin],
   created() {
-    this.characterId = this.getSession(sessionKeys.character);
+    this.characterId = this.getSession(this.sessionKeys.character);
     this.getCharacter();
   },
   methods: {
@@ -56,24 +47,21 @@ export default {
         .dispatch(characterActions.getCharacter, this.characterId)
         .then((res) => {
           if (res == true) {
-            this.getBaseCharacter();
-            this.stats = this.character.stats;
-            console.log(this.character);
-            this.showLoader = false;
+            this.defaultInfo = this.getHardCodedCharacterData(
+              this.character.classType
+            );
+          } else {
+            this.showErrorToast();
           }
+          this.showLoader = false;
         });
-    },
-    getBaseCharacter() {
-      this.defaultInfo = this.baseCharacter.find(
-        (x) => x.characterId === this.character.classType
-      );
-    },
+    }
   },
   computed: {
     character() {
       return this.$store.getters["characterModule/getCharacter"];
-    },
-  },
+    }
+  }
 };
 </script>
 

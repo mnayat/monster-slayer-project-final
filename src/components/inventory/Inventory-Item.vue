@@ -9,11 +9,14 @@
               v-for="(item, i) in inventory"
               :key="i"
             >
+            <!-- <img :src="require('../../assets/icons/inventory/classId/' + item.item.classId + '/' + item.item.name.replace(/'/g,'') + '.png')" /> -->
+
               <button
                 class="btn btn-primary btn-sm btn-block"
                 @click="getDescription(item._id)"
               >
-                {{ item.item.name }}
+               <img :src="require('../../assets/icons/inventory/classId/' + item.item.classId + '/' + JSON.stringify(item.item.name) + '.png')" />
+               <!-- <img :src="require('../../assets/icons/inventory/classId/3/Blacksmith\'s\ Hammer.png')" /> {{ item.item.name }} -->
               </button>
             </div>
           </div>

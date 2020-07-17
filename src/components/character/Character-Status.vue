@@ -54,7 +54,7 @@
           Skills
         </router-link>
       </div>
-      <div class="offset-1 col-sm-3">
+      <div class="offset-1 col-sm-6">
         <p>Equipment</p>
         <div
           class="row"
@@ -63,14 +63,17 @@
         >
           <div class="col-sm-6  bold text-uppercase">{{ i }}</div>
           <div class="col-sm-6 bold text-right">
+            <img :src="require('../../assets/icons/inventory/classId/' + equipments.classId + '/' + equipments.name + '.png')" />
             {{ equipments.name }}
           </div>
         </div>
       </div>
-      <div class="offset-1 col-sm-4">
+      <div class="offset-4 col-sm-6">
         <p>Skills</p>
         <div class="row" v-for="(skills, i) in character.skills" :key="i">
-          <div class="col-sm-6 bold">{{ skills.name }}</div>
+          <div class="col-sm-6 bold">
+            <img :src="require('../../assets/icons/skills/' + skills.type + '.png')" />
+            {{ skills.name }}</div>
         </div>
       </div>
     </div>

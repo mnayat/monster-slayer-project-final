@@ -41,7 +41,7 @@
             v-for="(currentSkill, i) in currentSkills"
             :key="i"
           >
-          <img :src="require('../../assets/icons/skills/' + currentSkill.type + '.png')" />
+            <!-- <img :src="require('../../assets/icons/skills/' + currentSkill.type + '.png')" /> -->
             {{ currentSkill.name }}
             <button
               type="button"

@@ -444,6 +444,7 @@ export default {
       this.message = `${character} attack missed!`;
     },
     declareWinner() {
+      var isCharacterWin = false;
       if (this.attributes.character.currentLife <= 0) {
         this.attributes.character.currentLife = 0;
         this.modalTitle = "Sorry, you lose!";
@@ -455,34 +456,39 @@ export default {
 
         this.modalTitle = "Congratulations, you win!";
         this.hasAWinner = true;
+        isCharacterWin = true;
       }
       setTimeout(() => {
         if (this.hasAWinner) {
           this.$bvModal.show("modal-1");
-          this.showLoader = true;
-          let payload = {
-            characterId: this.character._id,
-            dungeonId: this.$route.params.id,
-            enemyId: this.dungeonDetails.enemy._id
-          };
-          this.$store
-            .dispatch(dungeonActions.resultDungeon, payload)
-            .then((res) => {
-              if (res === true) {
-                var getDungeonResult = this.$store.getters[
-                  "dungeonModule/getDungeonResult"
-                ];
-                this.winnerMessage = `<b>Exp Gained</b>:${
-                  getDungeonResult.exp
-                } <br /><b>Item Drop</b>: ${
-                  getDungeonResult.drop === "" ? "None" : getDungeonResult.drop
-                }`;
-                console.log(getDungeonResult);
-              } else {
-                this.showErrorToast();
-              }
-              this.showLoader = false;
-            });
+          if (isCharacterWin) {
+            this.showLoader = true;
+            let payload = {
+              characterId: this.character._id,
+              dungeonId: this.$route.params.id,
+              enemyId: this.dungeonDetails.enemy._id
+            };
+            this.$store
+              .dispatch(dungeonActions.resultDungeon, payload)
+              .then((res) => {
+                if (res === true) {
+                  var getDungeonResult = this.$store.getters[
+                    "dungeonModule/getDungeonResult"
+                  ];
+                  this.winnerMessage = `<b>Exp Gained</b>:${
+                    getDungeonResult.exp
+                  } <br /><b>Item Drop</b>: ${
+                    getDungeonResult.drop === ""
+                      ? "None"
+                      : getDungeonResult.drop
+                  }`;
+                  console.log(getDungeonResult);
+                } else {
+                  this.showErrorToast();
+                }
+                this.showLoader = false;
+              });
+          }
         }
       }, 1500);
     },

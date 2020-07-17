@@ -61,9 +61,9 @@
           v-for="(equipments, i) in character.equipment"
           :key="i"
         >
-          <div class="col-sm-6  bold text-uppercase">{{ i }}</div>
-          <div class="col-sm-6 bold text-right">
-            <img :src="require('../../assets/icons/inventory/classId/' + equipments.classId + '/' + equipments.name + '.png')" />
+          <div class="col-sm-3  bold text-uppercase">{{ i }}</div>
+          <div class="col-sm-9 bold text-right">
+            <!-- <img :src="require('../../assets/icons/inventory/classId/' + equipments.classId + '/' + equipments.name + '.png')" /> -->
             {{ equipments.name }}
           </div>
         </div>
@@ -72,7 +72,7 @@
         <p>Skills</p>
         <div class="row" v-for="(skills, i) in character.skills" :key="i">
           <div class="col-sm-6 bold">
-            <img :src="require('../../assets/icons/skills/' + skills.type + '.png')" />
+            <!-- <img :src="require('../../assets/icons/skills/' + skills.type + '.png')" /> -->
             {{ skills.name }}</div>
         </div>
       </div>

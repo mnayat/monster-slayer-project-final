@@ -15,7 +15,7 @@
                 class="btn btn-primary btn-sm btn-block"
                 @click="getDescription(item._id)"
               >
-               <img :src="require('../../assets/icons/inventory/classId/' + item.item.classId + '/' + item.item.name + '.png')" />
+                 <img :src="require('../../assets/icons/inventory/classId/' + item.item.classId + '/' + item.item.name + '.png')" /> {{  item.item.name }}
               </button>
             </div>
           </div>

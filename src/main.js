@@ -23,7 +23,7 @@ Vue.component('fa-icon', FontAwesomeIcon)
 Vue.component('apploader', AppLoader)
 
 Vue.use(BootstrapVue);
-Vue.use(VueSession, {persist: true});
+Vue.use(VueSession);
 Vue.use(Vuelidate);
 Vue.use(ScrollBar);
 Vue.use(VueToast);

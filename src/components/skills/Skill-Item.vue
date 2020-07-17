@@ -14,6 +14,7 @@
                   class="btn btn-primary btn-sm btn-block"
                   @click.prevent="getSkillsDescription(item._id)"
                 >
+                <img :src="require('../../assets/icons/skills/' + item.type + '.png')" />
                   {{ item.name }}
                 </button>
               </div>
